@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Overall">
+<title>Overall</title>
+<style>
+  :root{
+    --bg:#1c1e21;
+    --line:#4a4d52;
+    --white:#f5f5f5;
+    --dim:#8a8d92;
+    --blue:#8fb8d9;
+    --green:#96c9a4;
+    --red:#d99a9a;
+    --gold:#e0c26a;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; border-radius:0 !important;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--white);
+    font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    min-height:100vh;
+  }
+
+  .screen{
+    display:none;
+    min-height:100vh;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:32px 24px calc(32px + env(safe-area-inset-bottom));
+  }
+  .screen.active{ display:flex; }
+
+  h1{
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight:400;
+    font-size:34px;
+    letter-spacing:0.01em;
+    color:var(--white);
+    margin:0 0 48px;
+    text-align:center;
+  }
+
+  .back{
+    align-self:flex-start;
+    background:none;
+    border:none;
+    color:var(--dim);
+    font-size:14px;
+    margin-bottom:28px;
+    padding:0;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .back:active{ color:var(--white); }
+
+  #refresh-btn{
+    position:fixed;
+    top:16px;
+    right:16px;
+    z-index:100;
+    appearance:none;
+    -webkit-appearance:none;
+    background:var(--bg);
+    border:1px solid var(--line);
+    color:var(--dim);
+    width:38px;
+    height:38px;
+    font-size:18px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  #refresh-btn:active{ color:var(--white); border-color:var(--white); }
+
+  /* generic option box (mode select, gender select) */
+  .options{
+    width:100%;
+    max-width:380px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .opt{
+    appearance:none;
+    -webkit-appearance:none;
+    background:transparent;
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent, var(--blue));
+    padding:20px 20px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    text-align:left;
+    cursor:pointer;
+    color:var(--white);
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .opt:active{ background:rgba(255,255,255,0.04); }
+  .opt .label{
+    font-size:16px;
+    font-weight:500;
+    letter-spacing:0.01em;
+    color:var(--white);
+    flex:1;
+  }
+  .opt .chev{ color:var(--dim); font-size:16px; line-height:1; }
+
+  /* form fields */
+  .form{
+    width:100%;
+    max-width:380px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    border:1px solid var(--line);
+    border-left:3px solid var(--blue);
+    padding:16px 18px;
+  }
+  .field label{
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--dim);
+  }
+  .field input{
+    background:none;
+    border:none;
+    outline:none;
+    color:var(--white);
+    font-size:20px;
+    font-family: Georgia, "Times New Roman", serif;
+    padding:0;
+    -webkit-appearance:none;
+    width:100%;
+  }
+  .field input::placeholder{ color:#55585d; }
+
+  .primary{
+    appearance:none;
+    -webkit-appearance:none;
+    background:none;
+    border:1px solid var(--green);
+    color:var(--green);
+    padding:16px 20px;
+    font-size:15px;
+    letter-spacing:0.02em;
+    cursor:pointer;
+    margin-top:8px;
+  }
+  .primary:active{ background:rgba(150,201,164,0.08); }
+
+  /* crown / top1 toggle */
+  .title-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:48px;
+  }
+  .title-inline{ margin:0; }
+
+  .top1-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border:1px solid var(--line);
+    border-left:3px solid var(--gold);
+    padding:14px 18px;
+  }
+  .top1-row .lbl{
+    font-size:13px;
+    color:var(--white);
+  }
+  .crown{
+    appearance:none;
+    -webkit-appearance:none;
+    background:none;
+    border:1px solid var(--line);
+    color:var(--dim);
+    width:32px;
+    height:32px;
+    font-size:14px;
+    cursor:pointer;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .crown.active{ border-color:var(--gold); color:var(--gold); }
+
+  .konkurrent-block{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    padding-top:6px;
+  }
+  .konkurrent-block .field{ border-left-color:var(--red); }
+  .konkurrent-block .field label{ color:var(--red); }
+
+  /* summary rows */
+  .summary{
+    width:100%;
+    max-width:380px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border:1px solid var(--line);
+    border-left:3px solid var(--blue);
+    padding:16px 18px;
+  }
+  .row .k{
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--dim);
+  }
+  .row .v{
+    font-size:18px;
+    font-family: Georgia, "Times New Roman", serif;
+    color:var(--white);
+  }
+  .section-label{
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--dim);
+    margin:14px 0 0;
+  }
+
+  .results-table{
+    width:100%;
+    border:1px solid var(--line);
+    border-collapse:collapse;
+  }
+  .results-table th, .results-table td{
+    border:1px solid var(--line);
+    padding:10px 8px;
+    font-size:12px;
+    text-align:center;
+  }
+  .results-table th{
+    font-size:10px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--dim);
+    font-weight:500;
+  }
+  .results-table td.name{
+    text-align:left;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size:14px;
+    color:var(--white);
+  }
+  .results-table td.overall{
+    font-family: Georgia, "Times New Roman", serif;
+    font-size:15px;
+    color:var(--green);
+  }
+  .results-table tr.r-ich td.name{ border-left:3px solid var(--blue); }
+  .results-table tr.r-top1 td.name{ border-left:3px solid var(--gold); }
+  .results-table tr.r-konk td.name{ border-left:3px solid var(--red); }
+  .results-table td.editable{ cursor:pointer; color:var(--blue); }
+  .results-table td.editable:active{ background:rgba(255,255,255,0.05); }
+</style>
+</head>
+<body>
+
+  <button id="refresh-btn" onclick="confirmReset()" title="Neu starten">↻</button>
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <h1>Overall</h1>
+    <div class="options">
+      <button class="opt" style="--accent:var(--blue);" onclick="goTo('screen-name')">
+        <span class="label">Overall</span>
+        <span class="chev">›</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- NAME -->
+  <div class="screen" id="screen-name">
+    <button class="back" onclick="goTo('screen-home')">‹ Overall</button>
+    <h1>Wie heißt du?</h1>
+    <div class="form">
+      <div class="field">
+        <label for="in-myname">Name</label>
+        <input id="in-myname" type="text" placeholder="Ich" />
+      </div>
+      <button class="primary" onclick="saveMyName()">Weiter</button>
+    </div>
+  </div>
+
+  <!-- GENDER -->
+  <div class="screen" id="screen-gender">
+    <button class="back" onclick="goTo('screen-name')">‹ Zurück</button>
+    <h1>Männlich oder<br>weiblich?</h1>
+    <div class="options">
+      <button class="opt" style="--accent:var(--blue);" onclick="setGender('m')">
+        <span class="label">Männlich</span>
+        <span class="chev">›</span>
+      </button>
+      <button class="opt" style="--accent:var(--red);" onclick="setGender('f')">
+        <span class="label">Weiblich</span>
+        <span class="chev">›</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- START SPEED -->
+  <div class="screen" id="screen-startspeed">
+    <button class="back" onclick="goTo('screen-gender')">‹ Zurück</button>
+    <h1>Start-<br>geschwindigkeit</h1>
+    <div class="form">
+      <div class="field">
+        <label for="in-startspeed">Startgeschwindigkeit</label>
+        <input id="in-startspeed" type="number" inputmode="decimal" placeholder="37" />
+      </div>
+      <button class="primary" onclick="saveStartSpeed()">Weiter</button>
+    </div>
+  </div>
+
+  <!-- ICH SLALOM -->
+  <div class="screen" id="screen-ich">
+    <button class="back" onclick="goTo('screen-startspeed')">‹ Zurück</button>
+    <h1 id="title-ich-slalom">Mein Slalomergebnis</h1>
+    <div class="form">
+      <div class="field">
+        <label for="ich-speed">Geschwindigkeit</label>
+        <input id="ich-speed" type="number" inputmode="decimal" placeholder="58" />
+      </div>
+      <div class="field">
+        <label for="ich-line">Leinen-Länge</label>
+        <input id="ich-line" type="number" inputmode="decimal" placeholder="18" />
+      </div>
+      <div class="field">
+        <label for="ich-boyen">Anzahl der Bojen</label>
+        <input id="ich-boyen" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveIch()">Weiter</button>
+    </div>
+  </div>
+
+  <!-- TOP 1 SLALOM -->
+  <div class="screen" id="screen-top1">
+    <button class="back" onclick="goTo('screen-ich')">‹ Zurück</button>
+    <h1>Bestes Slalomergebnis</h1>
+    <div class="form">
+      <button class="opt" id="beste-btn-slalom" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('slalom')">
+        <span class="label" id="beste-label-slalom">Ich bin der Beste</span>
+      </button>
+      <div class="field">
+        <label for="top1-speed">Geschwindigkeit</label>
+        <input id="top1-speed" type="number" inputmode="decimal" placeholder="58" />
+      </div>
+      <div class="field">
+        <label for="top1-line">Leinen-Länge</label>
+        <input id="top1-line" type="number" inputmode="decimal" placeholder="18" />
+      </div>
+      <div class="field">
+        <label for="top1-boyen">Anzahl der Bojen</label>
+        <input id="top1-boyen" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveTop1()">Weiter</button>
+    </div>
+  </div>
+
+  <!-- SLALOM: KONKURRENT (immer abgefragt) -->
+  <div class="screen" id="screen-konk-slalom">
+    <button class="back" onclick="goTo('screen-top1')">‹ Zurück</button>
+    <h1>Slalomergebnis des<br>Konkurrenten</h1>
+    <div class="form">
+      <div class="field">
+        <label for="konk-name">Name (optional)</label>
+        <input id="konk-name" type="text" placeholder="Konkurrent" />
+      </div>
+      <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('slalom')">
+        <span class="label">Mein Konkurrent ist der Beste</span>
+      </button>
+      <div class="field">
+        <label for="konk-speed">Geschwindigkeit</label>
+        <input id="konk-speed" type="number" inputmode="decimal" placeholder="58" />
+      </div>
+      <div class="field">
+        <label for="konk-line">Leinen-Länge</label>
+        <input id="konk-line" type="number" inputmode="decimal" placeholder="18" />
+      </div>
+      <div class="field">
+        <label for="konk-boyen">Anzahl der Bojen</label>
+        <input id="konk-boyen" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveKonkurrentSlalom()">Weiter</button>
+    </div>
+  </div>
+
+  <!-- TRICK: ICH -->
+  <div class="screen" id="screen-trick-ich">
+    <button class="back" onclick="goTo('screen-konk-slalom')">‹ Zurück</button>
+    <h1 id="title-ich-trick">Mein Trickergebnis</h1>
+    <div class="form">
+      <div class="field">
+        <label for="trick-ich-punkte">Trick-Punkte</label>
+        <input id="trick-ich-punkte" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveTrickIch()">Weiter</button>
+    </div>
+  </div>
+
+  <!-- TRICK: TOP1 -->
+  <div class="screen" id="screen-trick-top1">
+    <button class="back" onclick="goTo('screen-trick-ich')">‹ Zurück</button>
+    <h1>Bestes Trickergebnis</h1>
+    <div class="form">
+      <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('trick')">
+        <span class="label">Ich bin der Beste</span>
+      </button>
+      <div class="field">
+        <label for="trick-top1-punkte">Trick-Punkte</label>
+        <input id="trick-top1-punkte" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveTrickTop1()">Weiter</button>
+    </div>
+  </div>
+
+  <!-- TRICK: KONKURRENT (immer abgefragt) -->
+  <div class="screen" id="screen-trick-konk">
+    <button class="back" onclick="goTo('screen-trick-top1')">‹ Zurück</button>
+    <h1>Trickergebnis des<br>Konkurrenten</h1>
+    <div class="form">
+      <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('trick')">
+        <span class="label">Mein Konkurrent ist der Beste</span>
+      </button>
+      <div class="field">
+        <label for="trick-konk-punkte">Trick-Punkte</label>
+        <input id="trick-konk-punkte" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveTrickKonk()">Weiter</button>
+    </div>
+  </div>
+
+  <!-- JUMP: ICH -->
+  <div class="screen" id="screen-jump-ich">
+    <button class="back" onclick="goTo('screen-trick-konk')">‹ Zurück</button>
+    <h1 id="title-ich-jump">Mein Sprungergebnis</h1>
+    <div class="form">
+      <div class="field">
+        <label for="jump-ich-weite">Weite</label>
+        <input id="jump-ich-weite" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveJumpIch()">Weiter</button>
+    </div>
+  </div>
+
+  <!-- JUMP: TOP1 -->
+  <div class="screen" id="screen-jump-top1">
+    <button class="back" onclick="goTo('screen-jump-ich')">‹ Zurück</button>
+    <h1>Bestes Sprungergebnis</h1>
+    <div class="form">
+      <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('jump')">
+        <span class="label">Ich bin der Beste</span>
+      </button>
+      <div class="field">
+        <label for="jump-top1-weite">Weite</label>
+        <input id="jump-top1-weite" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveJumpTop1()">Weiter</button>
+    </div>
+  </div>
+
+  <!-- JUMP: KONKURRENT (immer abgefragt) -->
+  <div class="screen" id="screen-jump-konk">
+    <button class="back" onclick="goTo('screen-jump-top1')">‹ Zurück</button>
+    <h1>Sprungergebnis des<br>Konkurrenten</h1>
+    <div class="form">
+      <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('jump')">
+        <span class="label">Mein Konkurrent ist der Beste</span>
+      </button>
+      <div class="field">
+        <label for="jump-konk-weite">Weite</label>
+        <input id="jump-konk-weite" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveJumpKonk()">Speichern</button>
+    </div>
+  </div>
+
+  <!-- RESULTS (terminal screen — no way back into the entry flow) -->
+  <div class="screen" id="screen-results">
+    <h1>Ergebnis</h1>
+    <div class="summary">
+
+      <p class="section-label">Overall</p>
+      <table class="results-table" id="results-table">
+        <thead>
+          <tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th><th>Overall</th></tr>
+        </thead>
+        <tbody id="results-tbody"></tbody>
+      </table>
+
+      <p class="section-label">Leistungen</p>
+      <table class="results-table" id="perf-table">
+        <thead>
+          <tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
+        </thead>
+        <tbody id="perf-tbody"></tbody>
+      </table>
+
+      <p class="section-label">Beste Leistungen</p>
+      <table class="results-table" id="best-table">
+        <thead>
+          <tr><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
+        </thead>
+        <tbody id="best-tbody"></tbody>
+      </table>
+
+      <button class="primary" id="add-konkurrent-btn" onclick="goTo('screen-extra-slalom')" style="margin-top:14px;">+ Konkurrent hinzufügen</button>
+
+      <p class="section-label">Wie viele Punkte mehr?</p>
+      <div class="field">
+        <label for="delta-overall">Overall-Punkte</label>
+        <input id="delta-overall" type="number" inputmode="decimal" placeholder="0" oninput="renderNeeded()" />
+      </div>
+
+      <table class="results-table" id="needed-table" style="display:none;">
+        <thead>
+          <tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
+        </thead>
+        <tbody id="needed-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- EDIT: SLALOM CELL -->
+  <div class="screen" id="screen-edit-slalom">
+    <h1 id="edit-slalom-title">Bearbeiten</h1>
+    <div class="form">
+      <div class="field">
+        <label for="edit-speed">Geschwindigkeit</label>
+        <input id="edit-speed" type="number" inputmode="decimal" />
+      </div>
+      <div class="field">
+        <label for="edit-line">Leinen-Länge</label>
+        <input id="edit-line" type="number" inputmode="decimal" />
+      </div>
+      <div class="field">
+        <label for="edit-boyen">Anzahl der Bojen</label>
+        <input id="edit-boyen" type="number" inputmode="decimal" />
+      </div>
+      <button class="primary" onclick="saveEditSlalom()">Speichern</button>
+    </div>
+  </div>
+
+  <!-- EDIT: SCALAR CELL (Trick / Jump) -->
+  <div class="screen" id="screen-edit-scalar">
+    <h1 id="edit-scalar-title">Bearbeiten</h1>
+    <div class="form">
+      <div class="field">
+        <label id="edit-scalar-label" for="edit-scalar-value">Wert</label>
+        <input id="edit-scalar-value" type="number" inputmode="decimal" />
+      </div>
+      <button class="primary" onclick="saveEditScalar()">Speichern</button>
+    </div>
+  </div>
+
+  <!-- EXTRA KONKURRENT: SLALOM -->
+  <div class="screen" id="screen-extra-slalom">
+    <button class="back" onclick="goTo('screen-results')">‹ Ergebnis</button>
+    <h1 id="extra-title">Neuer Konkurrent</h1>
+    <div class="form">
+      <div class="field">
+        <label for="extra-name">Name (optional)</label>
+        <input id="extra-name" type="text" placeholder="Konkurrent" />
+      </div>
+      <div class="field">
+        <label for="extra-speed">Geschwindigkeit</label>
+        <input id="extra-speed" type="number" inputmode="decimal" placeholder="58" />
+      </div>
+      <div class="field">
+        <label for="extra-line">Leinen-Länge</label>
+        <input id="extra-line" type="number" inputmode="decimal" placeholder="18" />
+      </div>
+      <div class="field">
+        <label for="extra-boyen">Anzahl der Bojen</label>
+        <input id="extra-boyen" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="goTo('screen-extra-trick')">Weiter</button>
+    </div>
+  </div>
+
+  <!-- EXTRA KONKURRENT: TRICK -->
+  <div class="screen" id="screen-extra-trick">
+    <button class="back" onclick="goTo('screen-extra-slalom')">‹ Zurück</button>
+    <h1>Trick</h1>
+    <div class="form">
+      <div class="field">
+        <label for="extra-trick">Trick-Punkte</label>
+        <input id="extra-trick" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="goTo('screen-extra-jump')">Weiter</button>
+    </div>
+  </div>
+
+  <!-- EXTRA KONKURRENT: JUMP -->
+  <div class="screen" id="screen-extra-jump">
+    <button class="back" onclick="goTo('screen-extra-trick')">‹ Zurück</button>
+    <h1>Jump</h1>
+    <div class="form">
+      <div class="field">
+        <label for="extra-weite">Weite</label>
+        <input id="extra-weite" type="number" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveExtra()">Speichern</button>
+    </div>
+  </div>
+
+<script>
+  function freshState(){
+    return {
+      myName: null,
+      gender: null,           // 'm' | 'f'
+      startSpeed: null,       // L2
+      ich: { speed:null, line:null, boyen:null },
+      top1: { speed:null, line:null, boyen:null },
+      isTop1: false,
+      konkurrent: { speed:null, line:null, boyen:null },
+      konkurrentName: null,
+      trick: { ich:null, top1:null, konkurrent:null, isTop1:false },
+      jump: { ich:null, top1:null, konkurrent:null, isTop1:false },
+      extra: []
+    };
+  }
+
+  var state = freshState();
+
+  function goTo(id){
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+  }
+
+  var resetArmed = false;
+  var resetArmTimeout = null;
+
+  function confirmReset(){
+    var btn = document.getElementById('refresh-btn');
+    if(!resetArmed){
+      resetArmed = true;
+      btn.textContent = '✓';
+      btn.title = 'Nochmal tippen zum Bestätigen';
+      clearTimeout(resetArmTimeout);
+      resetArmTimeout = setTimeout(function(){
+        resetArmed = false;
+        btn.textContent = '↻';
+        btn.title = 'Neu starten';
+      }, 3000);
+    } else {
+      clearTimeout(resetArmTimeout);
+      resetArmed = false;
+      btn.textContent = '↻';
+      btn.title = 'Neu starten';
+      resetApp();
+    }
+  }
+
+  var STORAGE_KEY = 'overall-entries';
+
+  function persistState(){
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch(e){
+      console.error('Speichern fehlgeschlagen', e);
+    }
+  }
+
+  function clearPersistedState(){
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch(e){
+      // nothing was stored yet — fine
+    }
+  }
+
+  function loadPersistedState(){
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        var loaded = JSON.parse(raw);
+        state = Object.assign(freshState(), loaded);
+        renderAll();
+        goTo('screen-results');
+      }
+    } catch(e){
+      // nothing stored yet, or read failed — stay on the home screen
+    }
+  }
+
+  function resetApp(){
+    state = freshState();
+    document.querySelectorAll('input').forEach(function(inp){ inp.value = ''; });
+    document.getElementById('needed-table').style.display = 'none';
+    document.getElementById('add-konkurrent-btn').style.display = 'block';
+    clearPersistedState();
+    goTo('screen-home');
+  }
+
+  function saveMyName(){
+    var v = document.getElementById('in-myname').value.trim();
+    state.myName = v || 'Ich';
+    goTo('screen-gender');
+  }
+
+  /* ===== Calc engine, ported from Overall.xlsx ===== */
+
+  // Builds the full list of entered people, each with a stable id for editing
+  function buildPeople(){
+    var people = [];
+    people.push({ id:'ich', label: state.myName || 'Ich', cls:'r-ich', visible:true, slalom: state.ich, trick: state.trick.ich, weite: state.jump.ich });
+    people.push({ id:'top1', label:'#1', cls:'r-top1', visible:false, slalom: state.top1, trick: state.trick.top1, weite: state.jump.top1 });
+    people.push({ id:'konkurrent', label: state.konkurrentName || 'Konkurrent', cls:'r-konk', visible:true, slalom: state.konkurrent, trick: state.trick.konkurrent, weite: state.jump.konkurrent });
+
+    state.extra.forEach(function(ex, i){
+      people.push({
+        id:'extra' + i,
+        label: ex.name || ('Konkurrent ' + (i+2)),
+        cls:'r-konk',
+        visible:true,
+        slalom: ex,
+        trick: ex.trick,
+        weite: ex.weite
+      });
+    });
+
+    return people;
+  }
+
+  // Writes an edited value back into the right place in state, given a person id
+  function setTrickValue(id, v){
+    if(id === 'ich') state.trick.ich = v;
+    else if(id === 'top1') state.trick.top1 = v;
+    else if(id === 'konkurrent') state.trick.konkurrent = v;
+    else if(id.indexOf('extra') === 0) state.extra[parseInt(id.slice(5))].trick = v;
+  }
+  function setWeiteValue(id, v){
+    if(id === 'ich') state.jump.ich = v;
+    else if(id === 'top1') state.jump.top1 = v;
+    else if(id === 'konkurrent') state.jump.konkurrent = v;
+    else if(id.indexOf('extra') === 0) state.extra[parseInt(id.slice(5))].weite = v;
+  }
+
+  function lengthToIndex(len){
+    len = parseFloat(len);
+    if(len === 18) return 0;
+    if(len === 16) return 1;
+    if(len === 14) return 2;
+    if(len === 13) return 3;
+    if(len === 12) return 4;
+    if(len === 11) return 5;
+    if(Math.abs(len-10.7) < 0.06 || len === 10.75) return 6;
+    if(Math.abs(len-10.2) < 0.06 || len === 10.25) return 7;
+    if(len === 0) return 0;
+    return 8;
+  }
+
+  // E4/H4/K4 style: raw slalom score = (speedSteps + lengthIndex) * 6 + boyen
+  function slalomRaw(person, startSpeed){
+    var speedSteps = (parseFloat(person.speed) - startSpeed) / 3;
+    var lengthIndex = lengthToIndex(person.line);
+    var boyen = parseFloat(person.boyen);
+    return (speedSteps + lengthIndex) * 6 + boyen;
+  }
+
+  function slalomLabel(person){
+    return person.boyen + '@' + person.line + ' ' + person.speed;
+  }
+
+  // A3: max speed-steps allowed for the Slalom "uhr"-carry system
+  function maxSpeedSteps(startSpeed, maxSpeed){
+    return (maxSpeed - startSpeed) / 3;
+  }
+
+  function indexToLength(idx){
+    var table = [18, 16, 14, 13, 12, 11, 10.75, 10.25, 9.75];
+    if(idx < 0) idx = 0;
+    if(idx > 8) return null;
+    return table[Math.round(idx)];
+  }
+
+  function roundToQuarter(x){
+    var n = Math.floor(x);
+    var frac = x - n;
+    if(frac === 0) return n;
+    if(frac <= 0.25) return n + 0.25;
+    if(frac <= 0.5) return n + 0.5;
+    return n + 1;
+  }
+
+  // The 3-case "how much more raw score do I need" formula (G12 / B12 in the sheet)
+  function neededRawIncrease(myPoints, myRaw, maxRaw, secondRaw, secondPoints, deltaP){
+    if(myPoints + deltaP <= 1000){
+      return (myPoints + deltaP) * maxRaw / 1000 - myRaw;
+    } else if(myPoints === 1000){
+      return 1000 * secondRaw / (secondPoints - deltaP) - myRaw;
+    } else {
+      return 1000 * maxRaw / (2000 - deltaP - myPoints) - myRaw;
+    }
+  }
+
+  // Builds {id, raw, points} for every person in a discipline, sorted by raw descending
+  function disciplinePool(kind, startSpeed){
+    var people = buildPeople();
+    var entries = people.map(function(p){
+      var raw;
+      if(kind === 'slalom') raw = p.slalom ? slalomRaw(p.slalom, startSpeed) : null;
+      else if(kind === 'trick') raw = (p.trick !== null && p.trick !== undefined) ? parseFloat(p.trick) : null;
+      else raw = (p.weite !== null && p.weite !== undefined) ? parseFloat(p.weite) : null;
+      return { id: p.id, person: p, raw: raw };
+    }).filter(function(e){ return e.raw !== null; });
+
+    var maxRaw = Math.max.apply(null, entries.map(function(e){ return e.raw; }));
+    entries.forEach(function(e){ e.points = Math.round((1000 * e.raw / maxRaw) * 100) / 100; });
+    entries.sort(function(a,b){ return b.raw - a.raw; });
+    return entries;
+  }
+
+  function neededForIch(kind, deltaP, startSpeed){
+    var pool = disciplinePool(kind, startSpeed);
+    var mine = pool.filter(function(e){ return e.id === 'ich'; })[0];
+    var leader = pool[0];
+    var second = pool[1] || leader;
+
+    var increase = neededRawIncrease(mine.points, mine.raw, leader.raw, second.raw, second.points, deltaP);
+
+    if(kind === 'slalom'){
+      var a3 = maxSpeedSteps(startSpeed, state.gender === 'f' ? 55 : 58);
+      var speedSteps = (parseFloat(state.ich.speed) - startSpeed) / 3;
+      var lengthIndex = lengthToIndex(state.ich.line);
+      var boyen = parseFloat(state.ich.boyen);
+
+      var totalBuoy = boyen + increase;
+      var carrySteps = Math.floor(totalBuoy / 6);
+      var e11 = totalBuoy - 6 * carrySteps;
+      var availableRoom = a3 - speedSteps;
+
+      var newSpeedSteps, newLengthIndex;
+      if(carrySteps <= availableRoom){
+        newSpeedSteps = speedSteps + carrySteps;
+        newLengthIndex = lengthIndex;
+      } else {
+        newSpeedSteps = a3;
+        newLengthIndex = lengthIndex + carrySteps - availableRoom;
+      }
+      var e12 = roundToQuarter(e11);
+      var newLength = indexToLength(newLengthIndex);
+      var newSpeed = newSpeedSteps * 3 + startSpeed;
+
+      return {
+        target: newLength === null ? 'außerhalb der Skala' : (e12 + '@' + newLength + 'm ' + newSpeed + 'km/h'),
+        increase: '+' + (Math.ceil(increase * 1000) / 1000)
+      };
+    } else if(kind === 'trick'){
+      var target = Math.ceil((mine.raw + increase) / 10) * 10;
+      return { target: target, increase: '+' + Math.ceil((target - mine.raw) / 10) * 10 };
+    } else {
+      var targetJ = Math.ceil((mine.raw + increase) * 10) / 10;
+      return { target: targetJ + 'm', increase: '+' + (Math.round((targetJ - mine.raw) * 100) / 100) + 'm' };
+    }
+  }
+
+  function renderNeeded(){
+    var val = document.getElementById('delta-overall').value;
+    var table = document.getElementById('needed-table');
+    if(!val){
+      table.style.display = 'none';
+      return;
+    }
+    var deltaP = parseFloat(val);
+    var startSpeed = parseFloat(state.startSpeed);
+
+    var slalom = neededForIch('slalom', deltaP, startSpeed);
+    var trick = neededForIch('trick', deltaP, startSpeed);
+    var jump = neededForIch('jump', deltaP, startSpeed);
+
+    document.getElementById('needed-tbody').innerHTML =
+      '<tr><td class="name">Ziel</td><td>' + slalom.target + '</td><td>' + trick.target + '</td><td>' + jump.target + '</td></tr>' +
+      '<tr><td class="name">Zuwachs</td><td>' + slalom.increase + '</td><td>' + trick.increase + '</td><td>' + jump.increase + '</td></tr>';
+    table.style.display = 'table';
+  }
+
+  function renderAll(){
+    var startSpeed = parseFloat(state.startSpeed);
+    var people = buildPeople();
+    var visible = people.filter(function(p){ return p.visible; });
+
+    var slalomRaws = people.filter(function(p){ return p.slalom; })
+      .map(function(p){ return { id:p.id, raw: slalomRaw(p.slalom, startSpeed) }; });
+    var maxSlalom = Math.max.apply(null, slalomRaws.map(function(r){ return r.raw; }));
+
+    var trickRaws = people.filter(function(p){ return p.trick !== null && p.trick !== undefined; })
+      .map(function(p){ return { id:p.id, raw: parseFloat(p.trick) }; });
+    var maxTrick = Math.max.apply(null, trickRaws.map(function(r){ return r.raw; }));
+
+    var weiteRaws = people.filter(function(p){ return p.weite !== null && p.weite !== undefined; })
+      .map(function(p){ return { id:p.id, raw: parseFloat(p.weite) }; });
+    var maxWeite = Math.max.apply(null, weiteRaws.map(function(r){ return r.raw; }));
+
+    // ===== Table 1: Overall (points) =====
+    var tbody = document.getElementById('results-tbody');
+    tbody.innerHTML = '';
+    visible.forEach(function(p){
+      var slalomPts = p.slalom ? Math.round((1000 * slalomRaw(p.slalom, startSpeed) / maxSlalom) * 100) / 100 : null;
+      var trickPts = (p.trick !== null && p.trick !== undefined) ? Math.round((1000 * parseFloat(p.trick) / maxTrick) * 100) / 100 : null;
+      var weitePts = (p.weite !== null && p.weite !== undefined) ? Math.round((1000 * parseFloat(p.weite) / maxWeite) * 100) / 100 : null;
+      var overall = (slalomPts||0) + (trickPts||0) + (weitePts||0);
+
+      var tr = document.createElement('tr');
+      tr.className = p.cls;
+      tr.innerHTML =
+        '<td class="name">' + p.label + '</td>' +
+        '<td>' + (slalomPts !== null ? slalomPts : '–') + '</td>' +
+        '<td>' + (trickPts !== null ? trickPts : '–') + '</td>' +
+        '<td>' + (weitePts !== null ? weitePts : '–') + '</td>' +
+        '<td class="overall">' + Math.round(overall * 100) / 100 + '</td>';
+      tbody.appendChild(tr);
+    });
+
+    // ===== Table 2: Leistungen (raw values, editable) =====
+    var perfBody = document.getElementById('perf-tbody');
+    perfBody.innerHTML = '';
+    visible.forEach(function(p){
+      var tr = document.createElement('tr');
+      tr.className = p.cls;
+      tr.innerHTML =
+        '<td class="name">' + p.label + '</td>' +
+        '<td class="editable" onclick="openEditSlalom(\'' + p.id + '\',\'' + p.label + '\')">' + (p.slalom ? slalomLabel(p.slalom) : '–') + '</td>' +
+        '<td class="editable" onclick="openEditScalar(\'' + p.id + '\',\'trick\',\'' + p.label + '\')">' + (p.trick !== null && p.trick !== undefined ? p.trick : '–') + '</td>' +
+        '<td class="editable" onclick="openEditScalar(\'' + p.id + '\',\'weite\',\'' + p.label + '\')">' + (p.weite !== null && p.weite !== undefined ? p.weite + 'm' : '–') + '</td>';
+      perfBody.appendChild(tr);
+    });
+
+    // ===== Table 3: Beste Leistungen (raw values of the current leader per discipline) =====
+    var bestSlalomId = slalomRaws.reduce(function(a,b){ return b.raw > a.raw ? b : a; }, slalomRaws[0]);
+    var bestTrickId = trickRaws.reduce(function(a,b){ return b.raw > a.raw ? b : a; }, trickRaws[0]);
+    var bestWeiteId = weiteRaws.reduce(function(a,b){ return b.raw > a.raw ? b : a; }, weiteRaws[0]);
+
+    var bestSlalomPerson = people.filter(function(p){ return p.id === bestSlalomId.id; })[0];
+    var bestTrickPerson = people.filter(function(p){ return p.id === bestTrickId.id; })[0];
+    var bestWeitePerson = people.filter(function(p){ return p.id === bestWeiteId.id; })[0];
+
+    var bestBody = document.getElementById('best-tbody');
+    bestBody.innerHTML =
+      '<tr><td>' + slalomLabel(bestSlalomPerson.slalom) + '</td>' +
+      '<td>' + bestTrickPerson.trick + '</td>' +
+      '<td>' + bestWeitePerson.weite + 'm</td></tr>';
+
+    var addBtn = document.getElementById('add-konkurrent-btn');
+    addBtn.style.display = state.extra.length >= 4 ? 'none' : 'block';
+
+    persistState();
+  }
+
+  // ===== Edit dialogs =====
+  var editTarget = { id:null, kind:null };
+
+  function openEditSlalom(id, label){
+    editTarget = { id:id, kind:'slalom' };
+    var people = buildPeople();
+    var p = people.filter(function(x){ return x.id === id; })[0];
+    document.getElementById('edit-slalom-title').textContent = label;
+    document.getElementById('edit-speed').value = p.slalom.speed;
+    document.getElementById('edit-line').value = p.slalom.line;
+    document.getElementById('edit-boyen').value = p.slalom.boyen;
+    goTo('screen-edit-slalom');
+  }
+
+  function saveEditSlalom(){
+    var people = buildPeople();
+    var p = people.filter(function(x){ return x.id === editTarget.id; })[0];
+    p.slalom.speed = document.getElementById('edit-speed').value;
+    p.slalom.line = document.getElementById('edit-line').value;
+    p.slalom.boyen = document.getElementById('edit-boyen').value;
+    renderAll();
+    goTo('screen-results');
+  }
+
+  function openEditScalar(id, kind, label){
+    editTarget = { id:id, kind:kind };
+    var people = buildPeople();
+    var p = people.filter(function(x){ return x.id === id; })[0];
+    document.getElementById('edit-scalar-title').textContent = label;
+    document.getElementById('edit-scalar-label').textContent = kind === 'trick' ? 'Trick-Punkte' : 'Weite';
+    document.getElementById('edit-scalar-value').value = kind === 'trick' ? p.trick : p.weite;
+    goTo('screen-edit-scalar');
+  }
+
+  function saveEditScalar(){
+    var v = document.getElementById('edit-scalar-value').value;
+    if(editTarget.kind === 'trick') setTrickValue(editTarget.id, v);
+    else setWeiteValue(editTarget.id, v);
+    renderAll();
+    goTo('screen-results');
+  }
+
+
+  function setGender(g){
+    state.gender = g;
+    var speedDefault = g === 'f' ? 34 : 37;
+    document.getElementById('in-startspeed').placeholder = speedDefault;
+    var slalomSpeedDefault = g === 'f' ? 55 : 58;
+    document.getElementById('ich-speed').placeholder = slalomSpeedDefault;
+    document.getElementById('top1-speed').placeholder = slalomSpeedDefault;
+    document.getElementById('konk-speed').placeholder = slalomSpeedDefault;
+    document.getElementById('extra-speed').placeholder = slalomSpeedDefault;
+    goTo('screen-startspeed');
+  }
+
+  function saveStartSpeed(){
+    var def = state.gender === 'f' ? 34 : 37;
+    state.startSpeed = document.getElementById('in-startspeed').value || def;
+    goTo('screen-ich');
+  }
+
+  function saveIch(){
+    var speedDef = state.gender === 'f' ? 55 : 58;
+    state.ich.speed = document.getElementById('ich-speed').value || speedDef;
+    state.ich.line = document.getElementById('ich-line').value || 18;
+    state.ich.boyen = document.getElementById('ich-boyen').value || 0;
+    goTo('screen-top1');
+  }
+
+  function ichIstBeste(kind){
+    if(kind === 'slalom'){
+      document.getElementById('top1-speed').value = state.ich.speed || '';
+      document.getElementById('top1-line').value = state.ich.line || '';
+      document.getElementById('top1-boyen').value = state.ich.boyen || '';
+    } else if(kind === 'trick'){
+      document.getElementById('trick-top1-punkte').value = state.trick.ich || '';
+    } else if(kind === 'jump'){
+      document.getElementById('jump-top1-weite').value = state.jump.ich || '';
+    }
+  }
+
+  function konkurrentIstBeste(kind){
+    if(kind === 'slalom'){
+      document.getElementById('konk-speed').value = state.top1.speed || '';
+      document.getElementById('konk-line').value = state.top1.line || '';
+      document.getElementById('konk-boyen').value = state.top1.boyen || '';
+    } else if(kind === 'trick'){
+      document.getElementById('trick-konk-punkte').value = state.trick.top1 || '';
+    } else if(kind === 'jump'){
+      document.getElementById('jump-konk-weite').value = state.jump.top1 || '';
+    }
+  }
+
+  function saveTop1(){
+    var speedDef = state.gender === 'f' ? 55 : 58;
+    state.top1.speed = document.getElementById('top1-speed').value || speedDef;
+    state.top1.line = document.getElementById('top1-line').value || 18;
+    state.top1.boyen = document.getElementById('top1-boyen').value || 0;
+    goTo('screen-konk-slalom');
+  }
+
+  function saveKonkurrentSlalom(){
+    var speedDef = state.gender === 'f' ? 55 : 58;
+    var name = document.getElementById('konk-name').value.trim();
+    if(name) state.konkurrentName = name;
+    state.konkurrent.speed = document.getElementById('konk-speed').value || speedDef;
+    state.konkurrent.line = document.getElementById('konk-line').value || 18;
+    state.konkurrent.boyen = document.getElementById('konk-boyen').value || 0;
+    goTo('screen-trick-ich');
+  }
+
+  function saveTrickIch(){
+    state.trick.ich = document.getElementById('trick-ich-punkte').value || 0;
+    goTo('screen-trick-top1');
+  }
+
+  function saveTrickTop1(){
+    state.trick.top1 = document.getElementById('trick-top1-punkte').value || 0;
+    goTo('screen-trick-konk');
+  }
+
+  function saveTrickKonk(){
+    state.trick.konkurrent = document.getElementById('trick-konk-punkte').value || 0;
+    goTo('screen-jump-ich');
+  }
+
+  function saveJumpIch(){
+    state.jump.ich = document.getElementById('jump-ich-weite').value || 0;
+    goTo('screen-jump-top1');
+  }
+
+  function saveJumpTop1(){
+    state.jump.top1 = document.getElementById('jump-top1-weite').value || 0;
+    goTo('screen-jump-konk');
+  }
+
+  function saveJumpKonk(){
+    state.jump.konkurrent = document.getElementById('jump-konk-weite').value || 0;
+    renderAll();
+    goTo('screen-results');
+  }
+
+  function saveExtra(){
+    var speedDef = state.gender === 'f' ? 55 : 58;
+    var ex = {
+      name: document.getElementById('extra-name').value.trim() || null,
+      speed: document.getElementById('extra-speed').value || speedDef,
+      line: document.getElementById('extra-line').value || 18,
+      boyen: document.getElementById('extra-boyen').value || 0,
+      trick: document.getElementById('extra-trick').value || 0,
+      weite: document.getElementById('extra-weite').value || 0
+    };
+    state.extra.push(ex);
+
+    // reset the extra-entry fields for the next competitor
+    document.getElementById('extra-name').value = '';
+    document.getElementById('extra-speed').value = '';
+    document.getElementById('extra-line').value = '';
+    document.getElementById('extra-boyen').value = '';
+    document.getElementById('extra-trick').value = '';
+    document.getElementById('extra-weite').value = '';
+
+    renderAll();
+    goTo('screen-results');
+  }
+
+  loadPersistedState();
+</script>
+
+</body>
+</html>
