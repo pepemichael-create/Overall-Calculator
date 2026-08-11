@@ -336,7 +336,7 @@
     <div class="form">
       <div class="field">
         <label for="in-startspeed">Startgeschwindigkeit</label>
-        <input id="in-startspeed" type="number" inputmode="decimal" placeholder="37" />
+        <input id="in-startspeed" type="text" inputmode="decimal" placeholder="37" />
       </div>
       <button class="primary" onclick="saveStartSpeed()">Weiter</button>
     </div>
@@ -349,15 +349,15 @@
     <div class="form">
       <div class="field">
         <label for="ich-speed">Geschwindigkeit</label>
-        <input id="ich-speed" type="number" inputmode="decimal" placeholder="58" />
+        <input id="ich-speed" type="text" inputmode="decimal" placeholder="58" />
       </div>
       <div class="field">
         <label for="ich-line">Leinen-Länge</label>
-        <input id="ich-line" type="number" inputmode="decimal" placeholder="18" />
+        <input id="ich-line" type="text" inputmode="decimal" placeholder="18" />
       </div>
       <div class="field">
         <label for="ich-boyen">Anzahl der Bojen</label>
-        <input id="ich-boyen" type="number" inputmode="decimal" placeholder="0" />
+        <input id="ich-boyen" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="saveIch()">Weiter</button>
     </div>
@@ -373,15 +373,15 @@
       </button>
       <div class="field">
         <label for="top1-speed">Geschwindigkeit</label>
-        <input id="top1-speed" type="number" inputmode="decimal" placeholder="58" />
+        <input id="top1-speed" type="text" inputmode="decimal" placeholder="58" />
       </div>
       <div class="field">
         <label for="top1-line">Leinen-Länge</label>
-        <input id="top1-line" type="number" inputmode="decimal" placeholder="18" />
+        <input id="top1-line" type="text" inputmode="decimal" placeholder="18" />
       </div>
       <div class="field">
         <label for="top1-boyen">Anzahl der Bojen</label>
-        <input id="top1-boyen" type="number" inputmode="decimal" placeholder="0" />
+        <input id="top1-boyen" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="saveTop1()">Weiter</button>
     </div>
@@ -401,15 +401,15 @@
       </button>
       <div class="field">
         <label for="konk-speed">Geschwindigkeit</label>
-        <input id="konk-speed" type="number" inputmode="decimal" placeholder="58" />
+        <input id="konk-speed" type="text" inputmode="decimal" placeholder="58" />
       </div>
       <div class="field">
         <label for="konk-line">Leinen-Länge</label>
-        <input id="konk-line" type="number" inputmode="decimal" placeholder="18" />
+        <input id="konk-line" type="text" inputmode="decimal" placeholder="18" />
       </div>
       <div class="field">
         <label for="konk-boyen">Anzahl der Bojen</label>
-        <input id="konk-boyen" type="number" inputmode="decimal" placeholder="0" />
+        <input id="konk-boyen" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="saveKonkurrentSlalom()">Weiter</button>
     </div>
@@ -422,7 +422,7 @@
     <div class="form">
       <div class="field">
         <label for="trick-ich-punkte">Trick-Punkte</label>
-        <input id="trick-ich-punkte" type="number" inputmode="decimal" placeholder="0" />
+        <input id="trick-ich-punkte" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="saveTrickIch()">Weiter</button>
     </div>
@@ -438,7 +438,7 @@
       </button>
       <div class="field">
         <label for="trick-top1-punkte">Trick-Punkte</label>
-        <input id="trick-top1-punkte" type="number" inputmode="decimal" placeholder="0" />
+        <input id="trick-top1-punkte" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="saveTrickTop1()">Weiter</button>
     </div>
@@ -454,7 +454,7 @@
       </button>
       <div class="field">
         <label for="trick-konk-punkte">Trick-Punkte</label>
-        <input id="trick-konk-punkte" type="number" inputmode="decimal" placeholder="0" />
+        <input id="trick-konk-punkte" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="saveTrickKonk()">Weiter</button>
     </div>
@@ -467,7 +467,7 @@
     <div class="form">
       <div class="field">
         <label for="jump-ich-weite">Weite</label>
-        <input id="jump-ich-weite" type="number" inputmode="decimal" placeholder="0" />
+        <input id="jump-ich-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="saveJumpIch()">Weiter</button>
     </div>
@@ -483,7 +483,7 @@
       </button>
       <div class="field">
         <label for="jump-top1-weite">Weite</label>
-        <input id="jump-top1-weite" type="number" inputmode="decimal" placeholder="0" />
+        <input id="jump-top1-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="saveJumpTop1()">Weiter</button>
     </div>
@@ -499,7 +499,7 @@
       </button>
       <div class="field">
         <label for="jump-konk-weite">Weite</label>
-        <input id="jump-konk-weite" type="number" inputmode="decimal" placeholder="0" />
+        <input id="jump-konk-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="saveJumpKonk()">Speichern</button>
     </div>
@@ -539,7 +539,7 @@
       <p class="section-label">Wie viele Punkte mehr?</p>
       <div class="field">
         <label for="delta-overall">Overall-Punkte</label>
-        <input id="delta-overall" type="number" inputmode="decimal" placeholder="0" oninput="renderNeeded()" />
+        <input id="delta-overall" type="text" inputmode="decimal" placeholder="0" oninput="renderNeeded()" />
       </div>
 
       <table class="results-table" id="needed-table" style="display:none;">
@@ -557,15 +557,15 @@
     <div class="form">
       <div class="field">
         <label for="edit-speed">Geschwindigkeit</label>
-        <input id="edit-speed" type="number" inputmode="decimal" />
+        <input id="edit-speed" type="text" inputmode="decimal" />
       </div>
       <div class="field">
         <label for="edit-line">Leinen-Länge</label>
-        <input id="edit-line" type="number" inputmode="decimal" />
+        <input id="edit-line" type="text" inputmode="decimal" />
       </div>
       <div class="field">
         <label for="edit-boyen">Anzahl der Bojen</label>
-        <input id="edit-boyen" type="number" inputmode="decimal" />
+        <input id="edit-boyen" type="text" inputmode="decimal" />
       </div>
       <button class="primary" onclick="saveEditSlalom()">Speichern</button>
     </div>
@@ -577,7 +577,7 @@
     <div class="form">
       <div class="field">
         <label id="edit-scalar-label" for="edit-scalar-value">Wert</label>
-        <input id="edit-scalar-value" type="number" inputmode="decimal" />
+        <input id="edit-scalar-value" type="text" inputmode="decimal" />
       </div>
       <button class="primary" onclick="saveEditScalar()">Speichern</button>
     </div>
@@ -594,15 +594,15 @@
       </div>
       <div class="field">
         <label for="extra-speed">Geschwindigkeit</label>
-        <input id="extra-speed" type="number" inputmode="decimal" placeholder="58" />
+        <input id="extra-speed" type="text" inputmode="decimal" placeholder="58" />
       </div>
       <div class="field">
         <label for="extra-line">Leinen-Länge</label>
-        <input id="extra-line" type="number" inputmode="decimal" placeholder="18" />
+        <input id="extra-line" type="text" inputmode="decimal" placeholder="18" />
       </div>
       <div class="field">
         <label for="extra-boyen">Anzahl der Bojen</label>
-        <input id="extra-boyen" type="number" inputmode="decimal" placeholder="0" />
+        <input id="extra-boyen" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="goTo('screen-extra-trick')">Weiter</button>
     </div>
@@ -615,7 +615,7 @@
     <div class="form">
       <div class="field">
         <label for="extra-trick">Trick-Punkte</label>
-        <input id="extra-trick" type="number" inputmode="decimal" placeholder="0" />
+        <input id="extra-trick" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="goTo('screen-extra-jump')">Weiter</button>
     </div>
@@ -628,7 +628,7 @@
     <div class="form">
       <div class="field">
         <label for="extra-weite">Weite</label>
-        <input id="extra-weite" type="number" inputmode="decimal" placeholder="0" />
+        <input id="extra-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
       <button class="primary" onclick="saveExtra()">Speichern</button>
     </div>
@@ -1143,6 +1143,17 @@
     renderAll();
     goTo('screen-results');
   }
+
+  // Comma → period, live, for every decimal input field (German keyboards default to comma)
+  document.querySelectorAll('input[inputmode="decimal"]').forEach(function(inp){
+    inp.addEventListener('input', function(){
+      if(this.value.indexOf(',') !== -1){
+        var pos = this.selectionStart;
+        this.value = this.value.replace(/,/g, '.');
+        try { this.selectionStart = this.selectionEnd = pos; } catch(e){}
+      }
+    });
+  });
 
   loadPersistedState();
 </script>
