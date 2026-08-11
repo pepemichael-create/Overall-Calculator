@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -290,7 +290,7 @@
 </head>
 <body>
 
-  <button id="refresh-btn" onclick="confirmReset()" title="Neu starten">↻</button>
+  <button id="refresh-btn" onclick="confirmReset()" title="Start over">↻</button>
 
   <!-- HOME -->
   <div class="screen active" id="screen-home">
@@ -306,27 +306,27 @@
   <!-- NAME -->
   <div class="screen" id="screen-name">
     <button class="back" onclick="goTo('screen-home')">‹ Overall</button>
-    <h1>Wie heißt du?</h1>
+    <h1>What's your name?</h1>
     <div class="form">
       <div class="field">
         <label for="in-myname">Name</label>
-        <input id="in-myname" type="text" placeholder="Ich" />
+        <input id="in-myname" type="text" placeholder="Me" />
       </div>
-      <button class="primary" onclick="saveMyName()">Weiter</button>
+      <button class="primary" onclick="saveMyName()">Next</button>
     </div>
   </div>
 
   <!-- GENDER -->
   <div class="screen" id="screen-gender">
-    <button class="back" onclick="goTo('screen-name')">‹ Zurück</button>
-    <h1>Männlich oder<br>weiblich?</h1>
+    <button class="back" onclick="goTo('screen-name')">‹ Back</button>
+    <h1>Male or<br>female?</h1>
     <div class="options">
       <button class="opt" style="--accent:var(--blue);" onclick="setGender('m')">
-        <span class="label">Männlich</span>
+        <span class="label">Male</span>
         <span class="chev">›</span>
       </button>
       <button class="opt" style="--accent:var(--red);" onclick="setGender('f')">
-        <span class="label">Weiblich</span>
+        <span class="label">Female</span>
         <span class="chev">›</span>
       </button>
     </div>
@@ -334,183 +334,183 @@
 
   <!-- START SPEED -->
   <div class="screen" id="screen-startspeed">
-    <button class="back" onclick="goTo('screen-gender')">‹ Zurück</button>
-    <h1>Start-<br>geschwindigkeit</h1>
+    <button class="back" onclick="goTo('screen-gender')">‹ Back</button>
+    <h1>Start<br>speed</h1>
     <div class="form">
       <div class="field">
-        <label for="in-startspeed">Startgeschwindigkeit</label>
+        <label for="in-startspeed">Start speed</label>
         <input id="in-startspeed" type="text" inputmode="decimal" placeholder="37" />
       </div>
-      <button class="primary" onclick="saveStartSpeed()">Weiter</button>
+      <button class="primary" onclick="saveStartSpeed()">Next</button>
     </div>
   </div>
 
-  <!-- ICH SLALOM -->
+  <!-- ME SLALOM -->
   <div class="screen" id="screen-ich">
-    <button class="back" onclick="goTo('screen-startspeed')">‹ Zurück</button>
-    <h1 id="title-ich-slalom">Mein Slalomergebnis</h1>
+    <button class="back" onclick="goTo('screen-startspeed')">‹ Back</button>
+    <h1 id="title-ich-slalom">My slalom result</h1>
     <div class="form">
       <div class="field">
-        <label for="ich-speed">Geschwindigkeit</label>
+        <label for="ich-speed">Speed</label>
         <input id="ich-speed" type="text" inputmode="decimal" placeholder="58" />
       </div>
       <div class="field">
-        <label for="ich-line">Leinen-Länge</label>
+        <label for="ich-line">Rope length</label>
         <input id="ich-line" type="text" inputmode="decimal" placeholder="18" />
       </div>
       <div class="field">
-        <label for="ich-boyen">Anzahl der Bojen</label>
+        <label for="ich-boyen">Number of buoys</label>
         <input id="ich-boyen" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="saveIch()">Weiter</button>
+      <button class="primary" onclick="saveIch()">Next</button>
     </div>
   </div>
 
   <!-- TOP 1 SLALOM -->
   <div class="screen" id="screen-top1">
-    <button class="back" onclick="goTo('screen-ich')">‹ Zurück</button>
-    <h1>Bestes Slalomergebnis</h1>
+    <button class="back" onclick="goTo('screen-ich')">‹ Back</button>
+    <h1>Best slalom result</h1>
     <div class="form">
       <button class="opt" id="beste-btn-slalom" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('slalom')">
-        <span class="label" id="beste-label-slalom">Ich bin der Beste</span>
+        <span class="label" id="beste-label-slalom">I am the best</span>
       </button>
       <div class="field">
-        <label for="top1-speed">Geschwindigkeit</label>
+        <label for="top1-speed">Speed</label>
         <input id="top1-speed" type="text" inputmode="decimal" placeholder="58" />
       </div>
       <div class="field">
-        <label for="top1-line">Leinen-Länge</label>
+        <label for="top1-line">Rope length</label>
         <input id="top1-line" type="text" inputmode="decimal" placeholder="18" />
       </div>
       <div class="field">
-        <label for="top1-boyen">Anzahl der Bojen</label>
+        <label for="top1-boyen">Number of buoys</label>
         <input id="top1-boyen" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="saveTop1()">Weiter</button>
+      <button class="primary" onclick="saveTop1()">Next</button>
     </div>
   </div>
 
-  <!-- SLALOM: KONKURRENT (immer abgefragt) -->
+  <!-- SLALOM: COMPETITOR (always asked) -->
   <div class="screen" id="screen-konk-slalom">
-    <button class="back" onclick="goTo('screen-top1')">‹ Zurück</button>
-    <h1>Slalomergebnis des<br>Konkurrenten</h1>
+    <button class="back" onclick="goTo('screen-top1')">‹ Back</button>
+    <h1>Competitor's<br>slalom result</h1>
     <div class="form">
       <div class="field">
         <label for="konk-name">Name (optional)</label>
-        <input id="konk-name" type="text" placeholder="Konkurrent" />
+        <input id="konk-name" type="text" placeholder="Competitor" />
       </div>
       <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('slalom')">
-        <span class="label">Mein Konkurrent ist der Beste</span>
+        <span class="label">My competitor is the best</span>
       </button>
       <div class="field">
-        <label for="konk-speed">Geschwindigkeit</label>
+        <label for="konk-speed">Speed</label>
         <input id="konk-speed" type="text" inputmode="decimal" placeholder="58" />
       </div>
       <div class="field">
-        <label for="konk-line">Leinen-Länge</label>
+        <label for="konk-line">Rope length</label>
         <input id="konk-line" type="text" inputmode="decimal" placeholder="18" />
       </div>
       <div class="field">
-        <label for="konk-boyen">Anzahl der Bojen</label>
+        <label for="konk-boyen">Number of buoys</label>
         <input id="konk-boyen" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="saveKonkurrentSlalom()">Weiter</button>
+      <button class="primary" onclick="saveKonkurrentSlalom()">Next</button>
     </div>
   </div>
 
-  <!-- TRICK: ICH -->
+  <!-- TRICK: ME -->
   <div class="screen" id="screen-trick-ich">
-    <button class="back" onclick="goTo('screen-konk-slalom')">‹ Zurück</button>
-    <h1 id="title-ich-trick">Mein Trickergebnis</h1>
+    <button class="back" onclick="goTo('screen-konk-slalom')">‹ Back</button>
+    <h1 id="title-ich-trick">My trick result</h1>
     <div class="form">
       <div class="field">
-        <label for="trick-ich-punkte">Trick-Punkte</label>
+        <label for="trick-ich-punkte">Trick points</label>
         <input id="trick-ich-punkte" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="saveTrickIch()">Weiter</button>
+      <button class="primary" onclick="saveTrickIch()">Next</button>
     </div>
   </div>
 
   <!-- TRICK: TOP1 -->
   <div class="screen" id="screen-trick-top1">
-    <button class="back" onclick="goTo('screen-trick-ich')">‹ Zurück</button>
-    <h1>Bestes Trickergebnis</h1>
+    <button class="back" onclick="goTo('screen-trick-ich')">‹ Back</button>
+    <h1>Best trick result</h1>
     <div class="form">
       <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('trick')">
-        <span class="label">Ich bin der Beste</span>
+        <span class="label">I am the best</span>
       </button>
       <div class="field">
-        <label for="trick-top1-punkte">Trick-Punkte</label>
+        <label for="trick-top1-punkte">Trick points</label>
         <input id="trick-top1-punkte" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="saveTrickTop1()">Weiter</button>
+      <button class="primary" onclick="saveTrickTop1()">Next</button>
     </div>
   </div>
 
-  <!-- TRICK: KONKURRENT (immer abgefragt) -->
+  <!-- TRICK: COMPETITOR (always asked) -->
   <div class="screen" id="screen-trick-konk">
-    <button class="back" onclick="goTo('screen-trick-top1')">‹ Zurück</button>
-    <h1>Trickergebnis des<br>Konkurrenten</h1>
+    <button class="back" onclick="goTo('screen-trick-top1')">‹ Back</button>
+    <h1>Competitor's<br>trick result</h1>
     <div class="form">
       <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('trick')">
-        <span class="label">Mein Konkurrent ist der Beste</span>
+        <span class="label">My competitor is the best</span>
       </button>
       <div class="field">
-        <label for="trick-konk-punkte">Trick-Punkte</label>
+        <label for="trick-konk-punkte">Trick points</label>
         <input id="trick-konk-punkte" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="saveTrickKonk()">Weiter</button>
+      <button class="primary" onclick="saveTrickKonk()">Next</button>
     </div>
   </div>
 
-  <!-- JUMP: ICH -->
+  <!-- JUMP: ME -->
   <div class="screen" id="screen-jump-ich">
-    <button class="back" onclick="goTo('screen-trick-konk')">‹ Zurück</button>
-    <h1 id="title-ich-jump">Mein Sprungergebnis</h1>
+    <button class="back" onclick="goTo('screen-trick-konk')">‹ Back</button>
+    <h1 id="title-ich-jump">My jump result</h1>
     <div class="form">
       <div class="field">
-        <label for="jump-ich-weite">Weite</label>
+        <label for="jump-ich-weite">Distance</label>
         <input id="jump-ich-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="saveJumpIch()">Weiter</button>
+      <button class="primary" onclick="saveJumpIch()">Next</button>
     </div>
   </div>
 
   <!-- JUMP: TOP1 -->
   <div class="screen" id="screen-jump-top1">
-    <button class="back" onclick="goTo('screen-jump-ich')">‹ Zurück</button>
-    <h1>Bestes Sprungergebnis</h1>
+    <button class="back" onclick="goTo('screen-jump-ich')">‹ Back</button>
+    <h1>Best jump result</h1>
     <div class="form">
       <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('jump')">
-        <span class="label">Ich bin der Beste</span>
+        <span class="label">I am the best</span>
       </button>
       <div class="field">
-        <label for="jump-top1-weite">Weite</label>
+        <label for="jump-top1-weite">Distance</label>
         <input id="jump-top1-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="saveJumpTop1()">Weiter</button>
+      <button class="primary" onclick="saveJumpTop1()">Next</button>
     </div>
   </div>
 
-  <!-- JUMP: KONKURRENT (immer abgefragt) -->
+  <!-- JUMP: COMPETITOR (always asked) -->
   <div class="screen" id="screen-jump-konk">
-    <button class="back" onclick="goTo('screen-jump-top1')">‹ Zurück</button>
-    <h1>Sprungergebnis des<br>Konkurrenten</h1>
+    <button class="back" onclick="goTo('screen-jump-top1')">‹ Back</button>
+    <h1>Competitor's<br>jump result</h1>
     <div class="form">
       <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('jump')">
-        <span class="label">Mein Konkurrent ist der Beste</span>
+        <span class="label">My competitor is the best</span>
       </button>
       <div class="field">
-        <label for="jump-konk-weite">Weite</label>
+        <label for="jump-konk-weite">Distance</label>
         <input id="jump-konk-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="saveJumpKonk()">Speichern</button>
+      <button class="primary" onclick="saveJumpKonk()">Save</button>
     </div>
   </div>
 
   <!-- RESULTS (terminal screen — no way back into the entry flow) -->
   <div class="screen" id="screen-results">
-    <h1>Ergebnis</h1>
+    <h1>Results</h1>
     <div class="summary">
 
       <p class="section-label">Overall</p>
@@ -521,7 +521,7 @@
         <tbody id="results-tbody"></tbody>
       </table>
 
-      <p class="section-label">Leistungen</p>
+      <p class="section-label">Performances</p>
       <table class="results-table" id="perf-table">
         <thead>
           <tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
@@ -529,7 +529,7 @@
         <tbody id="perf-tbody"></tbody>
       </table>
 
-      <p class="section-label">Beste Leistungen</p>
+      <p class="section-label">Best performances</p>
       <table class="results-table" id="best-table">
         <thead>
           <tr><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
@@ -537,11 +537,11 @@
         <tbody id="best-tbody"></tbody>
       </table>
 
-      <button class="primary" id="add-konkurrent-btn" onclick="goTo('screen-extra-slalom')" style="margin-top:14px;">+ Konkurrent hinzufügen</button>
+      <button class="primary" id="add-konkurrent-btn" onclick="goTo('screen-extra-slalom')" style="margin-top:14px;">+ Add competitor</button>
 
-      <p class="section-label">Wie viele Punkte mehr?</p>
+      <p class="section-label">How many points more?</p>
       <div class="field">
-        <label for="delta-overall">Overall-Punkte</label>
+        <label for="delta-overall">Overall points</label>
         <input id="delta-overall" type="text" inputmode="decimal" placeholder="0" oninput="renderNeeded()" />
       </div>
 
@@ -556,84 +556,84 @@
 
   <!-- EDIT: SLALOM CELL -->
   <div class="screen" id="screen-edit-slalom">
-    <h1 id="edit-slalom-title">Bearbeiten</h1>
+    <h1 id="edit-slalom-title">Edit</h1>
     <div class="form">
       <div class="field">
-        <label for="edit-speed">Geschwindigkeit</label>
+        <label for="edit-speed">Speed</label>
         <input id="edit-speed" type="text" inputmode="decimal" />
       </div>
       <div class="field">
-        <label for="edit-line">Leinen-Länge</label>
+        <label for="edit-line">Rope length</label>
         <input id="edit-line" type="text" inputmode="decimal" />
       </div>
       <div class="field">
-        <label for="edit-boyen">Anzahl der Bojen</label>
+        <label for="edit-boyen">Number of buoys</label>
         <input id="edit-boyen" type="text" inputmode="decimal" />
       </div>
-      <button class="primary" onclick="saveEditSlalom()">Speichern</button>
+      <button class="primary" onclick="saveEditSlalom()">Save</button>
     </div>
   </div>
 
   <!-- EDIT: SCALAR CELL (Trick / Jump) -->
   <div class="screen" id="screen-edit-scalar">
-    <h1 id="edit-scalar-title">Bearbeiten</h1>
+    <h1 id="edit-scalar-title">Edit</h1>
     <div class="form">
       <div class="field">
-        <label id="edit-scalar-label" for="edit-scalar-value">Wert</label>
+        <label id="edit-scalar-label" for="edit-scalar-value">Value</label>
         <input id="edit-scalar-value" type="text" inputmode="decimal" />
       </div>
-      <button class="primary" onclick="saveEditScalar()">Speichern</button>
+      <button class="primary" onclick="saveEditScalar()">Save</button>
     </div>
   </div>
 
-  <!-- EXTRA KONKURRENT: SLALOM -->
+  <!-- EXTRA COMPETITOR: SLALOM -->
   <div class="screen" id="screen-extra-slalom">
-    <button class="back" onclick="goTo('screen-results')">‹ Ergebnis</button>
-    <h1 id="extra-title">Neuer Konkurrent</h1>
+    <button class="back" onclick="goTo('screen-results')">‹ Results</button>
+    <h1 id="extra-title">New competitor</h1>
     <div class="form">
       <div class="field">
         <label for="extra-name">Name (optional)</label>
-        <input id="extra-name" type="text" placeholder="Konkurrent" />
+        <input id="extra-name" type="text" placeholder="Competitor" />
       </div>
       <div class="field">
-        <label for="extra-speed">Geschwindigkeit</label>
+        <label for="extra-speed">Speed</label>
         <input id="extra-speed" type="text" inputmode="decimal" placeholder="58" />
       </div>
       <div class="field">
-        <label for="extra-line">Leinen-Länge</label>
+        <label for="extra-line">Rope length</label>
         <input id="extra-line" type="text" inputmode="decimal" placeholder="18" />
       </div>
       <div class="field">
-        <label for="extra-boyen">Anzahl der Bojen</label>
+        <label for="extra-boyen">Number of buoys</label>
         <input id="extra-boyen" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="goTo('screen-extra-trick')">Weiter</button>
+      <button class="primary" onclick="goTo('screen-extra-trick')">Next</button>
     </div>
   </div>
 
-  <!-- EXTRA KONKURRENT: TRICK -->
+  <!-- EXTRA COMPETITOR: TRICK -->
   <div class="screen" id="screen-extra-trick">
-    <button class="back" onclick="goTo('screen-extra-slalom')">‹ Zurück</button>
+    <button class="back" onclick="goTo('screen-extra-slalom')">‹ Back</button>
     <h1>Trick</h1>
     <div class="form">
       <div class="field">
-        <label for="extra-trick">Trick-Punkte</label>
+        <label for="extra-trick">Trick points</label>
         <input id="extra-trick" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="goTo('screen-extra-jump')">Weiter</button>
+      <button class="primary" onclick="goTo('screen-extra-jump')">Next</button>
     </div>
   </div>
 
-  <!-- EXTRA KONKURRENT: JUMP -->
+  <!-- EXTRA COMPETITOR: JUMP -->
   <div class="screen" id="screen-extra-jump">
-    <button class="back" onclick="goTo('screen-extra-trick')">‹ Zurück</button>
+    <button class="back" onclick="goTo('screen-extra-trick')">‹ Back</button>
     <h1>Jump</h1>
     <div class="form">
       <div class="field">
-        <label for="extra-weite">Weite</label>
+        <label for="extra-weite">Distance</label>
         <input id="extra-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="saveExtra()">Speichern</button>
+      <button class="primary" onclick="saveExtra()">Save</button>
     </div>
   </div>
 
@@ -669,18 +669,18 @@
     if(!resetArmed){
       resetArmed = true;
       btn.textContent = '✓';
-      btn.title = 'Nochmal tippen zum Bestätigen';
+      btn.title = 'Tap again to confirm';
       clearTimeout(resetArmTimeout);
       resetArmTimeout = setTimeout(function(){
         resetArmed = false;
         btn.textContent = '↻';
-        btn.title = 'Neu starten';
+        btn.title = 'Start over';
       }, 3000);
     } else {
       clearTimeout(resetArmTimeout);
       resetArmed = false;
       btn.textContent = '↻';
-      btn.title = 'Neu starten';
+      btn.title = 'Start over';
       resetApp();
     }
   }
@@ -728,7 +728,7 @@
 
   function saveMyName(){
     var v = document.getElementById('in-myname').value.trim();
-    state.myName = v || 'Ich';
+    state.myName = v || 'Me';
     goTo('screen-gender');
   }
 
@@ -737,14 +737,14 @@
   // Builds the full list of entered people, each with a stable id for editing
   function buildPeople(){
     var people = [];
-    people.push({ id:'ich', label: state.myName || 'Ich', cls:'r-ich', visible:true, slalom: state.ich, trick: state.trick.ich, weite: state.jump.ich });
+    people.push({ id:'ich', label: state.myName || 'Me', cls:'r-ich', visible:true, slalom: state.ich, trick: state.trick.ich, weite: state.jump.ich });
     people.push({ id:'top1', label:'#1', cls:'r-top1', visible:false, slalom: state.top1, trick: state.trick.top1, weite: state.jump.top1 });
-    people.push({ id:'konkurrent', label: state.konkurrentName || 'Konkurrent', cls:'r-konk', visible:true, slalom: state.konkurrent, trick: state.trick.konkurrent, weite: state.jump.konkurrent });
+    people.push({ id:'konkurrent', label: state.konkurrentName || 'Competitor', cls:'r-konk', visible:true, slalom: state.konkurrent, trick: state.trick.konkurrent, weite: state.jump.konkurrent });
 
     state.extra.forEach(function(ex, i){
       people.push({
         id:'extra' + i,
-        label: ex.name || ('Konkurrent ' + (i+2)),
+        label: ex.name || ('Competitor ' + (i+2)),
         cls:'r-konk',
         visible:true,
         slalom: ex,
@@ -840,7 +840,14 @@
     }).filter(function(e){ return e.raw !== null; });
 
     var maxRaw = Math.max.apply(null, entries.map(function(e){ return e.raw; }));
-    entries.forEach(function(e){ e.points = Math.round((1000 * e.raw / maxRaw) * 100) / 100; });
+
+    if(kind === 'jump'){
+      var offset = Math.round(0.4 * maxRaw);
+      entries.forEach(function(e){ e.points = Math.round((1000 * (e.raw - offset) / (maxRaw - offset)) * 100) / 100; });
+    } else {
+      entries.forEach(function(e){ e.points = Math.round((1000 * e.raw / maxRaw) * 100) / 100; });
+    }
+
     entries.sort(function(a,b){ return b.raw - a.raw; });
     return entries;
   }
@@ -877,14 +884,24 @@
       var newSpeed = newSpeedSteps * 3 + startSpeed;
 
       return {
-        target: newLength === null ? 'außerhalb der Skala' : (e12 + '@' + newLength + 'm ' + newSpeed + 'km/h'),
+        target: newLength === null ? 'out of range' : (e12 + '@' + newLength + 'm ' + newSpeed + 'km/h'),
         increase: '+' + (Math.ceil(increase * 1000) / 1000)
       };
     } else if(kind === 'trick'){
       var target = Math.ceil((mine.raw + increase) / 10) * 10;
       return { target: target, increase: '+' + Math.ceil((target - mine.raw) / 10) * 10 };
     } else {
-      var targetJ = Math.ceil((mine.raw + increase) * 10) / 10;
+      var maxRawJump = leader.raw;
+      var offsetJump = Math.round(0.4 * maxRawJump);
+      var targetJ;
+      if(mine.points + deltaP <= 1000){
+        targetJ = offsetJump + (mine.points + deltaP) * (maxRawJump - offsetJump) / 1000;
+      } else if(mine.points === 1000){
+        targetJ = offsetJump + 1000 * (second.raw - offsetJump) / (second.points - deltaP);
+      } else {
+        targetJ = offsetJump + 1000 * (maxRawJump - offsetJump) / (2000 - deltaP - mine.points);
+      }
+      targetJ = Math.ceil(targetJ * 10) / 10;
       return { target: targetJ + 'm', increase: '+' + (Math.round((targetJ - mine.raw) * 100) / 100) + 'm' };
     }
   }
@@ -904,8 +921,8 @@
     var jump = neededForIch('jump', deltaP, startSpeed);
 
     document.getElementById('needed-tbody').innerHTML =
-      '<tr><td class="name">Ziel</td><td>' + slalom.target + '</td><td>' + trick.target + '</td><td>' + jump.target + '</td></tr>' +
-      '<tr><td class="name">Zuwachs</td><td>' + slalom.increase + '</td><td>' + trick.increase + '</td><td>' + jump.increase + '</td></tr>';
+      '<tr><td class="name">Target</td><td>' + slalom.target + '</td><td>' + trick.target + '</td><td>' + jump.target + '</td></tr>' +
+      '<tr><td class="name">Increase</td><td>' + slalom.increase + '</td><td>' + trick.increase + '</td><td>' + jump.increase + '</td></tr>';
     table.style.display = 'table';
   }
 
@@ -914,25 +931,22 @@
     var people = buildPeople();
     var visible = people.filter(function(p){ return p.visible; });
 
-    var slalomRaws = people.filter(function(p){ return p.slalom; })
-      .map(function(p){ return { id:p.id, raw: slalomRaw(p.slalom, startSpeed) }; });
-    var maxSlalom = Math.max.apply(null, slalomRaws.map(function(r){ return r.raw; }));
+    var slalomPool = disciplinePool('slalom', startSpeed);
+    var trickPool = disciplinePool('trick', startSpeed);
+    var jumpPool = disciplinePool('jump', startSpeed);
 
-    var trickRaws = people.filter(function(p){ return p.trick !== null && p.trick !== undefined; })
-      .map(function(p){ return { id:p.id, raw: parseFloat(p.trick) }; });
-    var maxTrick = Math.max.apply(null, trickRaws.map(function(r){ return r.raw; }));
-
-    var weiteRaws = people.filter(function(p){ return p.weite !== null && p.weite !== undefined; })
-      .map(function(p){ return { id:p.id, raw: parseFloat(p.weite) }; });
-    var maxWeite = Math.max.apply(null, weiteRaws.map(function(r){ return r.raw; }));
+    function pts(pool, id){
+      var e = pool.filter(function(x){ return x.id === id; })[0];
+      return e ? e.points : null;
+    }
 
     // ===== Table 1: Overall (points) =====
     var tbody = document.getElementById('results-tbody');
     tbody.innerHTML = '';
     visible.forEach(function(p){
-      var slalomPts = p.slalom ? Math.round((1000 * slalomRaw(p.slalom, startSpeed) / maxSlalom) * 100) / 100 : null;
-      var trickPts = (p.trick !== null && p.trick !== undefined) ? Math.round((1000 * parseFloat(p.trick) / maxTrick) * 100) / 100 : null;
-      var weitePts = (p.weite !== null && p.weite !== undefined) ? Math.round((1000 * parseFloat(p.weite) / maxWeite) * 100) / 100 : null;
+      var slalomPts = pts(slalomPool, p.id);
+      var trickPts = pts(trickPool, p.id);
+      var weitePts = pts(jumpPool, p.id);
       var overall = (slalomPts||0) + (trickPts||0) + (weitePts||0);
 
       var tr = document.createElement('tr');
@@ -946,7 +960,7 @@
       tbody.appendChild(tr);
     });
 
-    // ===== Table 2: Leistungen (raw values, editable) =====
+    // ===== Table 2: Performances (raw values, editable) =====
     var perfBody = document.getElementById('perf-tbody');
     perfBody.innerHTML = '';
     visible.forEach(function(p){
@@ -960,20 +974,16 @@
       perfBody.appendChild(tr);
     });
 
-    // ===== Table 3: Beste Leistungen (raw values of the current leader per discipline) =====
-    var bestSlalomId = slalomRaws.reduce(function(a,b){ return b.raw > a.raw ? b : a; }, slalomRaws[0]);
-    var bestTrickId = trickRaws.reduce(function(a,b){ return b.raw > a.raw ? b : a; }, trickRaws[0]);
-    var bestWeiteId = weiteRaws.reduce(function(a,b){ return b.raw > a.raw ? b : a; }, weiteRaws[0]);
-
-    var bestSlalomPerson = people.filter(function(p){ return p.id === bestSlalomId.id; })[0];
-    var bestTrickPerson = people.filter(function(p){ return p.id === bestTrickId.id; })[0];
-    var bestWeitePerson = people.filter(function(p){ return p.id === bestWeiteId.id; })[0];
+    // ===== Table 3: Best performances (pools are sorted by raw value, so [0] is the leader) =====
+    var bestSlalomPerson = slalomPool[0] ? slalomPool[0].person : null;
+    var bestTrickPerson = trickPool[0] ? trickPool[0].person : null;
+    var bestWeitePerson = jumpPool[0] ? jumpPool[0].person : null;
 
     var bestBody = document.getElementById('best-tbody');
     bestBody.innerHTML =
-      '<tr><td>' + slalomLabel(bestSlalomPerson.slalom) + '</td>' +
-      '<td>' + bestTrickPerson.trick + '</td>' +
-      '<td>' + bestWeitePerson.weite + 'm</td></tr>';
+      '<tr><td>' + (bestSlalomPerson ? slalomLabel(bestSlalomPerson.slalom) : '–') + '</td>' +
+      '<td>' + (bestTrickPerson ? bestTrickPerson.trick : '–') + '</td>' +
+      '<td>' + (bestWeitePerson ? bestWeitePerson.weite + 'm' : '–') + '</td></tr>';
 
     var addBtn = document.getElementById('add-konkurrent-btn');
     addBtn.style.display = state.extra.length >= 4 ? 'none' : 'block';
@@ -1010,7 +1020,7 @@
     var people = buildPeople();
     var p = people.filter(function(x){ return x.id === id; })[0];
     document.getElementById('edit-scalar-title').textContent = label;
-    document.getElementById('edit-scalar-label').textContent = kind === 'trick' ? 'Trick-Punkte' : 'Weite';
+    document.getElementById('edit-scalar-label').textContent = kind === 'trick' ? 'Trick points' : 'Distance';
     document.getElementById('edit-scalar-value').value = kind === 'trick' ? p.trick : p.weite;
     goTo('screen-edit-scalar');
   }
