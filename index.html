@@ -16,10 +16,12 @@
     --line:#4a4d52;
     --white:#f5f5f5;
     --dim:#8a8d92;
-    --blue:#8fb8d9;
-    --green:#96c9a4;
-    --red:#d99a9a;
-    --gold:#e0c26a;
+    --blue:#8fb8d9;    /* Slalom */
+    --teal:#7fc7c2;    /* Trick */
+    --purple:#b3a0d9;  /* Jump */
+    --green:#96c9a4;   /* Overall */
+    --red:#d99a9a;     /* Competitor */
+    --gold:#e0c26a;    /* "Best" marker */
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; border-radius:0 !important;}
   html,body{height:100%;}
@@ -66,10 +68,9 @@
   }
   .back:active{ color:var(--white); }
 
-  #refresh-btn{
-    position:fixed;
+  #refresh-btn, #home-btn, #overall-btn, #info-btn{
+    position:absolute;
     top:16px;
-    right:16px;
     z-index:100;
     appearance:none;
     -webkit-appearance:none;
@@ -85,7 +86,11 @@
     align-items:center;
     justify-content:center;
   }
-  #refresh-btn:active{ color:var(--white); border-color:var(--white); }
+  #refresh-btn{ right:16px; }
+  #overall-btn{ right:62px; font-size:16px; }
+  #home-btn{ right:108px; }
+  #info-btn{ right:154px; }
+  #refresh-btn:active, #home-btn:active, #overall-btn:active, #info-btn:active{ color:var(--white); border-color:var(--white); }
 
   /* generic option box (mode select, gender select) */
   .options{
@@ -256,16 +261,22 @@
     width:100%;
     border:1px solid var(--line);
     border-collapse:collapse;
+    table-layout:fixed;
+  }
+  .results-table th:first-child, .results-table td:first-child{
+    width:64px;
   }
   .results-table th, .results-table td{
     border:1px solid var(--line);
-    padding:10px 8px;
-    font-size:12px;
+    padding:8px 4px;
+    font-size:11px;
     text-align:center;
+    word-break:break-word;
+    overflow-wrap:anywhere;
   }
   .results-table th{
-    font-size:10px;
-    letter-spacing:0.05em;
+    font-size:9px;
+    letter-spacing:0.03em;
     text-transform:uppercase;
     color:var(--dim);
     font-weight:500;
@@ -273,30 +284,229 @@
   .results-table td.name{
     text-align:left;
     font-family: Georgia, "Times New Roman", serif;
-    font-size:14px;
+    font-size:13px;
     color:var(--white);
+    word-break:break-word;
+    overflow-wrap:anywhere;
+    white-space:normal;
   }
   .results-table td.overall{
     font-family: Georgia, "Times New Roman", serif;
-    font-size:15px;
+    font-size:14px;
     color:var(--green);
   }
   .results-table tr.r-ich td.name{ border-left:3px solid var(--blue); }
   .results-table tr.r-top1 td.name{ border-left:3px solid var(--gold); }
-  .results-table tr.r-konk td.name{ border-left:3px solid var(--red); }
-  .results-table td.editable{ cursor:pointer; color:var(--blue); }
+  .results-table tr.r-konk td.name{ border-left:3px solid var(--red); color:var(--red); }
+  .results-table tr.r-konk td{ color:var(--red); }
+  .results-table tr.r-konk td.overall{ color:var(--red); }
+  .results-table td.editable{ cursor:pointer; }
+  .results-table tr.r-ich td.editable{ color:var(--blue); }
   .results-table td.editable:active{ background:rgba(255,255,255,0.05); }
+
+  .modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    z-index:200;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .modal-overlay.active{ display:flex; }
+  .modal-box{
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-left:3px solid var(--green);
+    padding:24px 20px;
+    max-width:360px;
+    width:100%;
+  }
+  .modal-box p{
+    font-size:14px;
+    line-height:1.5;
+    color:var(--white);
+    margin:0 0 18px;
+  }
+  .modal-box .primary{ width:100%; margin-top:0; }
+
+  .modal-box.tutorial{
+    max-width:400px;
+    max-height:80vh;
+    display:flex;
+    flex-direction:column;
+  }
+  .modal-box.tutorial h2{
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight:400;
+    font-size:22px;
+    margin:0 0 16px;
+    color:var(--white);
+  }
+  .modal-box.tutorial .tutorial-body{
+    overflow-y:auto;
+    margin-bottom:16px;
+  }
+  .modal-box.tutorial h3{
+    font-size:12px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--green);
+    margin:18px 0 6px;
+  }
+  .modal-box.tutorial h3:first-child{ margin-top:0; }
+  .modal-box.tutorial p{ margin:0 0 8px; font-size:13.5px; }
+  .modal-box.tutorial p strong{ color:#c3e6cf; font-weight:600; }
+  .modal-box.tutorial .icon-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:8px 0;
+  }
+  .modal-box.tutorial .icon-row .ic{
+    flex-shrink:0;
+    width:30px; height:30px;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--dim);
+  }
+
+  /* Overall table (Table 1): Me fully blue */
+  #results-table tr.r-ich td{ color:var(--blue); }
+
+  /* Best-performances table (Table 3): whole row gold */
+  #best-table td{ color:var(--gold); }
+
+  .picker-grid{
+    width:100%;
+    max-width:380px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+  }
+  .pick-btn{
+    appearance:none;
+    -webkit-appearance:none;
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--white);
+    padding:16px 8px;
+    font-size:15px;
+    font-family: Georgia, "Times New Roman", serif;
+    cursor:pointer;
+    text-align:center;
+  }
+  .pick-btn:active{ background:rgba(255,255,255,0.06); border-color:var(--blue); }
+
+  .field.pickable{ cursor:pointer; }
+  .field.pickable input{ pointer-events:none; }
+
+  /* Coherent role-based colour: Me=blue, Competitor=red, Best=gold */
+  .form.role-me .field{ border-left-color:var(--blue); }
+  .form.role-competitor .field{ border-left-color:var(--red); }
+  .form.role-best .field{ border-left-color:var(--gold); }
 </style>
 </head>
 <body>
 
+  <!-- TESTING PHASE MODAL (shown on load and after every reset) -->
+  <div class="modal-overlay" id="modal-testing">
+    <div class="modal-box">
+      <p>This website is currently still in a testing phase. The numbers it calculates are usually correct and match the ones used by the IWWF, but they shouldn't be relied upon.</p>
+      <button class="primary" onclick="closeModal('modal-testing')">Got it</button>
+    </div>
+  </div>
+
+  <!-- BETA "HOW MANY MORE POINTS" MODAL -->
+  <div class="modal-overlay" id="modal-needed-beta">
+    <div class="modal-box">
+      <p>This is a beta feature and only gives an estimate so far, not an exact score. Use the number it gives you as a starting point: put it into the charts above and check how the numbers change. Since those numbers are usually right, you can adjust from there to see how the Overall plays out once the changes are actually entered.</p>
+      <button class="primary" onclick="closeModal('modal-needed-beta')">Got it</button>
+    </div>
+  </div>
+
+  <!-- TUTORIAL MODAL -->
+  <div class="modal-overlay" id="modal-tutorial">
+    <div class="modal-box tutorial">
+      <h2>How this works</h2>
+      <div class="tutorial-body">
+
+        <h3>The icons up top</h3>
+        <div class="icon-row">
+          <span class="ic">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 L12 4 L20 11"/><path d="M6 10 V20 H18 V10"/></svg>
+          </span>
+          <p><strong>Home</strong> — takes you back to the mode selection screen. Your data is kept.</p>
+        </div>
+        <div class="icon-row">
+          <span class="ic">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 13 L6 21 L12 18 L18 21 L15 13"/><circle cx="12" cy="8" r="5"/></svg>
+          </span>
+          <p><strong>Overall (medal)</strong> — jumps straight to the results tables, using whatever you've entered so far. Anything missing just shows as 0.</p>
+        </div>
+        <div class="icon-row">
+          <span class="ic">↻</span>
+          <p><strong>Refresh</strong> — clears everything and starts over. Tap once to arm it, tap again to confirm.</p>
+        </div>
+        <div class="icon-row">
+          <span class="ic">i</span>
+          <p><strong>Info</strong> — this screen.</p>
+        </div>
+
+        <h3>Entering results</h3>
+        <p>Pick Slalom, Trick, Jump, or Overall from the home screen, then enter your own result, the current best, and your competitor's result for that event.</p>
+
+        <h3>Starting speed</h3>
+        <p>This is <strong>not your own personal starting speed</strong> — it's the minimum starting speed used at the competition.</p>
+
+        <h3>"Best" result</h3>
+        <p>When it asks for the best score, that means the score of the skier who <strong>currently holds 1000 overall points according to the IWWF</strong>.</p>
+
+        <h3>Names</h3>
+        <p>You can name both yourself and your competitor(s) — either while entering their result, or afterwards by tapping their name directly in the results table.</p>
+
+        <h3>Playing around with numbers</h3>
+        <p>Once everything's entered, tap any value in the "Performances" table to edit it — the Overall numbers update live, so you can try out different scores and see how the standings change.</p>
+      </div>
+      <button class="primary" onclick="closeModal('modal-tutorial')">Got it</button>
+    </div>
+  </div>
+
+  <button id="info-btn" onclick="openModal('modal-tutorial')" title="Info">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"/>
+      <line x1="12" y1="11" x2="12" y2="16"/>
+      <circle cx="12" cy="7.5" r="0.9" fill="currentColor" stroke="none"/>
+    </svg>
+  </button>
+
+  <button id="home-btn" onclick="goTo('screen-home')" title="Home">⌂</button>
+  <button id="overall-btn" onclick="goToOverallDirect()" title="Overall">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 13 L6 21 L12 18 L18 21 L15 13"/>
+      <circle cx="12" cy="8" r="5"/>
+    </svg>
+  </button>
   <button id="refresh-btn" onclick="confirmReset()" title="Start over">↻</button>
 
   <!-- HOME -->
   <div class="screen active" id="screen-home">
     <h1>Overall</h1>
     <div class="options">
-      <button class="opt" style="--accent:var(--blue);" onclick="goTo('screen-name')">
+      <button class="opt" style="--accent:var(--blue);" onclick="selectMode('slalom')">
+        <span class="label">Slalom</span>
+        <span class="chev">›</span>
+      </button>
+      <button class="opt" style="--accent:var(--blue);" onclick="selectMode('trick')">
+        <span class="label">Trick</span>
+        <span class="chev">›</span>
+      </button>
+      <button class="opt" style="--accent:var(--blue);" onclick="selectMode('jump')">
+        <span class="label">Jump</span>
+        <span class="chev">›</span>
+      </button>
+      <button class="opt" style="--accent:var(--blue);" onclick="selectMode('overall')">
         <span class="label">Overall</span>
         <span class="chev">›</span>
       </button>
@@ -305,7 +515,7 @@
 
   <!-- NAME -->
   <div class="screen" id="screen-name">
-    <button class="back" onclick="goTo('screen-home')">‹ Overall</button>
+    <button class="back" onclick="goBack()">‹ Overall</button>
     <h1>What's your name?</h1>
     <div class="form">
       <div class="field">
@@ -318,7 +528,7 @@
 
   <!-- GENDER -->
   <div class="screen" id="screen-gender">
-    <button class="back" onclick="goTo('screen-name')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Male or<br>female?</h1>
     <div class="options">
       <button class="opt" style="--accent:var(--blue);" onclick="setGender('m')">
@@ -334,12 +544,12 @@
 
   <!-- START SPEED -->
   <div class="screen" id="screen-startspeed">
-    <button class="back" onclick="goTo('screen-gender')">‹ Back</button>
-    <h1>Start<br>speed</h1>
+    <button class="back" onclick="goBack()">‹ Back</button>
+    <h1>Starting<br>Speed</h1>
     <div class="form">
       <div class="field">
-        <label for="in-startspeed">Start speed</label>
-        <input id="in-startspeed" type="text" inputmode="decimal" placeholder="37" />
+        <label for="in-startspeed">Starting Speed</label>
+        <input id="in-startspeed" type="text" readonly onclick="openPicker('speed','in-startspeed','screen-startspeed')" placeholder="37" />
       </div>
       <button class="primary" onclick="saveStartSpeed()">Next</button>
     </div>
@@ -347,20 +557,20 @@
 
   <!-- ME SLALOM -->
   <div class="screen" id="screen-ich">
-    <button class="back" onclick="goTo('screen-startspeed')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1 id="title-ich-slalom">My slalom result</h1>
-    <div class="form">
+    <div class="form role-me">
       <div class="field">
         <label for="ich-speed">Speed</label>
-        <input id="ich-speed" type="text" inputmode="decimal" placeholder="58" />
+        <input id="ich-speed" type="text" readonly onclick="openPicker('speed','ich-speed','screen-ich')" placeholder="58" />
       </div>
       <div class="field">
         <label for="ich-line">Rope length</label>
-        <input id="ich-line" type="text" inputmode="decimal" placeholder="18" />
+        <input id="ich-line" type="text" readonly onclick="openPicker('line','ich-line','screen-ich')" placeholder="18" />
       </div>
       <div class="field">
         <label for="ich-boyen">Number of buoys</label>
-        <input id="ich-boyen" type="text" inputmode="decimal" placeholder="0" />
+        <input id="ich-boyen" type="text" readonly onclick="openPicker('buoy','ich-boyen','screen-ich')" placeholder="0" />
       </div>
       <button class="primary" onclick="saveIch()">Next</button>
     </div>
@@ -368,61 +578,61 @@
 
   <!-- TOP 1 SLALOM -->
   <div class="screen" id="screen-top1">
-    <button class="back" onclick="goTo('screen-ich')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Best slalom result</h1>
-    <div class="form">
-      <button class="opt" id="beste-btn-slalom" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('slalom')">
-        <span class="label" id="beste-label-slalom">I am the best</span>
-      </button>
+    <div class="form role-best">
       <div class="field">
         <label for="top1-speed">Speed</label>
-        <input id="top1-speed" type="text" inputmode="decimal" placeholder="58" />
+        <input id="top1-speed" type="text" readonly onclick="openPicker('speed','top1-speed','screen-top1')" placeholder="58" />
       </div>
       <div class="field">
         <label for="top1-line">Rope length</label>
-        <input id="top1-line" type="text" inputmode="decimal" placeholder="18" />
+        <input id="top1-line" type="text" readonly onclick="openPicker('line','top1-line','screen-top1')" placeholder="18" />
       </div>
       <div class="field">
         <label for="top1-boyen">Number of buoys</label>
-        <input id="top1-boyen" type="text" inputmode="decimal" placeholder="0" />
+        <input id="top1-boyen" type="text" readonly onclick="openPicker('buoy','top1-boyen','screen-top1')" placeholder="0" />
       </div>
+      <button class="opt" id="beste-btn-slalom" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('slalom')">
+        <span class="label" id="beste-label-slalom">I am the best</span>
+      </button>
       <button class="primary" onclick="saveTop1()">Next</button>
     </div>
   </div>
 
   <!-- SLALOM: COMPETITOR (always asked) -->
   <div class="screen" id="screen-konk-slalom">
-    <button class="back" onclick="goTo('screen-top1')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Competitor's<br>slalom result</h1>
-    <div class="form">
+    <div class="form role-competitor">
       <div class="field">
         <label for="konk-name">Name (optional)</label>
-        <input id="konk-name" type="text" placeholder="Competitor" />
+        <input id="konk-name" type="text" placeholder="Competitor 1" />
+      </div>
+      <div class="field">
+        <label for="konk-speed">Speed</label>
+        <input id="konk-speed" type="text" readonly onclick="openPicker('speed','konk-speed','screen-konk-slalom')" placeholder="58" />
+      </div>
+      <div class="field">
+        <label for="konk-line">Rope length</label>
+        <input id="konk-line" type="text" readonly onclick="openPicker('line','konk-line','screen-konk-slalom')" placeholder="18" />
+      </div>
+      <div class="field">
+        <label for="konk-boyen">Number of buoys</label>
+        <input id="konk-boyen" type="text" readonly onclick="openPicker('buoy','konk-boyen','screen-konk-slalom')" placeholder="0" />
       </div>
       <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('slalom')">
         <span class="label">My competitor is the best</span>
       </button>
-      <div class="field">
-        <label for="konk-speed">Speed</label>
-        <input id="konk-speed" type="text" inputmode="decimal" placeholder="58" />
-      </div>
-      <div class="field">
-        <label for="konk-line">Rope length</label>
-        <input id="konk-line" type="text" inputmode="decimal" placeholder="18" />
-      </div>
-      <div class="field">
-        <label for="konk-boyen">Number of buoys</label>
-        <input id="konk-boyen" type="text" inputmode="decimal" placeholder="0" />
-      </div>
       <button class="primary" onclick="saveKonkurrentSlalom()">Next</button>
     </div>
   </div>
 
   <!-- TRICK: ME -->
   <div class="screen" id="screen-trick-ich">
-    <button class="back" onclick="goTo('screen-konk-slalom')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1 id="title-ich-trick">My trick result</h1>
-    <div class="form">
+    <div class="form role-me">
       <div class="field">
         <label for="trick-ich-punkte">Trick points</label>
         <input id="trick-ich-punkte" type="text" inputmode="decimal" placeholder="0" />
@@ -433,41 +643,45 @@
 
   <!-- TRICK: TOP1 -->
   <div class="screen" id="screen-trick-top1">
-    <button class="back" onclick="goTo('screen-trick-ich')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Best trick result</h1>
-    <div class="form">
-      <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('trick')">
-        <span class="label">I am the best</span>
-      </button>
+    <div class="form role-best">
       <div class="field">
         <label for="trick-top1-punkte">Trick points</label>
         <input id="trick-top1-punkte" type="text" inputmode="decimal" placeholder="0" />
       </div>
+      <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('trick')">
+        <span class="label">I am the best</span>
+      </button>
       <button class="primary" onclick="saveTrickTop1()">Next</button>
     </div>
   </div>
 
   <!-- TRICK: COMPETITOR (always asked) -->
   <div class="screen" id="screen-trick-konk">
-    <button class="back" onclick="goTo('screen-trick-top1')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Competitor's<br>trick result</h1>
-    <div class="form">
-      <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('trick')">
-        <span class="label">My competitor is the best</span>
-      </button>
+    <div class="form role-competitor">
+      <div class="field">
+        <label for="trick-konk-name">Name (optional)</label>
+        <input id="trick-konk-name" type="text" placeholder="Competitor 1" />
+      </div>
       <div class="field">
         <label for="trick-konk-punkte">Trick points</label>
         <input id="trick-konk-punkte" type="text" inputmode="decimal" placeholder="0" />
       </div>
+      <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('trick')">
+        <span class="label">My competitor is the best</span>
+      </button>
       <button class="primary" onclick="saveTrickKonk()">Next</button>
     </div>
   </div>
 
   <!-- JUMP: ME -->
   <div class="screen" id="screen-jump-ich">
-    <button class="back" onclick="goTo('screen-trick-konk')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1 id="title-ich-jump">My jump result</h1>
-    <div class="form">
+    <div class="form role-me">
       <div class="field">
         <label for="jump-ich-weite">Distance</label>
         <input id="jump-ich-weite" type="text" inputmode="decimal" placeholder="0" />
@@ -478,33 +692,56 @@
 
   <!-- JUMP: TOP1 -->
   <div class="screen" id="screen-jump-top1">
-    <button class="back" onclick="goTo('screen-jump-ich')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Best jump result</h1>
-    <div class="form">
-      <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('jump')">
-        <span class="label">I am the best</span>
-      </button>
+    <div class="form role-best">
       <div class="field">
         <label for="jump-top1-weite">Distance</label>
         <input id="jump-top1-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
+      <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('jump')">
+        <span class="label">I am the best</span>
+      </button>
       <button class="primary" onclick="saveJumpTop1()">Next</button>
     </div>
   </div>
 
   <!-- JUMP: COMPETITOR (always asked) -->
   <div class="screen" id="screen-jump-konk">
-    <button class="back" onclick="goTo('screen-jump-top1')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Competitor's<br>jump result</h1>
-    <div class="form">
-      <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('jump')">
-        <span class="label">My competitor is the best</span>
-      </button>
+    <div class="form role-competitor">
+      <div class="field">
+        <label for="jump-konk-name">Name (optional)</label>
+        <input id="jump-konk-name" type="text" placeholder="Competitor 1" />
+      </div>
       <div class="field">
         <label for="jump-konk-weite">Distance</label>
         <input id="jump-konk-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
+      <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('jump')">
+        <span class="label">My competitor is the best</span>
+      </button>
       <button class="primary" onclick="saveJumpKonk()">Save</button>
+    </div>
+  </div>
+
+  <!-- GENERIC PICKER (rope length / speed / buoys) -->
+  <div class="screen" id="screen-picker">
+    <button class="back" onclick="closePicker()">‹ Back</button>
+    <h1 id="picker-title">Select</h1>
+    <div class="picker-grid" id="picker-options"></div>
+  </div>
+
+  <!-- EDIT: NAME -->
+  <div class="screen" id="screen-edit-name">
+    <h1>Edit name</h1>
+    <div class="form">
+      <div class="field">
+        <label for="edit-name-value">Name</label>
+        <input id="edit-name-value" type="text" />
+      </div>
+      <button class="primary" onclick="saveEditName()">Save</button>
     </div>
   </div>
 
@@ -513,10 +750,10 @@
     <h1>Results</h1>
     <div class="summary">
 
-      <p class="section-label">Overall</p>
+      <p class="section-label" id="results-section-label">Overall</p>
       <table class="results-table" id="results-table">
         <thead>
-          <tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th><th>Overall</th></tr>
+          <tr id="results-thead-row"><th></th><th>Slalom</th><th>Trick</th><th>Jump</th><th>Overall</th></tr>
         </thead>
         <tbody id="results-tbody"></tbody>
       </table>
@@ -524,7 +761,7 @@
       <p class="section-label">Performances</p>
       <table class="results-table" id="perf-table">
         <thead>
-          <tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
+          <tr id="perf-thead-row"><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
         </thead>
         <tbody id="perf-tbody"></tbody>
       </table>
@@ -532,22 +769,22 @@
       <p class="section-label">Best performances</p>
       <table class="results-table" id="best-table">
         <thead>
-          <tr><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
+          <tr id="best-thead-row"><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
         </thead>
         <tbody id="best-tbody"></tbody>
       </table>
 
-      <button class="primary" id="add-konkurrent-btn" onclick="goTo('screen-extra-slalom')" style="margin-top:14px;">+ Add competitor</button>
+      <button class="primary" id="add-konkurrent-btn" onclick="startAddCompetitor()" style="margin-top:14px;">+ Add competitor</button>
 
-      <p class="section-label">How many points more?</p>
+      <p class="section-label">How many more points?</p>
       <div class="field">
         <label for="delta-overall">Overall points</label>
-        <input id="delta-overall" type="text" inputmode="decimal" placeholder="0" oninput="renderNeeded()" />
+        <input id="delta-overall" type="text" inputmode="decimal" placeholder="0" oninput="renderNeeded()" onfocus="showNeededBetaNotice()" />
       </div>
 
       <table class="results-table" id="needed-table" style="display:none;">
         <thead>
-          <tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
+          <tr id="needed-thead-row"><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
         </thead>
         <tbody id="needed-tbody"></tbody>
       </table>
@@ -557,18 +794,22 @@
   <!-- EDIT: SLALOM CELL -->
   <div class="screen" id="screen-edit-slalom">
     <h1 id="edit-slalom-title">Edit</h1>
-    <div class="form">
+    <div class="form" id="edit-slalom-form">
+      <div class="field">
+        <label for="edit-slalom-name">Name</label>
+        <input id="edit-slalom-name" type="text" />
+      </div>
       <div class="field">
         <label for="edit-speed">Speed</label>
-        <input id="edit-speed" type="text" inputmode="decimal" />
+        <input id="edit-speed" type="text" readonly onclick="openPicker('speed','edit-speed','screen-edit-slalom')" />
       </div>
       <div class="field">
         <label for="edit-line">Rope length</label>
-        <input id="edit-line" type="text" inputmode="decimal" />
+        <input id="edit-line" type="text" readonly onclick="openPicker('line','edit-line','screen-edit-slalom')" />
       </div>
       <div class="field">
         <label for="edit-boyen">Number of buoys</label>
-        <input id="edit-boyen" type="text" inputmode="decimal" />
+        <input id="edit-boyen" type="text" readonly onclick="openPicker('buoy','edit-boyen','screen-edit-slalom')" />
       </div>
       <button class="primary" onclick="saveEditSlalom()">Save</button>
     </div>
@@ -577,7 +818,11 @@
   <!-- EDIT: SCALAR CELL (Trick / Jump) -->
   <div class="screen" id="screen-edit-scalar">
     <h1 id="edit-scalar-title">Edit</h1>
-    <div class="form">
+    <div class="form" id="edit-scalar-form">
+      <div class="field">
+        <label for="edit-scalar-name">Name</label>
+        <input id="edit-scalar-name" type="text" />
+      </div>
       <div class="field">
         <label id="edit-scalar-label" for="edit-scalar-value">Value</label>
         <input id="edit-scalar-value" type="text" inputmode="decimal" />
@@ -587,48 +832,57 @@
   </div>
 
   <!-- EXTRA COMPETITOR: SLALOM -->
-  <div class="screen" id="screen-extra-slalom">
-    <button class="back" onclick="goTo('screen-results')">‹ Results</button>
-    <h1 id="extra-title">New competitor</h1>
-    <div class="form">
+  <!-- EXTRA COMPETITOR: NAME (always asked first, regardless of mode) -->
+  <div class="screen" id="screen-extra-name">
+    <button class="back" onclick="goBack()">‹ Results</button>
+    <h1>New competitor</h1>
+    <div class="form role-competitor">
       <div class="field">
         <label for="extra-name">Name (optional)</label>
         <input id="extra-name" type="text" placeholder="Competitor" />
       </div>
+      <button class="primary" onclick="extraNameNext()">Next</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-extra-slalom">
+    <button class="back" onclick="goBack()">‹ Results</button>
+    <h1 id="extra-title">New competitor</h1>
+    <div class="form role-competitor">
       <div class="field">
         <label for="extra-speed">Speed</label>
-        <input id="extra-speed" type="text" inputmode="decimal" placeholder="58" />
+        <input id="extra-speed" type="text" readonly onclick="openPicker('speed','extra-speed','screen-extra-slalom')" placeholder="58" />
       </div>
       <div class="field">
         <label for="extra-line">Rope length</label>
-        <input id="extra-line" type="text" inputmode="decimal" placeholder="18" />
+        <input id="extra-line" type="text" readonly onclick="openPicker('line','extra-line','screen-extra-slalom')" placeholder="18" />
       </div>
       <div class="field">
         <label for="extra-boyen">Number of buoys</label>
-        <input id="extra-boyen" type="text" inputmode="decimal" placeholder="0" />
+        <input id="extra-boyen" type="text" readonly onclick="openPicker('buoy','extra-boyen','screen-extra-slalom')" placeholder="0" />
       </div>
-      <button class="primary" onclick="goTo('screen-extra-trick')">Next</button>
+      <button class="primary" onclick="extraSlalomNext()">Next</button>
     </div>
   </div>
 
   <!-- EXTRA COMPETITOR: TRICK -->
   <div class="screen" id="screen-extra-trick">
-    <button class="back" onclick="goTo('screen-extra-slalom')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Trick</h1>
-    <div class="form">
+    <div class="form role-competitor">
       <div class="field">
         <label for="extra-trick">Trick points</label>
         <input id="extra-trick" type="text" inputmode="decimal" placeholder="0" />
       </div>
-      <button class="primary" onclick="goTo('screen-extra-jump')">Next</button>
+      <button class="primary" onclick="extraTrickNext()">Next</button>
     </div>
   </div>
 
   <!-- EXTRA COMPETITOR: JUMP -->
   <div class="screen" id="screen-extra-jump">
-    <button class="back" onclick="goTo('screen-extra-trick')">‹ Back</button>
+    <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Jump</h1>
-    <div class="form">
+    <div class="form role-competitor">
       <div class="field">
         <label for="extra-weite">Distance</label>
         <input id="extra-weite" type="text" inputmode="decimal" placeholder="0" />
@@ -640,6 +894,7 @@
 <script>
   function freshState(){
     return {
+      mode: null,              // 'slalom' | 'trick' | 'jump' | 'overall'
       myName: null,
       gender: null,           // 'm' | 'f'
       startSpeed: null,       // L2
@@ -656,9 +911,224 @@
 
   var state = freshState();
 
+  var screenHistory = [];
+  var currentScreen = 'screen-home';
+
   function goTo(id){
+    if(id !== currentScreen){ screenHistory.push(currentScreen); }
     document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
+    currentScreen = id;
+  }
+
+  function goBack(){
+    if(screenHistory.length === 0) return;
+    var prev = screenHistory.pop();
+    // Once a gender is picked, it's locked for the rest of the session (only a
+    // full reset clears it) — back navigation must skip straight past this screen.
+    if(prev === 'screen-gender' && state.gender){
+      goBack();
+      return;
+    }
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById(prev).classList.add('active');
+    currentScreen = prev;
+  }
+
+  function proceedAfterName(){
+    if(state.mode === 'trick'){ goTo('screen-trick-ich'); }
+    else if(state.mode === 'jump'){ goTo('screen-jump-ich'); }
+    else if(state.mode === 'overall'){ advanceOverall('name'); }
+    else { // 'slalom'
+      if(state.gender){ goTo('screen-startspeed'); } // gender already locked in — never ask again
+      else { goTo('screen-gender'); }
+    }
+  }
+
+  function selectMode(mode){
+    state.mode = mode;
+    if(state.myName){ proceedAfterName(); } // name already given once — never ask again
+    else { goTo('screen-name'); }
+  }
+
+  /* ===== Pickers: rope length / speed / buoys ===== */
+  var LINE_PICKER_OPTIONS = [
+    { label:'18.25m', value:'18' },
+    { label:'16m', value:'16' },
+    { label:'14.25m', value:'14' },
+    { label:'13m', value:'13' },
+    { label:'12m', value:'12' },
+    { label:'11.25m', value:'11' },
+    { label:'10.75m', value:'10.7' },
+    { label:'10.25m', value:'10.2' },
+    { label:'9.75m', value:'9.7' }
+  ];
+
+  function speedPickerOptions(){
+    var max = state.gender === 'f' ? 55 : 58;
+    var out = [];
+    for(var s = 25; s <= max; s += 3){ out.push({ label: s + ' km/h', value: s }); }
+    return out;
+  }
+
+  var BUOY_PICKER_OPTIONS = (function(){
+    var out = [];
+    for(var b = 1; b <= 6; b++){
+      out.push({ label: String(b), value: b });
+      out.push({ label: b + '.25', value: b + 0.25 });
+      out.push({ label: b + '.5', value: b + 0.5 });
+    }
+    return out;
+  })();
+
+  var pickerTargetId = null;
+  var pickerReturnScreen = null;
+
+  // The picker is a transient overlay, not a real navigation step — it must not
+  // touch the history stack, or "back" ends up re-showing the picker instead of
+  // the screen that came before the one that opened it.
+  function showScreenNoHistory(id){
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    currentScreen = id;
+  }
+
+  function openPicker(kind, targetId, returnScreen){
+    pickerTargetId = targetId;
+    pickerReturnScreen = returnScreen;
+
+    var options, title;
+    if(kind === 'line'){ options = LINE_PICKER_OPTIONS; title = 'Rope length'; }
+    else if(kind === 'speed'){ options = speedPickerOptions(); title = 'Speed'; }
+    else { options = BUOY_PICKER_OPTIONS; title = 'Number of buoys'; }
+
+    document.getElementById('picker-title').textContent = title;
+    var grid = document.getElementById('picker-options');
+    grid.innerHTML = '';
+    options.forEach(function(opt){
+      var btn = document.createElement('button');
+      btn.className = 'pick-btn';
+      btn.textContent = opt.label;
+      btn.onclick = function(){ selectPickerValue(opt.value); };
+      grid.appendChild(btn);
+    });
+
+    showScreenNoHistory('screen-picker');
+  }
+
+  function selectPickerValue(value){
+    document.getElementById(pickerTargetId).value = value;
+    showScreenNoHistory(pickerReturnScreen);
+  }
+
+  function closePicker(){
+    showScreenNoHistory(pickerReturnScreen);
+  }
+
+  /* ===== Name editing ===== */
+  var editNameTarget = null;
+
+  function findCompetitorIdByName(name, excludeId){
+    var lname = name.trim().toLowerCase();
+    if(!lname) return null;
+    if(excludeId !== 'konkurrent' && state.konkurrentName && state.konkurrentName.trim().toLowerCase() === lname){
+      return 'konkurrent';
+    }
+    for(var i = 0; i < state.extra.length; i++){
+      var id = 'extra' + i;
+      if(id === excludeId) continue;
+      if(state.extra[i].name && state.extra[i].name.trim().toLowerCase() === lname){
+        return id;
+      }
+    }
+    return null;
+  }
+
+  function getFlatCompetitorData(id){
+    if(id === 'konkurrent'){
+      return { speed: state.konkurrent.speed, line: state.konkurrent.line, boyen: state.konkurrent.boyen, trick: state.trick.konkurrent, weite: state.jump.konkurrent };
+    }
+    var ex = state.extra[parseInt(id.slice(5))];
+    return { speed: ex.speed, line: ex.line, boyen: ex.boyen, trick: ex.trick, weite: ex.weite };
+  }
+
+  function setFlatCompetitorData(id, data){
+    if(id === 'konkurrent'){
+      state.konkurrent.speed = data.speed; state.konkurrent.line = data.line; state.konkurrent.boyen = data.boyen;
+      state.trick.konkurrent = data.trick; state.jump.konkurrent = data.weite;
+    } else {
+      var ex = state.extra[parseInt(id.slice(5))];
+      ex.speed = data.speed; ex.line = data.line; ex.boyen = data.boyen; ex.trick = data.trick; ex.weite = data.weite;
+    }
+  }
+
+  function hasValue(v){ return v !== null && v !== undefined && v !== ''; }
+
+  // Merges two competitors that now share a name into a single entry.
+  // The one just being renamed (sourceId) is treated as the latest edit, so its
+  // filled-in fields take priority; the other (targetId) only fills in the gaps.
+  // The mandatory competitor slot can't be deleted, so it's always kept as the
+  // surviving entry when either side is 'konkurrent'.
+  function mergeCompetitors(sourceId, targetId, newName){
+    var src = getFlatCompetitorData(sourceId);
+    var tgt = getFlatCompetitorData(targetId);
+
+    var srcHasSlalom = hasValue(src.speed);
+    var merged = {
+      speed: srcHasSlalom ? src.speed : tgt.speed,
+      line: srcHasSlalom ? src.line : tgt.line,
+      boyen: srcHasSlalom ? src.boyen : tgt.boyen,
+      trick: hasValue(src.trick) ? src.trick : tgt.trick,
+      weite: hasValue(src.weite) ? src.weite : tgt.weite
+    };
+
+    var survivorId = (sourceId === 'konkurrent' || targetId === 'konkurrent') ? 'konkurrent' : targetId;
+    var loserId = (survivorId === sourceId) ? targetId : sourceId;
+
+    setFlatCompetitorData(survivorId, merged);
+    if(survivorId === 'konkurrent'){ state.konkurrentName = newName; }
+    else { state.extra[parseInt(survivorId.slice(5))].name = newName; }
+
+    if(loserId !== 'konkurrent'){
+      state.extra.splice(parseInt(loserId.slice(5)), 1);
+    }
+  }
+
+  function openEditName(id, currentLabel){
+    editNameTarget = id;
+    document.getElementById('edit-name-value').value = currentLabel;
+    goTo('screen-edit-name');
+  }
+
+  // Applies a (possibly unchanged) name to a person. If it collides with a
+  // different existing competitor, merges into them and returns the id that
+  // survived — callers must use that id afterwards, since `id` itself may no
+  // longer exist (an extra that got merged away is removed).
+  function applyNameChange(id, rawValue){
+    var v = rawValue.trim();
+    if(!v) v = null;
+
+    if(id === 'ich'){
+      state.myName = v || 'Me';
+      return id;
+    }
+
+    var collision = v ? findCompetitorIdByName(v, id) : null;
+    if(collision){
+      mergeCompetitors(id, collision, v);
+      return collision;
+    } else if(id === 'konkurrent'){
+      state.konkurrentName = v;
+    } else if(id.indexOf('extra') === 0){
+      state.extra[parseInt(id.slice(5))].name = v;
+    }
+    return id;
+  }
+
+  function saveEditName(){
+    applyNameChange(editNameTarget, document.getElementById('edit-name-value').value);
+    renderAll();
+    goTo('screen-results');
   }
 
   var resetArmed = false;
@@ -703,6 +1173,21 @@
     }
   }
 
+  function openModal(id){
+    document.getElementById(id).classList.add('active');
+  }
+
+  function closeModal(id){
+    document.getElementById(id).classList.remove('active');
+  }
+
+  var neededBetaShown = false;
+  function showNeededBetaNotice(){
+    if(neededBetaShown) return;
+    neededBetaShown = true;
+    openModal('modal-needed-beta');
+  }
+
   function loadPersistedState(){
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
@@ -715,6 +1200,7 @@
     } catch(e){
       // nothing stored yet, or read failed — stay on the home screen
     }
+    openModal('modal-testing');
   }
 
   function resetApp(){
@@ -722,14 +1208,16 @@
     document.querySelectorAll('input').forEach(function(inp){ inp.value = ''; });
     document.getElementById('needed-table').style.display = 'none';
     document.getElementById('add-konkurrent-btn').style.display = 'block';
+    neededBetaShown = false;
     clearPersistedState();
     goTo('screen-home');
+    openModal('modal-testing');
   }
 
   function saveMyName(){
     var v = document.getElementById('in-myname').value.trim();
     state.myName = v || 'Me';
-    goTo('screen-gender');
+    proceedAfterName();
   }
 
   /* ===== Calc engine, ported from Overall.xlsx ===== */
@@ -739,7 +1227,7 @@
     var people = [];
     people.push({ id:'ich', label: state.myName || 'Me', cls:'r-ich', visible:true, slalom: state.ich, trick: state.trick.ich, weite: state.jump.ich });
     people.push({ id:'top1', label:'#1', cls:'r-top1', visible:false, slalom: state.top1, trick: state.trick.top1, weite: state.jump.top1 });
-    people.push({ id:'konkurrent', label: state.konkurrentName || 'Competitor', cls:'r-konk', visible:true, slalom: state.konkurrent, trick: state.trick.konkurrent, weite: state.jump.konkurrent });
+    people.push({ id:'konkurrent', label: state.konkurrentName || 'Competitor 1', cls:'r-konk', visible:true, slalom: state.konkurrent, trick: state.trick.konkurrent, weite: state.jump.konkurrent });
 
     state.extra.forEach(function(ex, i){
       people.push({
@@ -785,15 +1273,24 @@
   }
 
   // E4/H4/K4 style: raw slalom score = (speedSteps + lengthIndex) * 6 + boyen
+  function startSpeedDefault(){
+    return hasValue(state.startSpeed) ? parseFloat(state.startSpeed) : (state.gender === 'f' ? 34 : 37);
+  }
+
   function slalomRaw(person, startSpeed){
-    var speedSteps = (parseFloat(person.speed) - startSpeed) / 3;
-    var lengthIndex = lengthToIndex(person.line);
-    var boyen = parseFloat(person.boyen);
+    var speed = hasValue(person.speed) ? parseFloat(person.speed) : startSpeed;
+    var line = hasValue(person.line) ? person.line : 18;
+    var boyen = hasValue(person.boyen) ? parseFloat(person.boyen) : 0;
+    var speedSteps = (speed - startSpeed) / 3;
+    var lengthIndex = lengthToIndex(line);
     return (speedSteps + lengthIndex) * 6 + boyen;
   }
 
   function slalomLabel(person){
-    return person.boyen + '@' + person.line + ' ' + person.speed;
+    var speed = hasValue(person.speed) ? person.speed : startSpeedDefault();
+    var line = hasValue(person.line) ? person.line : 18;
+    var boyen = hasValue(person.boyen) ? person.boyen : 0;
+    return boyen + '@' + line + ' ' + speed;
   }
 
   // A3: max speed-steps allowed for the Slalom "uhr"-carry system
@@ -833,19 +1330,20 @@
     var people = buildPeople();
     var entries = people.map(function(p){
       var raw;
-      if(kind === 'slalom') raw = p.slalom ? slalomRaw(p.slalom, startSpeed) : null;
-      else if(kind === 'trick') raw = (p.trick !== null && p.trick !== undefined) ? parseFloat(p.trick) : null;
-      else raw = (p.weite !== null && p.weite !== undefined) ? parseFloat(p.weite) : null;
+      if(kind === 'slalom') raw = slalomRaw(p.slalom, startSpeed);
+      else if(kind === 'trick') raw = hasValue(p.trick) ? parseFloat(p.trick) : 0;
+      else raw = hasValue(p.weite) ? parseFloat(p.weite) : 0;
       return { id: p.id, person: p, raw: raw };
-    }).filter(function(e){ return e.raw !== null; });
+    });
 
     var maxRaw = Math.max.apply(null, entries.map(function(e){ return e.raw; }));
 
     if(kind === 'jump'){
       var offset = Math.round(0.4 * maxRaw);
-      entries.forEach(function(e){ e.points = Math.round((1000 * (e.raw - offset) / (maxRaw - offset)) * 100) / 100; });
+      var span = maxRaw - offset;
+      entries.forEach(function(e){ e.points = span !== 0 ? Math.round((1000 * (e.raw - offset) / span) * 100) / 100 : 0; });
     } else {
-      entries.forEach(function(e){ e.points = Math.round((1000 * e.raw / maxRaw) * 100) / 100; });
+      entries.forEach(function(e){ e.points = maxRaw !== 0 ? Math.round((1000 * e.raw / maxRaw) * 100) / 100 : 0; });
     }
 
     entries.sort(function(a,b){ return b.raw - a.raw; });
@@ -915,99 +1413,146 @@
     }
     var deltaP = parseFloat(val);
     var startSpeed = parseFloat(state.startSpeed);
+    var domains = activeDomains();
 
-    var slalom = neededForIch('slalom', deltaP, startSpeed);
-    var trick = neededForIch('trick', deltaP, startSpeed);
-    var jump = neededForIch('jump', deltaP, startSpeed);
+    document.getElementById('needed-thead-row').innerHTML =
+      '<th></th>' + domains.map(domainHeaderCell).join('');
+
+    var results = {};
+    domains.forEach(function(d){ results[d] = neededForIch(d, deltaP, startSpeed); });
 
     document.getElementById('needed-tbody').innerHTML =
-      '<tr><td class="name">Target</td><td>' + slalom.target + '</td><td>' + trick.target + '</td><td>' + jump.target + '</td></tr>' +
-      '<tr><td class="name">Increase</td><td>' + slalom.increase + '</td><td>' + trick.increase + '</td><td>' + jump.increase + '</td></tr>';
+      '<tr><td class="name">Target</td>' + domains.map(function(d){ return '<td>' + results[d].target + '</td>'; }).join('') + '</tr>' +
+      '<tr><td class="name">Increase</td>' + domains.map(function(d){ return '<td>' + results[d].increase + '</td>'; }).join('') + '</tr>';
     table.style.display = 'table';
   }
 
+  function activeDomains(){
+    if(state.mode === 'overall') return ['slalom','trick','jump'];
+    return [state.mode];
+  }
+
+  function domainLabel(d){
+    return d.charAt(0).toUpperCase() + d.slice(1);
+  }
+
+  function domainHeaderCell(d){
+    return '<th>' + domainLabel(d) + '</th>';
+  }
+
   function renderAll(){
-    var startSpeed = parseFloat(state.startSpeed);
+    var startSpeed = startSpeedDefault();
     var people = buildPeople();
     var visible = people.filter(function(p){ return p.visible; });
+    var domains = activeDomains();
+    var isOverall = state.mode === 'overall';
 
-    var slalomPool = disciplinePool('slalom', startSpeed);
-    var trickPool = disciplinePool('trick', startSpeed);
-    var jumpPool = disciplinePool('jump', startSpeed);
+    var pools = {};
+    domains.forEach(function(d){ pools[d] = disciplinePool(d, startSpeed); });
 
-    function pts(pool, id){
-      var e = pool.filter(function(x){ return x.id === id; })[0];
-      return e ? e.points : null;
+    function pts(d, id){
+      var e = pools[d].filter(function(x){ return x.id === id; })[0];
+      return e ? e.points : 0;
     }
 
-    // ===== Table 1: Overall (points) =====
+    document.getElementById('results-section-label').textContent = isOverall ? 'Overall' : domainLabel(state.mode);
+
+    // ===== Table 1: points per domain (+ Overall total when in Overall mode) =====
+    document.getElementById('results-thead-row').innerHTML =
+      '<th></th>' + domains.map(domainHeaderCell).join('') +
+      (isOverall ? '<th>Overall</th>' : '');
+
     var tbody = document.getElementById('results-tbody');
     tbody.innerHTML = '';
     visible.forEach(function(p){
-      var slalomPts = pts(slalomPool, p.id);
-      var trickPts = pts(trickPool, p.id);
-      var weitePts = pts(jumpPool, p.id);
-      var overall = (slalomPts||0) + (trickPts||0) + (weitePts||0);
-
+      var cells = domains.map(function(d){ return '<td>' + pts(d, p.id) + '</td>'; }).join('');
+      var overallCell = '';
+      if(isOverall){
+        var sum = domains.reduce(function(acc, d){ return acc + pts(d, p.id); }, 0);
+        overallCell = '<td class="overall">' + (Math.round(sum * 100) / 100) + '</td>';
+      }
       var tr = document.createElement('tr');
       tr.className = p.cls;
-      tr.innerHTML =
-        '<td class="name">' + p.label + '</td>' +
-        '<td>' + (slalomPts !== null ? slalomPts : '–') + '</td>' +
-        '<td>' + (trickPts !== null ? trickPts : '–') + '</td>' +
-        '<td>' + (weitePts !== null ? weitePts : '–') + '</td>' +
-        '<td class="overall">' + Math.round(overall * 100) / 100 + '</td>';
+      tr.innerHTML = '<td class="name">' + p.label + '</td>' + cells + overallCell;
       tbody.appendChild(tr);
     });
 
     // ===== Table 2: Performances (raw values, editable) =====
+    // In Overall mode, Table 1 has an extra "Overall" column — add a blank
+    // trailing column here too so all tables share the same column count and
+    // the Slalom/Trick/Jump columns line up exactly across every table.
+    document.getElementById('perf-thead-row').innerHTML =
+      '<th></th>' + domains.map(domainHeaderCell).join('') + (isOverall ? '<th></th>' : '');
+
+    function perfCell(d, p){
+      if(d === 'slalom'){
+        return '<td class="editable" onclick="openEditSlalom(\'' + p.id + '\',\'' + p.label + '\')">' + slalomLabel(p.slalom) + '</td>';
+      } else if(d === 'trick'){
+        var t = hasValue(p.trick) ? p.trick : 0;
+        return '<td class="editable" onclick="openEditScalar(\'' + p.id + '\',\'trick\',\'' + p.label + '\')">' + t + '</td>';
+      } else {
+        var w = hasValue(p.weite) ? p.weite : 0;
+        return '<td class="editable" onclick="openEditScalar(\'' + p.id + '\',\'weite\',\'' + p.label + '\')">' + w + 'm</td>';
+      }
+    }
+
     var perfBody = document.getElementById('perf-tbody');
     perfBody.innerHTML = '';
     visible.forEach(function(p){
+      var cells = domains.map(function(d){ return perfCell(d, p); }).join('');
       var tr = document.createElement('tr');
       tr.className = p.cls;
       tr.innerHTML =
-        '<td class="name">' + p.label + '</td>' +
-        '<td class="editable" onclick="openEditSlalom(\'' + p.id + '\',\'' + p.label + '\')">' + (p.slalom ? slalomLabel(p.slalom) : '–') + '</td>' +
-        '<td class="editable" onclick="openEditScalar(\'' + p.id + '\',\'trick\',\'' + p.label + '\')">' + (p.trick !== null && p.trick !== undefined ? p.trick : '–') + '</td>' +
-        '<td class="editable" onclick="openEditScalar(\'' + p.id + '\',\'weite\',\'' + p.label + '\')">' + (p.weite !== null && p.weite !== undefined ? p.weite + 'm' : '–') + '</td>';
+        '<td class="name editable" onclick="openEditName(\'' + p.id + '\',\'' + p.label + '\')">' + p.label + '</td>' + cells + (isOverall ? '<td></td>' : '');
       perfBody.appendChild(tr);
     });
 
     // ===== Table 3: Best performances (pools are sorted by raw value, so [0] is the leader) =====
-    var bestSlalomPerson = slalomPool[0] ? slalomPool[0].person : null;
-    var bestTrickPerson = trickPool[0] ? trickPool[0].person : null;
-    var bestWeitePerson = jumpPool[0] ? jumpPool[0].person : null;
+    document.getElementById('best-thead-row').innerHTML =
+      '<th></th>' + domains.map(domainHeaderCell).join('') + (isOverall ? '<th></th>' : '');
 
-    var bestBody = document.getElementById('best-tbody');
-    bestBody.innerHTML =
-      '<tr><td>' + (bestSlalomPerson ? slalomLabel(bestSlalomPerson.slalom) : '–') + '</td>' +
-      '<td>' + (bestTrickPerson ? bestTrickPerson.trick : '–') + '</td>' +
-      '<td>' + (bestWeitePerson ? bestWeitePerson.weite + 'm' : '–') + '</td></tr>';
+    function bestCell(d){
+      var leader = pools[d][0].person;
+      if(d === 'slalom') return '<td>' + slalomLabel(leader.slalom) + '</td>';
+      if(d === 'trick') return '<td>' + (hasValue(leader.trick) ? leader.trick : 0) + '</td>';
+      return '<td>' + (hasValue(leader.weite) ? leader.weite : 0) + 'm</td>';
+    }
+
+    document.getElementById('best-tbody').innerHTML = '<tr><td class="name">Best Scores</td>' + domains.map(bestCell).join('') + (isOverall ? '<td></td>' : '') + '</tr>';
 
     var addBtn = document.getElementById('add-konkurrent-btn');
     addBtn.style.display = state.extra.length >= 4 ? 'none' : 'block';
 
+    renderNeeded(); // keep the "how many more points" table in sync with every change
     persistState();
   }
 
   // ===== Edit dialogs =====
   var editTarget = { id:null, kind:null };
 
+  function personRole(id){
+    if(id === 'ich') return 'role-me';
+    if(id === 'top1') return 'role-best';
+    return 'role-competitor'; // 'konkurrent' or any 'extraN'
+  }
+
   function openEditSlalom(id, label){
     editTarget = { id:id, kind:'slalom' };
     var people = buildPeople();
     var p = people.filter(function(x){ return x.id === id; })[0];
     document.getElementById('edit-slalom-title').textContent = label;
-    document.getElementById('edit-speed').value = p.slalom.speed;
-    document.getElementById('edit-line').value = p.slalom.line;
-    document.getElementById('edit-boyen').value = p.slalom.boyen;
+    document.getElementById('edit-slalom-name').value = label;
+    document.getElementById('edit-speed').value = hasValue(p.slalom.speed) ? p.slalom.speed : startSpeedDefault();
+    document.getElementById('edit-line').value = hasValue(p.slalom.line) ? p.slalom.line : 18;
+    document.getElementById('edit-boyen').value = hasValue(p.slalom.boyen) ? p.slalom.boyen : 0;
+    document.getElementById('edit-slalom-form').className = 'form ' + personRole(id);
     goTo('screen-edit-slalom');
   }
 
   function saveEditSlalom(){
+    var resolvedId = applyNameChange(editTarget.id, document.getElementById('edit-slalom-name').value);
     var people = buildPeople();
-    var p = people.filter(function(x){ return x.id === editTarget.id; })[0];
+    var p = people.filter(function(x){ return x.id === resolvedId; })[0];
     p.slalom.speed = document.getElementById('edit-speed').value;
     p.slalom.line = document.getElementById('edit-line').value;
     p.slalom.boyen = document.getElementById('edit-boyen').value;
@@ -1020,15 +1565,19 @@
     var people = buildPeople();
     var p = people.filter(function(x){ return x.id === id; })[0];
     document.getElementById('edit-scalar-title').textContent = label;
+    document.getElementById('edit-scalar-name').value = label;
     document.getElementById('edit-scalar-label').textContent = kind === 'trick' ? 'Trick points' : 'Distance';
-    document.getElementById('edit-scalar-value').value = kind === 'trick' ? p.trick : p.weite;
+    var current = kind === 'trick' ? p.trick : p.weite;
+    document.getElementById('edit-scalar-value').value = hasValue(current) ? current : 0;
+    document.getElementById('edit-scalar-form').className = 'form ' + personRole(id);
     goTo('screen-edit-scalar');
   }
 
   function saveEditScalar(){
+    var resolvedId = applyNameChange(editTarget.id, document.getElementById('edit-scalar-name').value);
     var v = document.getElementById('edit-scalar-value').value;
-    if(editTarget.kind === 'trick') setTrickValue(editTarget.id, v);
-    else setWeiteValue(editTarget.id, v);
+    if(editTarget.kind === 'trick') setTrickValue(resolvedId, v);
+    else setWeiteValue(resolvedId, v);
     renderAll();
     goTo('screen-results');
   }
@@ -1037,19 +1586,74 @@
   function setGender(g){
     state.gender = g;
     var speedDefault = g === 'f' ? 34 : 37;
-    document.getElementById('in-startspeed').placeholder = speedDefault;
     var slalomSpeedDefault = g === 'f' ? 55 : 58;
-    document.getElementById('ich-speed').placeholder = slalomSpeedDefault;
-    document.getElementById('top1-speed').placeholder = slalomSpeedDefault;
-    document.getElementById('konk-speed').placeholder = slalomSpeedDefault;
-    document.getElementById('extra-speed').placeholder = slalomSpeedDefault;
+    var speedFieldIds = ['in-startspeed', 'ich-speed', 'top1-speed', 'konk-speed', 'extra-speed', 'edit-speed'];
+    speedFieldIds.forEach(function(id){
+      var el = document.getElementById(id);
+      el.placeholder = (id === 'in-startspeed') ? speedDefault : slalomSpeedDefault;
+      // a previously picked speed can exceed the newly selected gender's max (e.g. 58 picked as
+      // male, then switching to female where 55 is the ceiling) — clear it so it must be re-picked
+      if(el.value && parseFloat(el.value) > slalomSpeedDefault){
+        el.value = '';
+      }
+    });
     goTo('screen-startspeed');
+  }
+
+  // ===== Smart advance for Overall mode: skips any step whose data already =====
+  // ===== exists (e.g. from an earlier Slalom/Trick/Jump-only session).       =====
+  var OVERALL_STEPS = ['name','gender','startspeed','ich-slalom','top1-slalom','konk-slalom','trick-ich','trick-top1','trick-konk','jump-ich','jump-top1','jump-konk'];
+
+  var OVERALL_SCREEN_FOR = {
+    'name':'screen-name', 'gender':'screen-gender', 'startspeed':'screen-startspeed',
+    'ich-slalom':'screen-ich', 'top1-slalom':'screen-top1', 'konk-slalom':'screen-konk-slalom',
+    'trick-ich':'screen-trick-ich', 'trick-top1':'screen-trick-top1', 'trick-konk':'screen-trick-konk',
+    'jump-ich':'screen-jump-ich', 'jump-top1':'screen-jump-top1', 'jump-konk':'screen-jump-konk'
+  };
+
+  function overallStepFilled(step){
+    if(step === 'name') return !!state.myName;
+    if(step === 'gender') return !!state.gender;
+    if(step === 'startspeed') return hasValue(state.startSpeed);
+    if(step === 'ich-slalom') return hasValue(state.ich.speed);
+    if(step === 'top1-slalom') return hasValue(state.top1.speed);
+    if(step === 'konk-slalom') return hasValue(state.konkurrent.speed);
+    if(step === 'trick-ich') return hasValue(state.trick.ich);
+    if(step === 'trick-top1') return hasValue(state.trick.top1);
+    if(step === 'trick-konk') return hasValue(state.trick.konkurrent);
+    if(step === 'jump-ich') return hasValue(state.jump.ich);
+    if(step === 'jump-top1') return hasValue(state.jump.top1);
+    if(step === 'jump-konk') return hasValue(state.jump.konkurrent);
+    return false;
+  }
+
+  // Jumps to whatever comes after `afterStep` (or the very first step if null)
+  // that isn't already filled in; goes straight to the results if nothing's left.
+  function advanceOverall(afterStep){
+    var idx = afterStep ? OVERALL_STEPS.indexOf(afterStep) : -1;
+    for(var i = idx + 1; i < OVERALL_STEPS.length; i++){
+      if(!overallStepFilled(OVERALL_STEPS[i])){
+        goTo(OVERALL_SCREEN_FOR[OVERALL_STEPS[i]]);
+        return;
+      }
+    }
+    renderAll();
+    goTo('screen-results');
+  }
+
+  // The direct "Overall" shortcut button — jumps straight to the results using
+  // whatever's already been entered, only asking for what's still missing.
+  function goToOverallDirect(){
+    state.mode = 'overall';
+    renderAll();
+    goTo('screen-results');
   }
 
   function saveStartSpeed(){
     var def = state.gender === 'f' ? 34 : 37;
     state.startSpeed = document.getElementById('in-startspeed').value || def;
-    goTo('screen-ich');
+    if(state.mode === 'overall'){ advanceOverall('startspeed'); }
+    else { goTo('screen-ich'); }
   }
 
   function saveIch(){
@@ -1057,7 +1661,8 @@
     state.ich.speed = document.getElementById('ich-speed').value || speedDef;
     state.ich.line = document.getElementById('ich-line').value || 18;
     state.ich.boyen = document.getElementById('ich-boyen').value || 0;
-    goTo('screen-top1');
+    if(state.mode === 'overall'){ advanceOverall('ich-slalom'); }
+    else { goTo('screen-top1'); }
   }
 
   function ichIstBeste(kind){
@@ -1089,7 +1694,9 @@
     state.top1.speed = document.getElementById('top1-speed').value || speedDef;
     state.top1.line = document.getElementById('top1-line').value || 18;
     state.top1.boyen = document.getElementById('top1-boyen').value || 0;
-    goTo('screen-konk-slalom');
+    document.getElementById('konk-name').value = state.konkurrentName || '';
+    if(state.mode === 'overall'){ advanceOverall('top1-slalom'); }
+    else { goTo('screen-konk-slalom'); }
   }
 
   function saveKonkurrentSlalom(){
@@ -1099,51 +1706,130 @@
     state.konkurrent.speed = document.getElementById('konk-speed').value || speedDef;
     state.konkurrent.line = document.getElementById('konk-line').value || 18;
     state.konkurrent.boyen = document.getElementById('konk-boyen').value || 0;
-    goTo('screen-trick-ich');
+    if(state.mode === 'slalom'){ renderAll(); goTo('screen-results'); }
+    else { advanceOverall('konk-slalom'); } // 'overall' continues, skipping anything already filled
   }
 
   function saveTrickIch(){
     state.trick.ich = document.getElementById('trick-ich-punkte').value || 0;
-    goTo('screen-trick-top1');
+    if(state.mode === 'overall'){ advanceOverall('trick-ich'); }
+    else { goTo('screen-trick-top1'); }
   }
 
   function saveTrickTop1(){
     state.trick.top1 = document.getElementById('trick-top1-punkte').value || 0;
-    goTo('screen-trick-konk');
+    document.getElementById('trick-konk-name').value = state.konkurrentName || '';
+    if(state.mode === 'overall'){ advanceOverall('trick-top1'); }
+    else { goTo('screen-trick-konk'); }
   }
 
   function saveTrickKonk(){
+    var name = document.getElementById('trick-konk-name').value.trim();
+    if(name) state.konkurrentName = name;
     state.trick.konkurrent = document.getElementById('trick-konk-punkte').value || 0;
-    goTo('screen-jump-ich');
+    if(state.mode === 'trick'){ renderAll(); goTo('screen-results'); }
+    else { advanceOverall('trick-konk'); } // 'overall' continues, skipping anything already filled
   }
 
   function saveJumpIch(){
     state.jump.ich = document.getElementById('jump-ich-weite').value || 0;
-    goTo('screen-jump-top1');
+    if(state.mode === 'overall'){ advanceOverall('jump-ich'); }
+    else { goTo('screen-jump-top1'); }
   }
 
   function saveJumpTop1(){
     state.jump.top1 = document.getElementById('jump-top1-weite').value || 0;
-    goTo('screen-jump-konk');
+    document.getElementById('jump-konk-name').value = state.konkurrentName || '';
+    if(state.mode === 'overall'){ advanceOverall('jump-top1'); }
+    else { goTo('screen-jump-konk'); }
   }
 
   function saveJumpKonk(){
+    var name = document.getElementById('jump-konk-name').value.trim();
+    if(name) state.konkurrentName = name;
     state.jump.konkurrent = document.getElementById('jump-konk-weite').value || 0;
     renderAll();
     goTo('screen-results');
   }
 
+  function startAddCompetitor(){
+    document.getElementById('extra-name').placeholder = 'Competitor ' + (state.extra.length + 2);
+    goTo('screen-extra-name');
+  }
+
+  function extraNameNext(){
+    if(state.mode === 'trick'){ goTo('screen-extra-trick'); }
+    else if(state.mode === 'jump'){ goTo('screen-extra-jump'); }
+    else { goTo('screen-extra-slalom'); } // 'slalom' and 'overall' both continue to slalom
+  }
+
+  function extraSlalomNext(){
+    if(state.mode === 'slalom'){ saveExtra(); }
+    else { goTo('screen-extra-trick'); }
+  }
+
+  function extraTrickNext(){
+    if(state.mode === 'trick'){ saveExtra(); }
+    else { goTo('screen-extra-jump'); }
+  }
+
+  // Finds a mutable reference to an existing competitor's fields by name
+  // (matches the mandatory Konkurrent or any extra competitor — never "Me").
+  function findCompetitorRef(name){
+    var lname = name.trim().toLowerCase();
+    if(!lname) return null;
+
+    if(state.konkurrentName && state.konkurrentName.trim().toLowerCase() === lname){
+      return {
+        setSlalom: function(v){ state.konkurrent.speed = v.speed; state.konkurrent.line = v.line; state.konkurrent.boyen = v.boyen; },
+        setTrick: function(v){ state.trick.konkurrent = v; },
+        setWeite: function(v){ state.jump.konkurrent = v; }
+      };
+    }
+    for(var i = 0; i < state.extra.length; i++){
+      if(state.extra[i].name && state.extra[i].name.trim().toLowerCase() === lname){
+        var ex = state.extra[i];
+        return {
+          setSlalom: function(v){ ex.speed = v.speed; ex.line = v.line; ex.boyen = v.boyen; },
+          setTrick: function(v){ ex.trick = v; },
+          setWeite: function(v){ ex.weite = v; }
+        };
+      }
+    }
+    return null;
+  }
+
   function saveExtra(){
     var speedDef = state.gender === 'f' ? 55 : 58;
-    var ex = {
-      name: document.getElementById('extra-name').value.trim() || null,
-      speed: document.getElementById('extra-speed').value || speedDef,
-      line: document.getElementById('extra-line').value || 18,
-      boyen: document.getElementById('extra-boyen').value || 0,
-      trick: document.getElementById('extra-trick').value || 0,
-      weite: document.getElementById('extra-weite').value || 0
-    };
-    state.extra.push(ex);
+    var name = document.getElementById('extra-name').value.trim();
+    var rawSpeed = document.getElementById('extra-speed').value;
+    var rawLine = document.getElementById('extra-line').value;
+    var rawBoyen = document.getElementById('extra-boyen').value;
+    var rawTrick = document.getElementById('extra-trick').value;
+    var rawWeite = document.getElementById('extra-weite').value;
+
+    var existing = name ? findCompetitorRef(name) : null;
+
+    if(existing){
+      // Same name as an existing competitor — merge into them instead of
+      // creating a duplicate. Only overwrite the fields actually filled in
+      // this pass, so e.g. adding just a Jump score later doesn't wipe
+      // their previously entered Slalom.
+      if(rawSpeed !== '' || rawLine !== '' || rawBoyen !== ''){
+        existing.setSlalom({ speed: rawSpeed || speedDef, line: rawLine || 18, boyen: rawBoyen || 0 });
+      }
+      if(rawTrick !== ''){ existing.setTrick(rawTrick); }
+      if(rawWeite !== ''){ existing.setWeite(rawWeite); }
+    } else {
+      state.extra.push({
+        name: name || null,
+        speed: rawSpeed || speedDef,
+        line: rawLine || 18,
+        boyen: rawBoyen || 0,
+        trick: rawTrick || 0,
+        weite: rawWeite || 0
+      });
+    }
 
     // reset the extra-entry fields for the next competitor
     document.getElementById('extra-name').value = '';
