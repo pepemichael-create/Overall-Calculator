@@ -39,7 +39,8 @@
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    padding:32px 24px calc(32px + env(safe-area-inset-bottom));
+    padding:70px 24px calc(32px + env(safe-area-inset-bottom));
+    box-sizing:border-box;
   }
   .screen.active{ display:flex; }
 
@@ -422,7 +423,7 @@
   <div class="modal-overlay" id="modal-needed-beta">
     <div class="modal-box">
       <p>This is a beta feature and only gives an estimate so far, not an exact score. Use the number it gives you as a starting point: put it into the charts above and check how the numbers change. Since those numbers are usually right, you can adjust from there to see how the Overall plays out once the changes are actually entered.</p>
-      <button class="primary" onclick="closeModal('modal-needed-beta')">Got it</button>
+      <button class="primary" onclick="closeNeededBetaModal()">Got it</button>
     </div>
   </div>
 
@@ -779,7 +780,7 @@
       <p class="section-label">How many more points?</p>
       <div class="field">
         <label for="delta-overall">Overall points</label>
-        <input id="delta-overall" type="text" inputmode="decimal" placeholder="0" oninput="renderNeeded()" onfocus="showNeededBetaNotice()" />
+        <input id="delta-overall" type="text" inputmode="decimal" placeholder="0" readonly oninput="renderNeeded()" onclick="deltaFieldClick()" />
       </div>
 
       <table class="results-table" id="needed-table" style="display:none;">
@@ -1182,10 +1183,19 @@
   }
 
   var neededBetaShown = false;
-  function showNeededBetaNotice(){
-    if(neededBetaShown) return;
+
+  function deltaFieldClick(){
+    if(!neededBetaShown){
+      openModal('modal-needed-beta');
+    }
+  }
+
+  function closeNeededBetaModal(){
+    closeModal('modal-needed-beta');
     neededBetaShown = true;
-    openModal('modal-needed-beta');
+    var field = document.getElementById('delta-overall');
+    field.removeAttribute('readonly');
+    field.focus();
   }
 
   function loadPersistedState(){
@@ -1209,6 +1219,7 @@
     document.getElementById('needed-table').style.display = 'none';
     document.getElementById('add-konkurrent-btn').style.display = 'block';
     neededBetaShown = false;
+    document.getElementById('delta-overall').setAttribute('readonly', 'readonly');
     clearPersistedState();
     goTo('screen-home');
     openModal('modal-testing');
