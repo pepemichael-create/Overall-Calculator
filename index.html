@@ -780,7 +780,7 @@
       <p class="section-label">How many more points?</p>
       <div class="field">
         <label for="delta-overall">Overall points</label>
-        <input id="delta-overall" type="text" inputmode="decimal" placeholder="0" readonly oninput="renderNeeded()" onclick="deltaFieldClick()" />
+        <input id="delta-overall" type="text" inputmode="decimal" placeholder="0" oninput="renderNeeded()" onfocus="handleDeltaFocus()" />
       </div>
 
       <table class="results-table" id="needed-table" style="display:none;">
@@ -1184,8 +1184,9 @@
 
   var neededBetaShown = false;
 
-  function deltaFieldClick(){
+  function handleDeltaFocus(){
     if(!neededBetaShown){
+      document.getElementById('delta-overall').blur(); // dismiss the keyboard, show the notice first
       openModal('modal-needed-beta');
     }
   }
@@ -1193,9 +1194,7 @@
   function closeNeededBetaModal(){
     closeModal('modal-needed-beta');
     neededBetaShown = true;
-    var field = document.getElementById('delta-overall');
-    field.removeAttribute('readonly');
-    field.focus();
+    document.getElementById('delta-overall').focus();
   }
 
   function loadPersistedState(){
@@ -1219,7 +1218,6 @@
     document.getElementById('needed-table').style.display = 'none';
     document.getElementById('add-konkurrent-btn').style.display = 'block';
     neededBetaShown = false;
-    document.getElementById('delta-overall').setAttribute('readonly', 'readonly');
     clearPersistedState();
     goTo('screen-home');
     openModal('modal-testing');
