@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Overall">
-<title>Overall</title>
+<meta name="apple-mobile-web-app-title" content="Junior">
+<title>Junior</title>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -16,12 +16,10 @@
     --line:#4a4d52;
     --white:#f5f5f5;
     --dim:#8a8d92;
-    --blue:#8fb8d9;    /* Slalom */
-    --teal:#7fc7c2;    /* Trick */
-    --purple:#b3a0d9;  /* Jump */
-    --green:#96c9a4;   /* Overall */
-    --red:#d99a9a;     /* Competitor */
-    --gold:#e0c26a;    /* "Best" marker */
+    --blue:#8fb8d9;
+    --green:#96c9a4;
+    --red:#d99a9a;
+    --gold:#e0c26a;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; border-radius:0 !important;}
   html,body{height:100%;}
@@ -47,10 +45,10 @@
   h1{
     font-family: Georgia, "Times New Roman", serif;
     font-weight:400;
-    font-size:34px;
+    font-size:32px;
     letter-spacing:0.01em;
     color:var(--white);
-    margin:0 0 48px;
+    margin:0 0 40px;
     text-align:center;
   }
 
@@ -69,7 +67,7 @@
   }
   .back:active{ color:var(--white); }
 
-  #refresh-btn, #home-btn, #overall-btn, #info-btn{
+  #refresh-btn, #home-btn, #info-btn{
     position:absolute;
     top:16px;
     z-index:100;
@@ -88,12 +86,10 @@
     justify-content:center;
   }
   #refresh-btn{ right:16px; }
-  #overall-btn{ right:62px; font-size:16px; }
-  #home-btn{ right:108px; }
-  #info-btn{ right:154px; }
-  #refresh-btn:active, #home-btn:active, #overall-btn:active, #info-btn:active{ color:var(--white); border-color:var(--white); }
+  #home-btn{ right:62px; }
+  #info-btn{ right:108px; }
+  #refresh-btn:active, #home-btn:active, #info-btn:active{ color:var(--white); border-color:var(--white); }
 
-  /* generic option box (mode select, gender select) */
   .options{
     width:100%;
     max-width:380px;
@@ -124,9 +120,13 @@
     color:var(--white);
     flex:1;
   }
+  .opt .sub{
+    font-size:11px;
+    color:var(--dim);
+    margin-top:2px;
+  }
   .opt .chev{ color:var(--dim); font-size:16px; line-height:1; }
 
-  /* form fields */
   .form{
     width:100%;
     max-width:380px;
@@ -160,6 +160,8 @@
     width:100%;
   }
   .field input::placeholder{ color:#55585d; }
+  .field .hint{ font-size:11px; color:var(--dim); margin-top:-4px; }
+  p.hint{ font-size:12.5px; color:var(--dim); line-height:1.5; margin:0; }
 
   .primary{
     appearance:none;
@@ -175,55 +177,39 @@
   }
   .primary:active{ background:rgba(150,201,164,0.08); }
 
-  /* crown / top1 toggle */
-  .title-row{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-    margin-bottom:48px;
-  }
-  .title-inline{ margin:0; }
+  .form.role-me .field{ border-left-color:var(--blue); }
+  .form.role-competitor .field{ border-left-color:var(--red); }
+  .form.role-best .field{ border-left-color:var(--gold); }
 
-  .top1-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border:1px solid var(--line);
-    border-left:3px solid var(--gold);
-    padding:14px 18px;
+  .picker-grid{
+    width:100%;
+    max-width:380px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
   }
-  .top1-row .lbl{
-    font-size:13px;
-    color:var(--white);
-  }
-  .crown{
+  .pick-btn{
     appearance:none;
     -webkit-appearance:none;
-    background:none;
+    background:transparent;
     border:1px solid var(--line);
-    color:var(--dim);
-    width:32px;
-    height:32px;
-    font-size:14px;
+    color:var(--white);
+    padding:16px 8px;
+    font-size:15px;
+    font-family: Georgia, "Times New Roman", serif;
     cursor:pointer;
-    flex-shrink:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    text-align:center;
   }
-  .crown.active{ border-color:var(--gold); color:var(--gold); }
+  .pick-btn:active{ background:rgba(255,255,255,0.06); border-color:var(--blue); }
 
-  .konkurrent-block{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-    padding-top:6px;
+  .section-label{
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--dim);
+    margin:14px 0 0;
   }
-  .konkurrent-block .field{ border-left-color:var(--red); }
-  .konkurrent-block .field label{ color:var(--red); }
 
-  /* summary rows */
   .summary{
     width:100%;
     max-width:380px;
@@ -250,13 +236,6 @@
     font-family: Georgia, "Times New Roman", serif;
     color:var(--white);
   }
-  .section-label{
-    font-size:11px;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--dim);
-    margin:14px 0 0;
-  }
 
   .results-table{
     width:100%;
@@ -264,9 +243,7 @@
     border-collapse:collapse;
     table-layout:fixed;
   }
-  .results-table th:first-child, .results-table td:first-child{
-    width:64px;
-  }
+  .results-table th:first-child, .results-table td:first-child{ width:64px; }
   .results-table th, .results-table td{
     border:1px solid var(--line);
     padding:8px 4px;
@@ -297,12 +274,9 @@
     color:var(--green);
   }
   .results-table tr.r-ich td.name{ border-left:3px solid var(--blue); }
-  .results-table tr.r-top1 td.name{ border-left:3px solid var(--gold); }
-  .results-table tr.r-konk td.name{ border-left:3px solid var(--red); color:var(--red); }
-  .results-table tr.r-konk td{ color:var(--red); }
-  .results-table tr.r-konk td.overall{ color:var(--red); }
+  .results-table tr.r-konk td.name{ border-left:3px solid var(--red); }
+  .results-table td.trial{ color:var(--red) !important; }
   .results-table td.editable{ cursor:pointer; }
-  .results-table tr.r-ich td.editable{ color:var(--blue); }
   .results-table td.editable:active{ background:rgba(255,255,255,0.05); }
 
   .modal-overlay{
@@ -331,87 +305,23 @@
     margin:0 0 18px;
   }
   .modal-box .primary{ width:100%; margin-top:0; }
-
-  .modal-box.tutorial{
-    max-width:400px;
-    max-height:80vh;
-    display:flex;
-    flex-direction:column;
-  }
+  .modal-box.tutorial{ max-width:400px; max-height:80vh; display:flex; flex-direction:column; }
   .modal-box.tutorial h2{
     font-family: Georgia, "Times New Roman", serif;
-    font-weight:400;
-    font-size:22px;
-    margin:0 0 16px;
-    color:var(--white);
+    font-weight:400; font-size:22px; margin:0 0 16px; color:var(--white);
   }
-  .modal-box.tutorial .tutorial-body{
-    overflow-y:auto;
-    margin-bottom:16px;
-  }
+  .modal-box.tutorial .tutorial-body{ overflow-y:auto; margin-bottom:16px; }
   .modal-box.tutorial h3{
-    font-size:12px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    color:var(--green);
-    margin:18px 0 6px;
+    font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--green); margin:18px 0 6px;
   }
   .modal-box.tutorial h3:first-child{ margin-top:0; }
   .modal-box.tutorial p{ margin:0 0 8px; font-size:13.5px; }
   .modal-box.tutorial p strong{ color:#c3e6cf; font-weight:600; }
-  .modal-box.tutorial .icon-row{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin:8px 0;
-  }
-  .modal-box.tutorial .icon-row .ic{
-    flex-shrink:0;
-    width:30px; height:30px;
-    border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--dim);
-  }
-
-  /* Overall table (Table 1): Me fully blue */
-  #results-table tr.r-ich td{ color:var(--blue); }
-
-  /* Best-performances table (Table 3): whole row gold */
-  #best-table td{ color:var(--gold); }
-
-  .picker-grid{
-    width:100%;
-    max-width:380px;
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:10px;
-  }
-  .pick-btn{
-    appearance:none;
-    -webkit-appearance:none;
-    background:transparent;
-    border:1px solid var(--line);
-    color:var(--white);
-    padding:16px 8px;
-    font-size:15px;
-    font-family: Georgia, "Times New Roman", serif;
-    cursor:pointer;
-    text-align:center;
-  }
-  .pick-btn:active{ background:rgba(255,255,255,0.06); border-color:var(--blue); }
-
-  .field.pickable{ cursor:pointer; }
-  .field.pickable input{ pointer-events:none; }
-
-  /* Coherent role-based colour: Me=blue, Competitor=red, Best=gold */
-  .form.role-me .field{ border-left-color:var(--blue); }
-  .form.role-competitor .field{ border-left-color:var(--red); }
-  .form.role-best .field{ border-left-color:var(--gold); }
 </style>
 </head>
 <body>
 
-  <!-- TESTING PHASE MODAL (shown on load and after every reset) -->
+  <!-- TESTING PHASE MODAL -->
   <div class="modal-overlay" id="modal-testing">
     <div class="modal-box">
       <p>This website is currently still in a testing phase. The numbers it calculates are usually correct and match the ones used by the IWWF, but they shouldn't be relied upon.</p>
@@ -419,11 +329,12 @@
     </div>
   </div>
 
-  <!-- BETA "HOW MANY MORE POINTS" MODAL -->
-  <div class="modal-overlay" id="modal-needed-beta">
+  <!-- CONFIRM CHANGE MODAL -->
+  <div class="modal-overlay" id="modal-confirm-change">
     <div class="modal-box">
-      <p>This is a beta feature and only gives an estimate so far, not an exact score. Use the number it gives you as a starting point: put it into the charts above and check how the numbers change. Since those numbers are usually right, you can adjust from there to see how the Overall plays out once the changes are actually entered.</p>
-      <button class="primary" onclick="closeNeededBetaModal()">Got it</button>
+      <p>Is this an actual change, or are you just trying something out?</p>
+      <button class="primary" onclick="commitPendingEdit(false)" style="margin-bottom:10px;">Actual change</button>
+      <button class="primary" onclick="commitPendingEdit(true)" style="border-color:var(--red); color:var(--red);">Just trying out</button>
     </div>
   </div>
 
@@ -432,43 +343,18 @@
     <div class="modal-box tutorial">
       <h2>How this works</h2>
       <div class="tutorial-body">
-
         <h3>The icons up top</h3>
-        <div class="icon-row">
-          <span class="ic">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 L12 4 L20 11"/><path d="M6 10 V20 H18 V10"/></svg>
-          </span>
-          <p><strong>Home</strong> — takes you back to the mode selection screen. Your data is kept.</p>
-        </div>
-        <div class="icon-row">
-          <span class="ic">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 13 L6 21 L12 18 L18 21 L15 13"/><circle cx="12" cy="8" r="5"/></svg>
-          </span>
-          <p><strong>Overall (medal)</strong> — jumps straight to the results tables, using whatever you've entered so far. Anything missing just shows as 0.</p>
-        </div>
-        <div class="icon-row">
-          <span class="ic">↻</span>
-          <p><strong>Refresh</strong> — clears everything and starts over. Tap once to arm it, tap again to confirm.</p>
-        </div>
-        <div class="icon-row">
-          <span class="ic">i</span>
-          <p><strong>Info</strong> — this screen.</p>
-        </div>
-
+        <p><strong>Home</strong> — back to category selection. Picking a category you already started jumps straight to its results.</p>
+        <p><strong>Refresh</strong> — clears everything. Tap once to arm it, tap again to confirm.</p>
+        <p><strong>Info</strong> — this screen.</p>
+        <h3>Categories</h3>
+        <p>Each category (U14/U17, Girls/Boys) keeps its own separate results — entering U14 Girls doesn't affect U17 Boys, etc.</p>
         <h3>Entering results</h3>
-        <p>Pick Slalom, Trick, Jump, or Overall from the home screen, then enter your own result, the current best, and your competitor's result for that event.</p>
-
-        <h3>Starting speed</h3>
-        <p>This is <strong>not your own personal starting speed</strong> — it's the minimum starting speed used at the competition.</p>
-
-        <h3>"Best" result</h3>
-        <p>When it asks for the best score, that means the score of the skier who <strong>currently holds 1000 overall points according to the IWWF</strong>.</p>
-
+        <p>For each category you'll enter your own result, the current best, and a competitor's result, for Slalom, Trick and Jump.</p>
         <h3>Names</h3>
-        <p>You can name both yourself and your competitor(s) — either while entering their result, or afterwards by tapping their name directly in the results table.</p>
-
+        <p>Your name is required. You can also name your competitor(s) — either while entering their result, or afterwards by tapping their name in the results table.</p>
         <h3>Playing around with numbers</h3>
-        <p>Once everything's entered, tap any value in the "Performances" table to edit it — the Overall numbers update live, so you can try out different scores and see how the standings change.</p>
+        <p>Once everything's entered, tap any value in the "Performances" table to edit it — the Overall numbers update live.</p>
       </div>
       <button class="primary" onclick="closeModal('modal-tutorial')">Got it</button>
     </div>
@@ -476,94 +362,183 @@
 
   <button id="info-btn" onclick="openModal('modal-tutorial')" title="Info">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="9"/>
-      <line x1="12" y1="11" x2="12" y2="16"/>
-      <circle cx="12" cy="7.5" r="0.9" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.5" r="0.9" fill="currentColor" stroke="none"/>
     </svg>
   </button>
-
   <button id="home-btn" onclick="goTo('screen-home')" title="Home">⌂</button>
-  <button id="overall-btn" onclick="goToOverallDirect()" title="Overall">
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M9 13 L6 21 L12 18 L18 21 L15 13"/>
-      <circle cx="12" cy="8" r="5"/>
-    </svg>
-  </button>
   <button id="refresh-btn" onclick="confirmReset()" title="Start over">↻</button>
 
-  <!-- HOME -->
+  <!-- HOME: CATEGORY SELECT -->
   <div class="screen active" id="screen-home">
-    <h1>Overall</h1>
+    <h1>Junior</h1>
+    <div class="options" id="category-options"></div>
+    <p class="section-label">This entry</p>
     <div class="options">
-      <button class="opt" style="--accent:var(--blue);" onclick="selectMode('slalom')">
-        <span class="label">Slalom</span>
-        <span class="chev">›</span>
+      <button class="opt" style="--accent:var(--gold);" onclick="goTo('screen-save-name')">
+        <span class="label">Save this entry</span><span class="chev">›</span>
       </button>
-      <button class="opt" style="--accent:var(--blue);" onclick="selectMode('trick')">
-        <span class="label">Trick</span>
-        <span class="chev">›</span>
-      </button>
-      <button class="opt" style="--accent:var(--blue);" onclick="selectMode('jump')">
-        <span class="label">Jump</span>
-        <span class="chev">›</span>
-      </button>
-      <button class="opt" style="--accent:var(--blue);" onclick="selectMode('overall')">
-        <span class="label">Overall</span>
-        <span class="chev">›</span>
+      <button class="opt" style="--accent:var(--gold);" onclick="renderLoadList(); goTo('screen-load-list');">
+        <span class="label">Load a saved entry</span><span class="chev">›</span>
       </button>
     </div>
   </div>
 
-  <!-- NAME -->
+  <!-- SAVE: NAME -->
+  <div class="screen" id="screen-save-name">
+    <button class="back" onclick="goBack()">‹ Junior</button>
+    <h1>Save entry as...</h1>
+    <div class="form role-me">
+      <div class="field">
+        <label for="save-name-input">Name</label>
+        <input id="save-name-input" type="text" placeholder="Required" />
+      </div>
+      <button class="primary" onclick="confirmSaveEntry()">Save</button>
+    </div>
+  </div>
+
+  <!-- LOAD: LIST -->
+  <div class="screen" id="screen-load-list">
+    <button class="back" onclick="goBack()">‹ Junior</button>
+    <h1>Saved entries</h1>
+    <div class="options" id="load-list-options" style="max-width:380px;"></div>
+    <button class="primary" onclick="goTo('screen-import')" style="max-width:380px; width:100%; margin-top:14px;">Import from another phone</button>
+  </div>
+
+  <!-- SHARE -->
+  <div class="screen" id="screen-share">
+    <button class="back" onclick="goBack()">‹ Saved entries</button>
+    <h1>Share entry</h1>
+    <div class="form role-me">
+      <p class="hint">Send this code to someone on another phone — they can paste it under "Import from another phone" on their own device.</p>
+      <div class="field">
+        <label for="share-code">Code</label>
+        <input id="share-code" type="text" readonly />
+      </div>
+      <button class="primary" id="share-btn" onclick="doShare()">Share</button>
+      <button class="primary" onclick="copyShareCode()">Copy code instead</button>
+    </div>
+  </div>
+
+  <!-- IMPORT -->
+  <div class="screen" id="screen-import">
+    <button class="back" onclick="goBack()">‹ Saved entries</button>
+    <h1>Import entry</h1>
+    <div class="form role-competitor">
+      <div class="field">
+        <label for="import-name">Save it as</label>
+        <input id="import-name" type="text" placeholder="Required" />
+      </div>
+      <div class="field">
+        <label for="import-code">Paste code here</label>
+        <input id="import-code" type="text" placeholder="Required" />
+      </div>
+      <button class="primary" onclick="doImport()">Import</button>
+      <p class="hint" id="import-status"></p>
+    </div>
+  </div>
+
+  <!-- TEAM: LIST -->
+  <div class="screen" id="screen-team-home">
+    <button class="back" onclick="goBack()">‹ Junior</button>
+    <h1>Teams</h1>
+    <div class="options" id="team-list-options"></div>
+    <button class="primary" onclick="startNewTeam()" style="max-width:380px; width:100%; margin-top:14px;">+ New team</button>
+  </div>
+
+  <!-- TEAM: NAME -->
+  <div class="screen" id="screen-team-name">
+    <button class="back" onclick="goBack()">‹ Teams</button>
+    <h1>Team name</h1>
+    <div class="form role-me">
+      <div class="field">
+        <label for="team-name-input">Name</label>
+        <input id="team-name-input" type="text" placeholder="Required" />
+      </div>
+      <button class="primary" onclick="saveTeamName()">Next</button>
+    </div>
+  </div>
+
+  <!-- TEAM: MEMBERS -->
+  <div class="screen" id="screen-team-members">
+    <button class="back" onclick="goBack()">‹ Back</button>
+    <h1 id="team-members-title">Members</h1>
+    <div class="options" id="team-members-list" style="max-width:380px;"></div>
+    <button class="primary" onclick="finishTeamMembers()" style="max-width:380px; width:100%; margin-top:14px;">Done</button>
+  </div>
+
+  <!-- TEAM: EDIT MEMBER (rename + move to another team) -->
+  <div class="screen" id="screen-edit-team-member">
+    <button class="back" onclick="goBack()">‹ Back</button>
+    <h1>Edit competitor</h1>
+    <div class="form role-me">
+      <div class="field">
+        <label for="edit-team-member-name">Name</label>
+        <input id="edit-team-member-name" type="text" />
+        <p class="hint" id="edit-team-member-category" style="margin:0;"></p>
+      </div>
+      <button class="primary" onclick="saveEditTeamMemberName()">Save name</button>
+    </div>
+    <p class="section-label">Move to team</p>
+    <div class="options" id="edit-team-member-moves" style="max-width:380px;"></div>
+  </div>
+
+  <!-- TEAM: RESULTS -->
+  <div class="screen" id="screen-team-results">
+    <button class="back" onclick="goBack()">‹ Teams</button>
+    <h1 id="team-results-title">Team</h1>
+    <div class="summary">
+      <p class="section-label">Team scores</p>
+      <div class="row" style="border-left-color:var(--blue);">
+        <span class="k">U14 Team (best 3 per event)</span>
+        <span class="v" id="team-score-u14">0</span>
+      </div>
+      <div class="row" style="border-left-color:var(--red);">
+        <span class="k">U17 Team (best 3 per event)</span>
+        <span class="v" id="team-score-u17">0</span>
+      </div>
+      <div class="row" style="border-left-color:var(--green);">
+        <span class="k">U14 + U17 Team</span>
+        <span class="v" id="team-score-combined">0</span>
+      </div>
+
+      <p class="section-label">Performances (from each member's category)</p>
+      <table class="results-table" id="team-perf-table">
+        <thead><tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr></thead>
+        <tbody id="team-perf-tbody"></tbody>
+      </table>
+
+      <p class="section-label">Overall points per member</p>
+      <table class="results-table" id="team-points-table">
+        <thead><tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th><th>Overall</th></tr></thead>
+        <tbody id="team-points-tbody"></tbody>
+      </table>
+
+      <button class="primary" onclick="renderTeamMembers(); goTo('screen-team-members')" style="margin-top:14px;">+ Add competitor</button>
+      <button class="primary" onclick="startNewTeam()">+ New team</button>
+    </div>
+  </div>
+
+  <!-- NAME (required) -->
   <div class="screen" id="screen-name">
-    <button class="back" onclick="goBack()">‹ Overall</button>
+    <button class="back" onclick="goBack()">‹ Junior</button>
     <h1>What's your name?</h1>
     <div class="form">
       <div class="field">
         <label for="in-myname">Name</label>
-        <input id="in-myname" type="text" placeholder="Me" />
+        <input id="in-myname" type="text" placeholder="Required" />
       </div>
       <button class="primary" onclick="saveMyName()">Next</button>
     </div>
   </div>
 
-  <!-- GENDER -->
-  <div class="screen" id="screen-gender">
-    <button class="back" onclick="goBack()">‹ Back</button>
-    <h1>Male or<br>female?</h1>
-    <div class="options">
-      <button class="opt" style="--accent:var(--blue);" onclick="setGender('m')">
-        <span class="label">Male</span>
-        <span class="chev">›</span>
-      </button>
-      <button class="opt" style="--accent:var(--red);" onclick="setGender('f')">
-        <span class="label">Female</span>
-        <span class="chev">›</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- START SPEED -->
-  <div class="screen" id="screen-startspeed">
-    <button class="back" onclick="goBack()">‹ Back</button>
-    <h1>Starting<br>Speed</h1>
-    <div class="form">
-      <div class="field">
-        <label for="in-startspeed">Starting Speed</label>
-        <input id="in-startspeed" type="text" readonly onclick="openPicker('speed','in-startspeed','screen-startspeed')" placeholder="37" />
-      </div>
-      <button class="primary" onclick="saveStartSpeed()">Next</button>
-    </div>
-  </div>
-
-  <!-- ME SLALOM -->
+  <!-- ME: SLALOM -->
   <div class="screen" id="screen-ich">
     <button class="back" onclick="goBack()">‹ Back</button>
-    <h1 id="title-ich-slalom">My slalom result</h1>
+    <h1>My slalom result</h1>
     <div class="form role-me">
       <div class="field">
         <label for="ich-speed">Speed</label>
-        <input id="ich-speed" type="text" readonly onclick="openPicker('speed','ich-speed','screen-ich')" placeholder="58" />
+        <input id="ich-speed" type="text" readonly onclick="openPicker('speed','ich-speed','screen-ich')" />
       </div>
       <div class="field">
         <label for="ich-line">Rope length</label>
@@ -577,14 +552,14 @@
     </div>
   </div>
 
-  <!-- TOP 1 SLALOM -->
+  <!-- BEST: SLALOM -->
   <div class="screen" id="screen-top1">
     <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Best slalom result</h1>
     <div class="form role-best">
       <div class="field">
         <label for="top1-speed">Speed</label>
-        <input id="top1-speed" type="text" readonly onclick="openPicker('speed','top1-speed','screen-top1')" placeholder="58" />
+        <input id="top1-speed" type="text" readonly onclick="openPicker('speed','top1-speed','screen-top1')" />
       </div>
       <div class="field">
         <label for="top1-line">Rope length</label>
@@ -594,14 +569,14 @@
         <label for="top1-boyen">Number of buoys</label>
         <input id="top1-boyen" type="text" readonly onclick="openPicker('buoy','top1-boyen','screen-top1')" placeholder="0" />
       </div>
-      <button class="opt" id="beste-btn-slalom" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('slalom')">
-        <span class="label" id="beste-label-slalom">I am the best</span>
+      <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('slalom')">
+        <span class="label">I am the best</span>
       </button>
       <button class="primary" onclick="saveTop1()">Next</button>
     </div>
   </div>
 
-  <!-- SLALOM: COMPETITOR (always asked) -->
+  <!-- COMPETITOR: SLALOM -->
   <div class="screen" id="screen-konk-slalom">
     <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Competitor's<br>slalom result</h1>
@@ -612,7 +587,7 @@
       </div>
       <div class="field">
         <label for="konk-speed">Speed</label>
-        <input id="konk-speed" type="text" readonly onclick="openPicker('speed','konk-speed','screen-konk-slalom')" placeholder="58" />
+        <input id="konk-speed" type="text" readonly onclick="openPicker('speed','konk-speed','screen-konk-slalom')" />
       </div>
       <div class="field">
         <label for="konk-line">Rope length</label>
@@ -632,7 +607,7 @@
   <!-- TRICK: ME -->
   <div class="screen" id="screen-trick-ich">
     <button class="back" onclick="goBack()">‹ Back</button>
-    <h1 id="title-ich-trick">My trick result</h1>
+    <h1>My trick result</h1>
     <div class="form role-me">
       <div class="field">
         <label for="trick-ich-punkte">Trick points</label>
@@ -642,7 +617,7 @@
     </div>
   </div>
 
-  <!-- TRICK: TOP1 -->
+  <!-- TRICK: BEST -->
   <div class="screen" id="screen-trick-top1">
     <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Best trick result</h1>
@@ -658,7 +633,7 @@
     </div>
   </div>
 
-  <!-- TRICK: COMPETITOR (always asked) -->
+  <!-- TRICK: COMPETITOR -->
   <div class="screen" id="screen-trick-konk">
     <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Competitor's<br>trick result</h1>
@@ -681,7 +656,7 @@
   <!-- JUMP: ME -->
   <div class="screen" id="screen-jump-ich">
     <button class="back" onclick="goBack()">‹ Back</button>
-    <h1 id="title-ich-jump">My jump result</h1>
+    <h1>My jump result</h1>
     <div class="form role-me">
       <div class="field">
         <label for="jump-ich-weite">Distance</label>
@@ -691,7 +666,7 @@
     </div>
   </div>
 
-  <!-- JUMP: TOP1 -->
+  <!-- JUMP: BEST -->
   <div class="screen" id="screen-jump-top1">
     <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Best jump result</h1>
@@ -707,7 +682,7 @@
     </div>
   </div>
 
-  <!-- JUMP: COMPETITOR (always asked) -->
+  <!-- JUMP: COMPETITOR -->
   <div class="screen" id="screen-jump-konk">
     <button class="back" onclick="goBack()">‹ Back</button>
     <h1>Competitor's<br>jump result</h1>
@@ -727,7 +702,33 @@
     </div>
   </div>
 
-  <!-- GENERIC PICKER (rope length / speed / buoys) -->
+  <!-- RESULTS -->
+  <div class="screen" id="screen-results">
+    <h1 id="results-title">Results</h1>
+    <div class="summary">
+      <p class="section-label">Overall</p>
+      <table class="results-table" id="results-table">
+        <thead><tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th><th>Overall</th></tr></thead>
+        <tbody id="results-tbody"></tbody>
+      </table>
+
+      <p class="section-label">Performances</p>
+      <table class="results-table" id="perf-table">
+        <thead><tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr></thead>
+        <tbody id="perf-tbody"></tbody>
+      </table>
+
+      <p class="section-label">Best performances</p>
+      <table class="results-table" id="best-table">
+        <thead><tr><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr></thead>
+        <tbody id="best-tbody"></tbody>
+      </table>
+
+      <button class="primary" id="add-konkurrent-btn" onclick="startAddCompetitor()" style="margin-top:14px;">+ Add competitor</button>
+    </div>
+  </div>
+
+  <!-- GENERIC PICKER -->
   <div class="screen" id="screen-picker">
     <button class="back" onclick="closePicker()">‹ Back</button>
     <h1 id="picker-title">Select</h1>
@@ -746,53 +747,7 @@
     </div>
   </div>
 
-  <!-- RESULTS (terminal screen — no way back into the entry flow) -->
-  <div class="screen" id="screen-results">
-    <h1>Results</h1>
-    <div class="summary">
-
-      <p class="section-label" id="results-section-label">Overall</p>
-      <table class="results-table" id="results-table">
-        <thead>
-          <tr id="results-thead-row"><th></th><th>Slalom</th><th>Trick</th><th>Jump</th><th>Overall</th></tr>
-        </thead>
-        <tbody id="results-tbody"></tbody>
-      </table>
-
-      <p class="section-label">Performances</p>
-      <table class="results-table" id="perf-table">
-        <thead>
-          <tr id="perf-thead-row"><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
-        </thead>
-        <tbody id="perf-tbody"></tbody>
-      </table>
-
-      <p class="section-label">Best performances</p>
-      <table class="results-table" id="best-table">
-        <thead>
-          <tr id="best-thead-row"><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
-        </thead>
-        <tbody id="best-tbody"></tbody>
-      </table>
-
-      <button class="primary" id="add-konkurrent-btn" onclick="startAddCompetitor()" style="margin-top:14px;">+ Add competitor</button>
-
-      <p class="section-label">How many more points?</p>
-      <div class="field">
-        <label for="delta-overall">Overall points</label>
-        <input id="delta-overall" type="text" inputmode="decimal" placeholder="0" oninput="renderNeeded()" onfocus="handleDeltaFocus()" />
-      </div>
-
-      <table class="results-table" id="needed-table" style="display:none;">
-        <thead>
-          <tr id="needed-thead-row"><th></th><th>Slalom</th><th>Trick</th><th>Jump</th></tr>
-        </thead>
-        <tbody id="needed-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- EDIT: SLALOM CELL -->
+  <!-- EDIT: SLALOM -->
   <div class="screen" id="screen-edit-slalom">
     <h1 id="edit-slalom-title">Edit</h1>
     <div class="form" id="edit-slalom-form">
@@ -816,7 +771,7 @@
     </div>
   </div>
 
-  <!-- EDIT: SCALAR CELL (Trick / Jump) -->
+  <!-- EDIT: SCALAR -->
   <div class="screen" id="screen-edit-scalar">
     <h1 id="edit-scalar-title">Edit</h1>
     <div class="form" id="edit-scalar-form">
@@ -832,8 +787,7 @@
     </div>
   </div>
 
-  <!-- EXTRA COMPETITOR: SLALOM -->
-  <!-- EXTRA COMPETITOR: NAME (always asked first, regardless of mode) -->
+  <!-- EXTRA COMPETITOR: NAME -->
   <div class="screen" id="screen-extra-name">
     <button class="back" onclick="goBack()">‹ Results</button>
     <h1>New competitor</h1>
@@ -846,13 +800,14 @@
     </div>
   </div>
 
+  <!-- EXTRA COMPETITOR: SLALOM -->
   <div class="screen" id="screen-extra-slalom">
-    <button class="back" onclick="goBack()">‹ Results</button>
-    <h1 id="extra-title">New competitor</h1>
+    <button class="back" onclick="goBack()">‹ Back</button>
+    <h1>Slalom</h1>
     <div class="form role-competitor">
       <div class="field">
         <label for="extra-speed">Speed</label>
-        <input id="extra-speed" type="text" readonly onclick="openPicker('speed','extra-speed','screen-extra-slalom')" placeholder="58" />
+        <input id="extra-speed" type="text" readonly onclick="openPicker('speed','extra-speed','screen-extra-slalom')" />
       </div>
       <div class="field">
         <label for="extra-line">Rope length</label>
@@ -893,24 +848,52 @@
   </div>
 
 <script>
-  function freshState(){
+  var CATEGORIES = {
+    u14g: { label:'U14 Girls', startSpeed:46, topSpeed:52, jumpOffset:7 },
+    u14b: { label:'U14 Boys',  startSpeed:49, topSpeed:55, jumpOffset:10 },
+    u17g: { label:'U17 Girls', startSpeed:49, topSpeed:55, jumpOffset:13 },
+    u17b: { label:'U17 Boys',  startSpeed:52, topSpeed:58, jumpOffset:20 }
+  };
+  var CATEGORY_ORDER = ['u14g','u14b','u17g','u17b'];
+
+  function freshCategoryState(){
     return {
-      mode: null,              // 'slalom' | 'trick' | 'jump' | 'overall'
       myName: null,
-      gender: null,           // 'm' | 'f'
-      startSpeed: null,       // L2
       ich: { speed:null, line:null, boyen:null },
       top1: { speed:null, line:null, boyen:null },
-      isTop1: false,
       konkurrent: { speed:null, line:null, boyen:null },
       konkurrentName: null,
-      trick: { ich:null, top1:null, konkurrent:null, isTop1:false },
-      jump: { ich:null, top1:null, konkurrent:null, isTop1:false },
-      extra: []
+      trick: { ich:null, top1:null, konkurrent:null },
+      jump: { ich:null, top1:null, konkurrent:null },
+      extra: [],
+      flags: {
+        ich: { slalom:false, trick:false, weite:false },
+        top1: { slalom:false, trick:false, weite:false },
+        konkurrent: { slalom:false, trick:false, weite:false }
+      },
+      // Trial values (from "just trying out") — override the real data ONLY
+      // for display/calc within this category's own screens. Never touch
+      // the real fields above, and never visible from the Team screens.
+      trialOverrides: {
+        ich: { slalom:null, trick:null, weite:null },
+        top1: { slalom:null, trick:null, weite:null },
+        konkurrent: { slalom:null, trick:null, weite:null }
+      }
     };
   }
 
+  function freshState(){
+    var cats = {};
+    CATEGORY_ORDER.forEach(function(c){ cats[c] = freshCategoryState(); });
+    return { currentCategory: null, categories: cats, teams: [] };
+  }
+
   var state = freshState();
+  var currentTeamIndex = null;
+
+  // shorthand: the currently active category's data object
+  function cat(){ return state.categories[state.currentCategory]; }
+  function catConfig(){ return CATEGORIES[state.currentCategory]; }
 
   var screenHistory = [];
   var currentScreen = 'screen-home';
@@ -925,69 +908,68 @@
   function goBack(){
     if(screenHistory.length === 0) return;
     var prev = screenHistory.pop();
-    // Once a gender is picked, it's locked for the rest of the session (only a
-    // full reset clears it) — back navigation must skip straight past this screen.
-    if(prev === 'screen-gender' && state.gender){
-      goBack();
-      return;
-    }
     document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
     document.getElementById(prev).classList.add('active');
     currentScreen = prev;
   }
 
-  function proceedAfterName(){
-    if(state.mode === 'trick'){ goTo('screen-trick-ich'); }
-    else if(state.mode === 'jump'){ goTo('screen-jump-ich'); }
-    else if(state.mode === 'overall'){ advanceOverall('name'); }
-    else { // 'slalom'
-      if(state.gender){ goTo('screen-startspeed'); } // gender already locked in — never ask again
-      else { goTo('screen-gender'); }
+  function hasValue(v){ return v !== null && v !== undefined && v !== ''; }
+
+  function renderCategoryButtons(){
+    var box = document.getElementById('category-options');
+    box.innerHTML = '';
+    CATEGORY_ORDER.forEach(function(c){
+      var cfg = CATEGORIES[c];
+      var btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.style.setProperty('--accent', 'var(--blue)');
+      btn.onclick = function(){ selectCategory(c); };
+      btn.innerHTML = '<span class="label">' + cfg.label + '</span><span class="chev">›</span>';
+      box.appendChild(btn);
+    });
+    var teamBtn = document.createElement('button');
+    teamBtn.className = 'opt';
+    teamBtn.style.setProperty('--accent', 'var(--green)');
+    teamBtn.onclick = function(){ renderTeamHome(); goTo('screen-team-home'); };
+    teamBtn.innerHTML = '<span class="label">Team</span><span class="chev">›</span>';
+    box.appendChild(teamBtn);
+  }
+
+  function selectCategory(c){
+    state.currentCategory = c;
+    if(!hasValue(cat().myName)){
+      goTo('screen-name');
+    } else {
+      advanceJunior(null);
     }
   }
 
-  function selectMode(mode){
-    state.mode = mode;
-    if(state.myName){ proceedAfterName(); } // name already given once — never ask again
-    else { goTo('screen-name'); }
-  }
-
-  /* ===== Pickers: rope length / speed / buoys ===== */
+  /* ===== Pickers ===== */
   var LINE_PICKER_OPTIONS = [
-    { label:'18.25m', value:'18' },
-    { label:'16m', value:'16' },
-    { label:'14.25m', value:'14' },
-    { label:'13m', value:'13' },
-    { label:'12m', value:'12' },
-    { label:'11.25m', value:'11' },
-    { label:'10.75m', value:'10.7' },
-    { label:'10.25m', value:'10.2' },
-    { label:'9.75m', value:'9.7' }
+    { label:'18.25m', value:'18' }, { label:'16m', value:'16' }, { label:'14.25m', value:'14' },
+    { label:'13m', value:'13' }, { label:'12m', value:'12' }, { label:'11.25m', value:'11' },
+    { label:'10.75m', value:'10.7' }, { label:'10.25m', value:'10.2' }, { label:'9.75m', value:'9.7' }
   ];
-
-  function speedPickerOptions(){
-    var max = state.gender === 'f' ? 55 : 58;
-    var out = [];
-    for(var s = 25; s <= max; s += 3){ out.push({ label: s + ' km/h', value: s }); }
-    return out;
-  }
-
   var BUOY_PICKER_OPTIONS = (function(){
     var out = [];
     for(var b = 1; b <= 6; b++){
-      out.push({ label: String(b), value: b });
-      out.push({ label: b + '.25', value: b + 0.25 });
-      out.push({ label: b + '.5', value: b + 0.5 });
+      out.push({ label:String(b), value:b });
+      out.push({ label:b + '.25', value:b + 0.25 });
+      out.push({ label:b + '.5', value:b + 0.5 });
     }
     return out;
   })();
 
+  function speedPickerOptions(){
+    var cfg = catConfig();
+    var out = [];
+    for(var s = cfg.startSpeed; s <= cfg.topSpeed; s += 3){ out.push({ label:s + ' km/h', value:s }); }
+    return out;
+  }
+
   var pickerTargetId = null;
   var pickerReturnScreen = null;
 
-  // The picker is a transient overlay, not a real navigation step — it must not
-  // touch the history stack, or "back" ends up re-showing the picker instead of
-  // the screen that came before the one that opened it.
   function showScreenNoHistory(id){
     document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
@@ -997,7 +979,6 @@
   function openPicker(kind, targetId, returnScreen){
     pickerTargetId = targetId;
     pickerReturnScreen = returnScreen;
-
     var options, title;
     if(kind === 'line'){ options = LINE_PICKER_OPTIONS; title = 'Rope length'; }
     else if(kind === 'speed'){ options = speedPickerOptions(); title = 'Speed'; }
@@ -1013,7 +994,6 @@
       btn.onclick = function(){ selectPickerValue(opt.value); };
       grid.appendChild(btn);
     });
-
     showScreenNoHistory('screen-picker');
   }
 
@@ -1022,251 +1002,148 @@
     showScreenNoHistory(pickerReturnScreen);
   }
 
-  function closePicker(){
-    showScreenNoHistory(pickerReturnScreen);
+  function closePicker(){ showScreenNoHistory(pickerReturnScreen); }
+
+  /* ===== Modals ===== */
+  function openModal(id){ document.getElementById(id).classList.add('active'); }
+  function closeModal(id){ document.getElementById(id).classList.remove('active'); }
+
+  /* ===== Smart advance: skip anything already filled for this category ===== */
+  var JUNIOR_STEPS = ['ich-slalom','top1-slalom','konk-slalom','trick-ich','trick-top1','trick-konk','jump-ich','jump-top1','jump-konk'];
+  var JUNIOR_SCREEN_FOR = {
+    'ich-slalom':'screen-ich', 'top1-slalom':'screen-top1', 'konk-slalom':'screen-konk-slalom',
+    'trick-ich':'screen-trick-ich', 'trick-top1':'screen-trick-top1', 'trick-konk':'screen-trick-konk',
+    'jump-ich':'screen-jump-ich', 'jump-top1':'screen-jump-top1', 'jump-konk':'screen-jump-konk'
+  };
+
+  function junyStepFilled(step){
+    var c = cat();
+    if(step === 'ich-slalom') return hasValue(c.ich.speed);
+    if(step === 'top1-slalom') return hasValue(c.top1.speed);
+    if(step === 'konk-slalom') return hasValue(c.konkurrent.speed);
+    if(step === 'trick-ich') return hasValue(c.trick.ich);
+    if(step === 'trick-top1') return hasValue(c.trick.top1);
+    if(step === 'trick-konk') return hasValue(c.trick.konkurrent);
+    if(step === 'jump-ich') return hasValue(c.jump.ich);
+    if(step === 'jump-top1') return hasValue(c.jump.top1);
+    if(step === 'jump-konk') return hasValue(c.jump.konkurrent);
+    return false;
   }
 
-  /* ===== Name editing ===== */
-  var editNameTarget = null;
-
-  function findCompetitorIdByName(name, excludeId){
-    var lname = name.trim().toLowerCase();
-    if(!lname) return null;
-    if(excludeId !== 'konkurrent' && state.konkurrentName && state.konkurrentName.trim().toLowerCase() === lname){
-      return 'konkurrent';
-    }
-    for(var i = 0; i < state.extra.length; i++){
-      var id = 'extra' + i;
-      if(id === excludeId) continue;
-      if(state.extra[i].name && state.extra[i].name.trim().toLowerCase() === lname){
-        return id;
+  function advanceJunior(afterStep){
+    var idx = afterStep ? JUNIOR_STEPS.indexOf(afterStep) : -1;
+    for(var i = idx + 1; i < JUNIOR_STEPS.length; i++){
+      if(!junyStepFilled(JUNIOR_STEPS[i])){
+        goTo(JUNIOR_SCREEN_FOR[JUNIOR_STEPS[i]]);
+        return;
       }
     }
-    return null;
-  }
-
-  function getFlatCompetitorData(id){
-    if(id === 'konkurrent'){
-      return { speed: state.konkurrent.speed, line: state.konkurrent.line, boyen: state.konkurrent.boyen, trick: state.trick.konkurrent, weite: state.jump.konkurrent };
-    }
-    var ex = state.extra[parseInt(id.slice(5))];
-    return { speed: ex.speed, line: ex.line, boyen: ex.boyen, trick: ex.trick, weite: ex.weite };
-  }
-
-  function setFlatCompetitorData(id, data){
-    if(id === 'konkurrent'){
-      state.konkurrent.speed = data.speed; state.konkurrent.line = data.line; state.konkurrent.boyen = data.boyen;
-      state.trick.konkurrent = data.trick; state.jump.konkurrent = data.weite;
-    } else {
-      var ex = state.extra[parseInt(id.slice(5))];
-      ex.speed = data.speed; ex.line = data.line; ex.boyen = data.boyen; ex.trick = data.trick; ex.weite = data.weite;
-    }
-  }
-
-  function hasValue(v){ return v !== null && v !== undefined && v !== ''; }
-
-  // Merges two competitors that now share a name into a single entry.
-  // The one just being renamed (sourceId) is treated as the latest edit, so its
-  // filled-in fields take priority; the other (targetId) only fills in the gaps.
-  // The mandatory competitor slot can't be deleted, so it's always kept as the
-  // surviving entry when either side is 'konkurrent'.
-  function mergeCompetitors(sourceId, targetId, newName){
-    var src = getFlatCompetitorData(sourceId);
-    var tgt = getFlatCompetitorData(targetId);
-
-    var srcHasSlalom = hasValue(src.speed);
-    var merged = {
-      speed: srcHasSlalom ? src.speed : tgt.speed,
-      line: srcHasSlalom ? src.line : tgt.line,
-      boyen: srcHasSlalom ? src.boyen : tgt.boyen,
-      trick: hasValue(src.trick) ? src.trick : tgt.trick,
-      weite: hasValue(src.weite) ? src.weite : tgt.weite
-    };
-
-    var survivorId = (sourceId === 'konkurrent' || targetId === 'konkurrent') ? 'konkurrent' : targetId;
-    var loserId = (survivorId === sourceId) ? targetId : sourceId;
-
-    setFlatCompetitorData(survivorId, merged);
-    if(survivorId === 'konkurrent'){ state.konkurrentName = newName; }
-    else { state.extra[parseInt(survivorId.slice(5))].name = newName; }
-
-    if(loserId !== 'konkurrent'){
-      state.extra.splice(parseInt(loserId.slice(5)), 1);
-    }
-  }
-
-  function openEditName(id, currentLabel){
-    editNameTarget = id;
-    document.getElementById('edit-name-value').value = currentLabel;
-    goTo('screen-edit-name');
-  }
-
-  // Applies a (possibly unchanged) name to a person. If it collides with a
-  // different existing competitor, merges into them and returns the id that
-  // survived — callers must use that id afterwards, since `id` itself may no
-  // longer exist (an extra that got merged away is removed).
-  function applyNameChange(id, rawValue){
-    var v = rawValue.trim();
-    if(!v) v = null;
-
-    if(id === 'ich'){
-      state.myName = v || 'Me';
-      return id;
-    }
-
-    var collision = v ? findCompetitorIdByName(v, id) : null;
-    if(collision){
-      mergeCompetitors(id, collision, v);
-      return collision;
-    } else if(id === 'konkurrent'){
-      state.konkurrentName = v;
-    } else if(id.indexOf('extra') === 0){
-      state.extra[parseInt(id.slice(5))].name = v;
-    }
-    return id;
-  }
-
-  function saveEditName(){
-    applyNameChange(editNameTarget, document.getElementById('edit-name-value').value);
     renderAll();
     goTo('screen-results');
   }
 
-  var resetArmed = false;
-  var resetArmTimeout = null;
-
-  function confirmReset(){
-    var btn = document.getElementById('refresh-btn');
-    if(!resetArmed){
-      resetArmed = true;
-      btn.textContent = '✓';
-      btn.title = 'Tap again to confirm';
-      clearTimeout(resetArmTimeout);
-      resetArmTimeout = setTimeout(function(){
-        resetArmed = false;
-        btn.textContent = '↻';
-        btn.title = 'Start over';
-      }, 3000);
-    } else {
-      clearTimeout(resetArmTimeout);
-      resetArmed = false;
-      btn.textContent = '↻';
-      btn.title = 'Start over';
-      resetApp();
-    }
-  }
-
-  var STORAGE_KEY = 'overall-entries';
-
-  function persistState(){
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch(e){
-      console.error('Speichern fehlgeschlagen', e);
-    }
-  }
-
-  function clearPersistedState(){
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch(e){
-      // nothing was stored yet — fine
-    }
-  }
-
-  function openModal(id){
-    document.getElementById(id).classList.add('active');
-  }
-
-  function closeModal(id){
-    document.getElementById(id).classList.remove('active');
-  }
-
-  var neededBetaShown = false;
-
-  function handleDeltaFocus(){
-    if(!neededBetaShown){
-      document.getElementById('delta-overall').blur(); // dismiss the keyboard, show the notice first
-      openModal('modal-needed-beta');
-    }
-  }
-
-  function closeNeededBetaModal(){
-    closeModal('modal-needed-beta');
-    neededBetaShown = true;
-    document.getElementById('delta-overall').focus();
-  }
-
-  function loadPersistedState(){
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if(raw){
-        var loaded = JSON.parse(raw);
-        state = Object.assign(freshState(), loaded);
-        renderAll();
-        goTo('screen-results');
-      }
-    } catch(e){
-      // nothing stored yet, or read failed — stay on the home screen
-    }
-    openModal('modal-testing');
-  }
-
-  function resetApp(){
-    state = freshState();
-    document.querySelectorAll('input').forEach(function(inp){ inp.value = ''; });
-    document.getElementById('needed-table').style.display = 'none';
-    document.getElementById('add-konkurrent-btn').style.display = 'block';
-    neededBetaShown = false;
-    clearPersistedState();
-    goTo('screen-home');
-    openModal('modal-testing');
-  }
-
   function saveMyName(){
     var v = document.getElementById('in-myname').value.trim();
-    state.myName = v || 'Me';
-    proceedAfterName();
+    if(!v){ return; } // name is required — don't proceed without it
+    cat().myName = v;
+    advanceJunior(null);
   }
 
-  /* ===== Calc engine, ported from Overall.xlsx ===== */
-
-  // Builds the full list of entered people, each with a stable id for editing
-  function buildPeople(){
-    var people = [];
-    people.push({ id:'ich', label: state.myName || 'Me', cls:'r-ich', visible:true, slalom: state.ich, trick: state.trick.ich, weite: state.jump.ich });
-    people.push({ id:'top1', label:'#1', cls:'r-top1', visible:false, slalom: state.top1, trick: state.trick.top1, weite: state.jump.top1 });
-    people.push({ id:'konkurrent', label: state.konkurrentName || 'Competitor 1', cls:'r-konk', visible:true, slalom: state.konkurrent, trick: state.trick.konkurrent, weite: state.jump.konkurrent });
-
-    state.extra.forEach(function(ex, i){
-      people.push({
-        id:'extra' + i,
-        label: ex.name || ('Competitor ' + (i+2)),
-        cls:'r-konk',
-        visible:true,
-        slalom: ex,
-        trick: ex.trick,
-        weite: ex.weite
-      });
-    });
-
-    return people;
+  function saveIch(){
+    var c = cat(), cfg = catConfig();
+    c.ich.speed = document.getElementById('ich-speed').value || cfg.topSpeed;
+    c.ich.line = document.getElementById('ich-line').value || 18;
+    c.ich.boyen = document.getElementById('ich-boyen').value || 0;
+    advanceJunior('ich-slalom');
   }
 
-  // Writes an edited value back into the right place in state, given a person id
-  function setTrickValue(id, v){
-    if(id === 'ich') state.trick.ich = v;
-    else if(id === 'top1') state.trick.top1 = v;
-    else if(id === 'konkurrent') state.trick.konkurrent = v;
-    else if(id.indexOf('extra') === 0) state.extra[parseInt(id.slice(5))].trick = v;
-  }
-  function setWeiteValue(id, v){
-    if(id === 'ich') state.jump.ich = v;
-    else if(id === 'top1') state.jump.top1 = v;
-    else if(id === 'konkurrent') state.jump.konkurrent = v;
-    else if(id.indexOf('extra') === 0) state.extra[parseInt(id.slice(5))].weite = v;
+  function ichIstBeste(kind){
+    var c = cat();
+    if(kind === 'slalom'){
+      document.getElementById('top1-speed').value = c.ich.speed || '';
+      document.getElementById('top1-line').value = c.ich.line || '';
+      document.getElementById('top1-boyen').value = c.ich.boyen || '';
+    } else if(kind === 'trick'){
+      document.getElementById('trick-top1-punkte').value = c.trick.ich || '';
+    } else if(kind === 'jump'){
+      document.getElementById('jump-top1-weite').value = c.jump.ich || '';
+    }
   }
 
+  function konkurrentIstBeste(kind){
+    var c = cat();
+    if(kind === 'slalom'){
+      document.getElementById('konk-speed').value = c.top1.speed || '';
+      document.getElementById('konk-line').value = c.top1.line || '';
+      document.getElementById('konk-boyen').value = c.top1.boyen || '';
+    } else if(kind === 'trick'){
+      document.getElementById('trick-konk-punkte').value = c.trick.top1 || '';
+    } else if(kind === 'jump'){
+      document.getElementById('jump-konk-weite').value = c.jump.top1 || '';
+    }
+  }
+
+  function saveTop1(){
+    var c = cat(), cfg = catConfig();
+    c.top1.speed = document.getElementById('top1-speed').value || cfg.topSpeed;
+    c.top1.line = document.getElementById('top1-line').value || 18;
+    c.top1.boyen = document.getElementById('top1-boyen').value || 0;
+    document.getElementById('konk-name').value = c.konkurrentName || '';
+    advanceJunior('top1-slalom');
+  }
+
+  function saveKonkurrentSlalom(){
+    var c = cat(), cfg = catConfig();
+    var name = document.getElementById('konk-name').value.trim();
+    if(name) c.konkurrentName = name;
+    c.konkurrent.speed = document.getElementById('konk-speed').value || cfg.topSpeed;
+    c.konkurrent.line = document.getElementById('konk-line').value || 18;
+    c.konkurrent.boyen = document.getElementById('konk-boyen').value || 0;
+    advanceJunior('konk-slalom');
+  }
+
+  function saveTrickIch(){
+    cat().trick.ich = document.getElementById('trick-ich-punkte').value || 0;
+    advanceJunior('trick-ich');
+  }
+
+  function saveTrickTop1(){
+    var c = cat();
+    c.trick.top1 = document.getElementById('trick-top1-punkte').value || 0;
+    document.getElementById('trick-konk-name').value = c.konkurrentName || '';
+    advanceJunior('trick-top1');
+  }
+
+  function saveTrickKonk(){
+    var c = cat();
+    var name = document.getElementById('trick-konk-name').value.trim();
+    if(name) c.konkurrentName = name;
+    c.trick.konkurrent = document.getElementById('trick-konk-punkte').value || 0;
+    advanceJunior('trick-konk');
+  }
+
+  function saveJumpIch(){
+    cat().jump.ich = document.getElementById('jump-ich-weite').value || 0;
+    advanceJunior('jump-ich');
+  }
+
+  function saveJumpTop1(){
+    var c = cat();
+    c.jump.top1 = document.getElementById('jump-top1-weite').value || 0;
+    document.getElementById('jump-konk-name').value = c.konkurrentName || '';
+    advanceJunior('jump-top1');
+  }
+
+  function saveJumpKonk(){
+    var c = cat();
+    var name = document.getElementById('jump-konk-name').value.trim();
+    if(name) c.konkurrentName = name;
+    c.jump.konkurrent = document.getElementById('jump-konk-weite').value || 0;
+    renderAll();
+    goTo('screen-results');
+  }
+
+  /* ===== Calc engine ===== */
   function lengthToIndex(len){
     len = parseFloat(len);
     if(len === 18) return 0;
@@ -1281,11 +1158,6 @@
     return 8;
   }
 
-  // E4/H4/K4 style: raw slalom score = (speedSteps + lengthIndex) * 6 + boyen
-  function startSpeedDefault(){
-    return hasValue(state.startSpeed) ? parseFloat(state.startSpeed) : (state.gender === 'f' ? 34 : 37);
-  }
-
   function slalomRaw(person, startSpeed){
     var speed = hasValue(person.speed) ? parseFloat(person.speed) : startSpeed;
     var line = hasValue(person.line) ? person.line : 18;
@@ -1296,283 +1168,314 @@
   }
 
   function slalomLabel(person){
-    var speed = hasValue(person.speed) ? person.speed : startSpeedDefault();
+    var cfg = catConfig();
+    var speed = hasValue(person.speed) ? person.speed : cfg.startSpeed;
     var line = hasValue(person.line) ? person.line : 18;
     var boyen = hasValue(person.boyen) ? person.boyen : 0;
     return boyen + '@' + line + ' ' + speed;
   }
 
-  // A3: max speed-steps allowed for the Slalom "uhr"-carry system
-  function maxSpeedSteps(startSpeed, maxSpeed){
-    return (maxSpeed - startSpeed) / 3;
+  function buildPeople(){
+    var c = cat();
+    var people = [];
+    people.push({ id:'ich', label: c.myName || 'Me', cls:'r-ich', visible:true, slalom:c.ich, trick:c.trick.ich, weite:c.jump.ich });
+    people.push({ id:'top1', label:'#1', cls:'r-top1', visible:false, slalom:c.top1, trick:c.trick.top1, weite:c.jump.top1 });
+    people.push({ id:'konkurrent', label: c.konkurrentName || 'Competitor 1', cls:'r-konk', visible:true, slalom:c.konkurrent, trick:c.trick.konkurrent, weite:c.jump.konkurrent });
+    c.extra.forEach(function(ex, i){
+      people.push({ id:'extra'+i, label: ex.name || ('Competitor '+(i+2)), cls:'r-konk', visible:true, slalom:ex, trick:ex.trick, weite:ex.weite });
+    });
+    return people;
   }
 
-  function indexToLength(idx){
-    var table = [18, 16, 14, 13, 12, 11, 10.75, 10.25, 9.75];
-    if(idx < 0) idx = 0;
-    if(idx > 8) return null;
-    return table[Math.round(idx)];
-  }
-
-  function roundToQuarter(x){
-    var n = Math.floor(x);
-    var frac = x - n;
-    if(frac === 0) return n;
-    if(frac <= 0.25) return n + 0.25;
-    if(frac <= 0.5) return n + 0.5;
-    return n + 1;
-  }
-
-  // The 3-case "how much more raw score do I need" formula (G12 / B12 in the sheet)
-  function neededRawIncrease(myPoints, myRaw, maxRaw, secondRaw, secondPoints, deltaP){
-    if(myPoints + deltaP <= 1000){
-      return (myPoints + deltaP) * maxRaw / 1000 - myRaw;
-    } else if(myPoints === 1000){
-      return 1000 * secondRaw / (secondPoints - deltaP) - myRaw;
-    } else {
-      return 1000 * maxRaw / (2000 - deltaP - myPoints) - myRaw;
+  function getCategoryTrialOverride(id, domain){
+    var c = cat();
+    var obj;
+    if(id === 'ich') obj = c.trialOverrides.ich;
+    else if(id === 'top1') obj = c.trialOverrides.top1;
+    else if(id === 'konkurrent') obj = c.trialOverrides.konkurrent;
+    else if(id.indexOf('extra') === 0){
+      var ex = c.extra[parseInt(id.slice(5))];
+      if(!ex.trialOverrides) ex.trialOverrides = { slalom:null, trick:null, weite:null };
+      obj = ex.trialOverrides;
     }
+    return obj ? obj[domain] : null;
   }
 
-  // Builds {id, raw, points} for every person in a discipline, sorted by raw descending
+  // Same shape as buildPeople(), but with any active category-level trial
+  // values swapped in — used for every calculation/display, never for editing
+  // (editing must mutate the real objects buildPeople() returns).
+  function effectivePeopleForCategory(){
+    return buildPeople().map(function(p){
+      var so = getCategoryTrialOverride(p.id, 'slalom');
+      var to = getCategoryTrialOverride(p.id, 'trick');
+      var wo = getCategoryTrialOverride(p.id, 'weite');
+      return {
+        id:p.id, label:p.label, cls:p.cls, visible:p.visible,
+        slalom: so || p.slalom,
+        trick: hasValue(to) ? to : p.trick,
+        weite: hasValue(wo) ? wo : p.weite
+      };
+    });
+  }
+
+  // Points for a discipline: Slalom/Trick use plain proportion (max=1000);
+  // Jump uses this category's FIXED offset (not the 40%-of-best rule).
   function disciplinePool(kind, startSpeed){
-    var people = buildPeople();
+    var people = effectivePeopleForCategory();
     var entries = people.map(function(p){
       var raw;
       if(kind === 'slalom') raw = slalomRaw(p.slalom, startSpeed);
       else if(kind === 'trick') raw = hasValue(p.trick) ? parseFloat(p.trick) : 0;
       else raw = hasValue(p.weite) ? parseFloat(p.weite) : 0;
-      return { id: p.id, person: p, raw: raw };
+      return { id:p.id, person:p, raw:raw };
     });
 
     var maxRaw = Math.max.apply(null, entries.map(function(e){ return e.raw; }));
 
     if(kind === 'jump'){
-      var offset = Math.round(0.4 * maxRaw);
+      var offset = catConfig().jumpOffset;
       var span = maxRaw - offset;
-      entries.forEach(function(e){ e.points = span !== 0 ? Math.round((1000 * (e.raw - offset) / span) * 100) / 100 : 0; });
+      entries.forEach(function(e){ e.points = span !== 0 ? Math.round((1000*(e.raw-offset)/span)*100)/100 : 0; });
     } else {
-      entries.forEach(function(e){ e.points = maxRaw !== 0 ? Math.round((1000 * e.raw / maxRaw) * 100) / 100 : 0; });
+      entries.forEach(function(e){ e.points = maxRaw !== 0 ? Math.round((1000*e.raw/maxRaw)*100)/100 : 0; });
     }
-
     entries.sort(function(a,b){ return b.raw - a.raw; });
     return entries;
   }
 
-  function neededForIch(kind, deltaP, startSpeed){
-    var pool = disciplinePool(kind, startSpeed);
-    var mine = pool.filter(function(e){ return e.id === 'ich'; })[0];
-    var leader = pool[0];
-    var second = pool[1] || leader;
-
-    var increase = neededRawIncrease(mine.points, mine.raw, leader.raw, second.raw, second.points, deltaP);
-
-    if(kind === 'slalom'){
-      var a3 = maxSpeedSteps(startSpeed, state.gender === 'f' ? 55 : 58);
-      var speedSteps = (parseFloat(state.ich.speed) - startSpeed) / 3;
-      var lengthIndex = lengthToIndex(state.ich.line);
-      var boyen = parseFloat(state.ich.boyen);
-
-      var totalBuoy = boyen + increase;
-      var carrySteps = Math.floor(totalBuoy / 6);
-      var e11 = totalBuoy - 6 * carrySteps;
-      var availableRoom = a3 - speedSteps;
-
-      var newSpeedSteps, newLengthIndex;
-      if(carrySteps <= availableRoom){
-        newSpeedSteps = speedSteps + carrySteps;
-        newLengthIndex = lengthIndex;
-      } else {
-        newSpeedSteps = a3;
-        newLengthIndex = lengthIndex + carrySteps - availableRoom;
-      }
-      var e12 = roundToQuarter(e11);
-      var newLength = indexToLength(newLengthIndex);
-      var newSpeed = newSpeedSteps * 3 + startSpeed;
-
-      return {
-        target: newLength === null ? 'out of range' : (e12 + '@' + newLength + 'm ' + newSpeed + 'km/h'),
-        increase: '+' + (Math.ceil(increase * 1000) / 1000)
-      };
-    } else if(kind === 'trick'){
-      var target = Math.ceil((mine.raw + increase) / 10) * 10;
-      return { target: target, increase: '+' + Math.ceil((target - mine.raw) / 10) * 10 };
-    } else {
-      var maxRawJump = leader.raw;
-      var offsetJump = Math.round(0.4 * maxRawJump);
-      var targetJ;
-      if(mine.points + deltaP <= 1000){
-        targetJ = offsetJump + (mine.points + deltaP) * (maxRawJump - offsetJump) / 1000;
-      } else if(mine.points === 1000){
-        targetJ = offsetJump + 1000 * (second.raw - offsetJump) / (second.points - deltaP);
-      } else {
-        targetJ = offsetJump + 1000 * (maxRawJump - offsetJump) / (2000 - deltaP - mine.points);
-      }
-      targetJ = Math.ceil(targetJ * 10) / 10;
-      return { target: targetJ + 'm', increase: '+' + (Math.round((targetJ - mine.raw) * 100) / 100) + 'm' };
-    }
-  }
-
-  function renderNeeded(){
-    var val = document.getElementById('delta-overall').value;
-    var table = document.getElementById('needed-table');
-    if(!val){
-      table.style.display = 'none';
-      return;
-    }
-    var deltaP = parseFloat(val);
-    var startSpeed = parseFloat(state.startSpeed);
-    var domains = activeDomains();
-
-    document.getElementById('needed-thead-row').innerHTML =
-      '<th></th>' + domains.map(domainHeaderCell).join('');
-
-    var results = {};
-    domains.forEach(function(d){ results[d] = neededForIch(d, deltaP, startSpeed); });
-
-    document.getElementById('needed-tbody').innerHTML =
-      '<tr><td class="name">Target</td>' + domains.map(function(d){ return '<td>' + results[d].target + '</td>'; }).join('') + '</tr>' +
-      '<tr><td class="name">Increase</td>' + domains.map(function(d){ return '<td>' + results[d].increase + '</td>'; }).join('') + '</tr>';
-    table.style.display = 'table';
-  }
-
-  function activeDomains(){
-    if(state.mode === 'overall') return ['slalom','trick','jump'];
-    return [state.mode];
-  }
-
-  function domainLabel(d){
-    return d.charAt(0).toUpperCase() + d.slice(1);
-  }
-
-  function domainHeaderCell(d){
-    return '<th>' + domainLabel(d) + '</th>';
-  }
+  function domainLabel(d){ return d.charAt(0).toUpperCase() + d.slice(1); }
 
   function renderAll(){
-    var startSpeed = startSpeedDefault();
-    var people = buildPeople();
+    var cfg = catConfig();
+    var startSpeed = cfg.startSpeed;
+    var people = effectivePeopleForCategory();
     var visible = people.filter(function(p){ return p.visible; });
-    var domains = activeDomains();
-    var isOverall = state.mode === 'overall';
+    var domains = ['slalom','trick','jump'];
+
+    document.getElementById('results-title').textContent = cfg.label + ' — Overall';
 
     var pools = {};
     domains.forEach(function(d){ pools[d] = disciplinePool(d, startSpeed); });
-
     function pts(d, id){
       var e = pools[d].filter(function(x){ return x.id === id; })[0];
       return e ? e.points : 0;
     }
 
-    document.getElementById('results-section-label').textContent = isOverall ? 'Overall' : domainLabel(state.mode);
+    function nameWithTeam(p){
+      var teamName = findTeamForMember(state.currentCategory, p.id);
+      return p.label + (teamName ? ' <span style="color:var(--dim); font-size:10px;">(' + teamName + ')</span>' : '');
+    }
 
-    // ===== Table 1: points per domain (+ Overall total when in Overall mode) =====
-    document.getElementById('results-thead-row').innerHTML =
-      '<th></th>' + domains.map(domainHeaderCell).join('') +
-      (isOverall ? '<th>Overall</th>' : '');
-
+    // Table 1: points + Overall total
     var tbody = document.getElementById('results-tbody');
     tbody.innerHTML = '';
     visible.forEach(function(p){
-      var cells = domains.map(function(d){ return '<td>' + pts(d, p.id) + '</td>'; }).join('');
-      var overallCell = '';
-      if(isOverall){
-        var sum = domains.reduce(function(acc, d){ return acc + pts(d, p.id); }, 0);
-        overallCell = '<td class="overall">' + (Math.round(sum * 100) / 100) + '</td>';
-      }
+      var anyTrial = domains.some(function(d){ return getFlag(p.id, d === 'jump' ? 'weite' : d); });
+      var cells = domains.map(function(d){
+        var flagKey = d === 'jump' ? 'weite' : d;
+        var cls = getFlag(p.id, flagKey) ? ' class="trial"' : '';
+        return '<td' + cls + '>' + pts(d,p.id) + '</td>';
+      }).join('');
+      var sum = domains.reduce(function(acc,d){ return acc + pts(d,p.id); }, 0);
       var tr = document.createElement('tr');
       tr.className = p.cls;
-      tr.innerHTML = '<td class="name">' + p.label + '</td>' + cells + overallCell;
+      tr.innerHTML = '<td class="name">' + nameWithTeam(p) + '</td>' + cells + '<td class="overall' + (anyTrial ? ' trial' : '') + '">' + (Math.round(sum*100)/100) + '</td>';
       tbody.appendChild(tr);
     });
 
-    // ===== Table 2: Performances (raw values, editable) =====
-    // In Overall mode, Table 1 has an extra "Overall" column — add a blank
-    // trailing column here too so all tables share the same column count and
-    // the Slalom/Trick/Jump columns line up exactly across every table.
-    document.getElementById('perf-thead-row').innerHTML =
-      '<th></th>' + domains.map(domainHeaderCell).join('') + (isOverall ? '<th></th>' : '');
-
-    function perfCell(d, p){
+    // Table 2: Performances (editable)
+    function perfCell(d,p){
+      var flagKey = d === 'jump' ? 'weite' : d;
+      var trialCls = getFlag(p.id, flagKey) ? ' trial' : '';
       if(d === 'slalom'){
-        return '<td class="editable" onclick="openEditSlalom(\'' + p.id + '\',\'' + p.label + '\')">' + slalomLabel(p.slalom) + '</td>';
+        return '<td class="editable'+trialCls+'" onclick="openEditSlalom(\''+p.id+'\',\''+p.label+'\')">'+slalomLabel(p.slalom)+'</td>';
       } else if(d === 'trick'){
         var t = hasValue(p.trick) ? p.trick : 0;
-        return '<td class="editable" onclick="openEditScalar(\'' + p.id + '\',\'trick\',\'' + p.label + '\')">' + t + '</td>';
+        return '<td class="editable'+trialCls+'" onclick="openEditScalar(\''+p.id+'\',\'trick\',\''+p.label+'\')">'+t+'</td>';
       } else {
         var w = hasValue(p.weite) ? p.weite : 0;
-        return '<td class="editable" onclick="openEditScalar(\'' + p.id + '\',\'weite\',\'' + p.label + '\')">' + w + 'm</td>';
+        return '<td class="editable'+trialCls+'" onclick="openEditScalar(\''+p.id+'\',\'weite\',\''+p.label+'\')">'+w+'m</td>';
       }
     }
-
     var perfBody = document.getElementById('perf-tbody');
     perfBody.innerHTML = '';
     visible.forEach(function(p){
-      var cells = domains.map(function(d){ return perfCell(d, p); }).join('');
+      var cells = domains.map(function(d){ return perfCell(d,p); }).join('');
       var tr = document.createElement('tr');
       tr.className = p.cls;
-      tr.innerHTML =
-        '<td class="name editable" onclick="openEditName(\'' + p.id + '\',\'' + p.label + '\')">' + p.label + '</td>' + cells + (isOverall ? '<td></td>' : '');
+      tr.innerHTML = '<td class="name editable" onclick="openEditName(\''+p.id+'\',\''+p.label+'\')">'+nameWithTeam(p)+'</td>'+cells;
       perfBody.appendChild(tr);
     });
 
-    // ===== Table 3: Best performances (pools are sorted by raw value, so [0] is the leader) =====
-    document.getElementById('best-thead-row').innerHTML =
-      '<th></th>' + domains.map(domainHeaderCell).join('') + (isOverall ? '<th></th>' : '');
-
+    // Table 3: Best performances
     function bestCell(d){
       var leader = pools[d][0].person;
-      if(d === 'slalom') return '<td>' + slalomLabel(leader.slalom) + '</td>';
-      if(d === 'trick') return '<td>' + (hasValue(leader.trick) ? leader.trick : 0) + '</td>';
-      return '<td>' + (hasValue(leader.weite) ? leader.weite : 0) + 'm</td>';
+      if(d === 'slalom') return '<td>'+slalomLabel(leader.slalom)+'</td>';
+      if(d === 'trick') return '<td>'+(hasValue(leader.trick)?leader.trick:0)+'</td>';
+      return '<td>'+(hasValue(leader.weite)?leader.weite:0)+'m</td>';
     }
-
-    document.getElementById('best-tbody').innerHTML = '<tr><td class="name">Best Scores</td>' + domains.map(bestCell).join('') + (isOverall ? '<td></td>' : '') + '</tr>';
+    document.getElementById('best-tbody').innerHTML = '<tr><td class="name">Best Scores</td>'+domains.map(bestCell).join('')+'</tr>';
 
     var addBtn = document.getElementById('add-konkurrent-btn');
-    addBtn.style.display = state.extra.length >= 4 ? 'none' : 'block';
+    addBtn.style.display = cat().extra.length >= 11 ? 'none' : 'block'; // cap: 12 competitors total (1 mandatory + 11 extra)
 
-    renderNeeded(); // keep the "how many more points" table in sync with every change
     persistState();
   }
 
-  // ===== Edit dialogs =====
+  /* ===== Edit dialogs ===== */
   var editTarget = { id:null, kind:null };
+  var editNameTarget = null;
 
   function personRole(id){
     if(id === 'ich') return 'role-me';
     if(id === 'top1') return 'role-best';
-    return 'role-competitor'; // 'konkurrent' or any 'extraN'
+    return 'role-competitor';
+  }
+
+  function setTrickValue(id, v){
+    var c = cat();
+    if(id === 'ich') c.trick.ich = v;
+    else if(id === 'top1') c.trick.top1 = v;
+    else if(id === 'konkurrent') c.trick.konkurrent = v;
+    else if(id.indexOf('extra')===0) c.extra[parseInt(id.slice(5))].trick = v;
+  }
+  function setWeiteValue(id, v){
+    var c = cat();
+    if(id === 'ich') c.jump.ich = v;
+    else if(id === 'top1') c.jump.top1 = v;
+    else if(id === 'konkurrent') c.jump.konkurrent = v;
+    else if(id.indexOf('extra')===0) c.extra[parseInt(id.slice(5))].weite = v;
+  }
+
+  function findCompetitorIdByName(name, excludeId){
+    var c = cat();
+    var lname = name.trim().toLowerCase();
+    if(!lname) return null;
+    if(excludeId !== 'konkurrent' && c.konkurrentName && c.konkurrentName.trim().toLowerCase() === lname) return 'konkurrent';
+    for(var i=0;i<c.extra.length;i++){
+      var id = 'extra'+i;
+      if(id === excludeId) continue;
+      if(c.extra[i].name && c.extra[i].name.trim().toLowerCase() === lname) return id;
+    }
+    return null;
+  }
+
+  function getFlatCompetitorData(id){
+    var c = cat();
+    if(id === 'konkurrent') return { speed:c.konkurrent.speed, line:c.konkurrent.line, boyen:c.konkurrent.boyen, trick:c.trick.konkurrent, weite:c.jump.konkurrent };
+    var ex = c.extra[parseInt(id.slice(5))];
+    return { speed:ex.speed, line:ex.line, boyen:ex.boyen, trick:ex.trick, weite:ex.weite };
+  }
+  function setFlatCompetitorData(id, data){
+    var c = cat();
+    if(id === 'konkurrent'){
+      c.konkurrent.speed=data.speed; c.konkurrent.line=data.line; c.konkurrent.boyen=data.boyen;
+      c.trick.konkurrent=data.trick; c.jump.konkurrent=data.weite;
+    } else {
+      var ex = c.extra[parseInt(id.slice(5))];
+      ex.speed=data.speed; ex.line=data.line; ex.boyen=data.boyen; ex.trick=data.trick; ex.weite=data.weite;
+    }
+  }
+
+  function mergeCompetitors(sourceId, targetId, newName){
+    var c = cat();
+    var src = getFlatCompetitorData(sourceId);
+    var tgt = getFlatCompetitorData(targetId);
+    var srcHasSlalom = hasValue(src.speed);
+    var merged = {
+      speed: srcHasSlalom ? src.speed : tgt.speed,
+      line: srcHasSlalom ? src.line : tgt.line,
+      boyen: srcHasSlalom ? src.boyen : tgt.boyen,
+      trick: hasValue(src.trick) ? src.trick : tgt.trick,
+      weite: hasValue(src.weite) ? src.weite : tgt.weite
+    };
+    var survivorId = (sourceId === 'konkurrent' || targetId === 'konkurrent') ? 'konkurrent' : targetId;
+    var loserId = (survivorId === sourceId) ? targetId : sourceId;
+    setFlatCompetitorData(survivorId, merged);
+    if(survivorId === 'konkurrent'){ c.konkurrentName = newName; }
+    else { c.extra[parseInt(survivorId.slice(5))].name = newName; }
+    if(loserId !== 'konkurrent'){ c.extra.splice(parseInt(loserId.slice(5)), 1); }
+  }
+
+  function applyNameChange(id, rawValue){
+    var c = cat();
+    var v = rawValue.trim();
+    if(!v) v = null;
+    if(id === 'ich'){ c.myName = v || c.myName; return id; }
+    var collision = v ? findCompetitorIdByName(v, id) : null;
+    if(collision){ mergeCompetitors(id, collision, v); return collision; }
+    else if(id === 'konkurrent'){ c.konkurrentName = v; }
+    else if(id.indexOf('extra')===0){ c.extra[parseInt(id.slice(5))].name = v; }
+    return id;
+  }
+
+  function getFlagsObj(id){
+    var c = cat();
+    if(id === 'ich') return c.flags.ich;
+    if(id === 'top1') return c.flags.top1;
+    if(id === 'konkurrent') return c.flags.konkurrent;
+    if(id.indexOf('extra') === 0){
+      var ex = c.extra[parseInt(id.slice(5))];
+      if(!ex.flags) ex.flags = { slalom:false, trick:false, weite:false };
+      return ex.flags;
+    }
+    return {};
+  }
+  function setFlag(id, domain, isTrial){ getFlagsObj(id)[domain] = isTrial; }
+  function getFlag(id, domain){ return !!getFlagsObj(id)[domain]; }
+
+  function openEditName(id, currentLabel){
+    editNameTarget = id;
+    document.getElementById('edit-name-value').value = currentLabel;
+    goTo('screen-edit-name');
+  }
+  function saveEditName(){
+    applyNameChange(editNameTarget, document.getElementById('edit-name-value').value);
+    renderAll();
+    goTo('screen-results');
   }
 
   function openEditSlalom(id, label){
     editTarget = { id:id, kind:'slalom' };
-    var people = buildPeople();
-    var p = people.filter(function(x){ return x.id === id; })[0];
+    var p = buildPeople().filter(function(x){ return x.id===id; })[0];
+    var cfg = catConfig();
     document.getElementById('edit-slalom-title').textContent = label;
     document.getElementById('edit-slalom-name').value = label;
-    document.getElementById('edit-speed').value = hasValue(p.slalom.speed) ? p.slalom.speed : startSpeedDefault();
+    document.getElementById('edit-speed').value = hasValue(p.slalom.speed) ? p.slalom.speed : cfg.startSpeed;
     document.getElementById('edit-line').value = hasValue(p.slalom.line) ? p.slalom.line : 18;
     document.getElementById('edit-boyen').value = hasValue(p.slalom.boyen) ? p.slalom.boyen : 0;
     document.getElementById('edit-slalom-form').className = 'form ' + personRole(id);
     goTo('screen-edit-slalom');
   }
+  var pendingEdit = null;
 
   function saveEditSlalom(){
+    if(editTarget.teamMember){
+      pendingEdit = {
+        context:'team',
+        type:'slalom',
+        teamMember: editTarget.teamMember,
+        speed: document.getElementById('edit-speed').value,
+        line: document.getElementById('edit-line').value,
+        boyen: document.getElementById('edit-boyen').value
+      };
+      openModal('modal-confirm-change');
+      return;
+    }
     var resolvedId = applyNameChange(editTarget.id, document.getElementById('edit-slalom-name').value);
-    var people = buildPeople();
-    var p = people.filter(function(x){ return x.id === resolvedId; })[0];
-    p.slalom.speed = document.getElementById('edit-speed').value;
-    p.slalom.line = document.getElementById('edit-line').value;
-    p.slalom.boyen = document.getElementById('edit-boyen').value;
-    renderAll();
-    goTo('screen-results');
+    pendingEdit = {
+      type:'slalom',
+      id: resolvedId,
+      speed: document.getElementById('edit-speed').value,
+      line: document.getElementById('edit-line').value,
+      boyen: document.getElementById('edit-boyen').value
+    };
+    openModal('modal-confirm-change');
   }
 
   function openEditScalar(id, kind, label){
     editTarget = { id:id, kind:kind };
-    var people = buildPeople();
-    var p = people.filter(function(x){ return x.id === id; })[0];
+    var p = buildPeople().filter(function(x){ return x.id===id; })[0];
     document.getElementById('edit-scalar-title').textContent = label;
     document.getElementById('edit-scalar-name').value = label;
     document.getElementById('edit-scalar-label').textContent = kind === 'trick' ? 'Trick points' : 'Distance';
@@ -1581,225 +1484,194 @@
     document.getElementById('edit-scalar-form').className = 'form ' + personRole(id);
     goTo('screen-edit-scalar');
   }
-
   function saveEditScalar(){
+    if(editTarget.teamMember){
+      pendingEdit = {
+        context:'team',
+        type:'scalar',
+        kind: editTarget.kind,
+        teamMember: editTarget.teamMember,
+        value: document.getElementById('edit-scalar-value').value
+      };
+      openModal('modal-confirm-change');
+      return;
+    }
     var resolvedId = applyNameChange(editTarget.id, document.getElementById('edit-scalar-name').value);
-    var v = document.getElementById('edit-scalar-value').value;
-    if(editTarget.kind === 'trick') setTrickValue(resolvedId, v);
-    else setWeiteValue(resolvedId, v);
+    pendingEdit = {
+      type:'scalar',
+      id: resolvedId,
+      kind: editTarget.kind,
+      value: document.getElementById('edit-scalar-value').value
+    };
+    openModal('modal-confirm-change');
+  }
+
+  // Applies whichever edit is pending, tagging the affected value(s) as
+  // "trial" (shown in red, stored separately, never touches real data) or
+  // an actual change (written to the real data, visible everywhere).
+  function commitPendingEdit(isTrial){
+    closeModal('modal-confirm-change');
+    if(!pendingEdit) return;
+
+    if(pendingEdit.context === 'team'){
+      commitTeamEdit(isTrial);
+      pendingEdit = null;
+      return;
+    }
+
+    var c = cat();
+    if(pendingEdit.type === 'slalom'){
+      if(isTrial){
+        var overrideObj = (pendingEdit.id==='ich') ? c.trialOverrides.ich
+          : (pendingEdit.id==='top1') ? c.trialOverrides.top1
+          : (pendingEdit.id==='konkurrent') ? c.trialOverrides.konkurrent
+          : (function(){ var ex=c.extra[parseInt(pendingEdit.id.slice(5))]; if(!ex.trialOverrides) ex.trialOverrides={slalom:null,trick:null,weite:null}; return ex.trialOverrides; })();
+        overrideObj.slalom = { speed: pendingEdit.speed, line: pendingEdit.line, boyen: pendingEdit.boyen };
+      } else {
+        var p = buildPeople().filter(function(x){ return x.id === pendingEdit.id; })[0];
+        p.slalom.speed = pendingEdit.speed;
+        p.slalom.line = pendingEdit.line;
+        p.slalom.boyen = pendingEdit.boyen;
+        clearAllTrialsFor(state.currentCategory, pendingEdit.id, 'slalom'); // an actual change wins everywhere
+      }
+      setFlag(pendingEdit.id, 'slalom', isTrial);
+    } else {
+      var domain = pendingEdit.kind === 'trick' ? 'trick' : 'weite';
+      if(isTrial){
+        var ov2 = getCategoryOverrideObj(pendingEdit.id);
+        ov2[domain] = pendingEdit.value;
+      } else {
+        if(pendingEdit.kind === 'trick') setTrickValue(pendingEdit.id, pendingEdit.value);
+        else setWeiteValue(pendingEdit.id, pendingEdit.value);
+        clearAllTrialsFor(state.currentCategory, pendingEdit.id, domain); // an actual change wins everywhere
+      }
+      setFlag(pendingEdit.id, domain, isTrial);
+    }
+
+    pendingEdit = null;
     renderAll();
     goTo('screen-results');
   }
 
+  function getCategoryOverrideObj(id){
+    var c = cat();
+    if(id === 'ich') return c.trialOverrides.ich;
+    if(id === 'top1') return c.trialOverrides.top1;
+    if(id === 'konkurrent') return c.trialOverrides.konkurrent;
+    if(id.indexOf('extra') === 0){
+      var ex = c.extra[parseInt(id.slice(5))];
+      if(!ex.trialOverrides) ex.trialOverrides = { slalom:null, trick:null, weite:null };
+      return ex.trialOverrides;
+    }
+    return null;
+  }
 
-  function setGender(g){
-    state.gender = g;
-    var speedDefault = g === 'f' ? 34 : 37;
-    var slalomSpeedDefault = g === 'f' ? 55 : 58;
-    var speedFieldIds = ['in-startspeed', 'ich-speed', 'top1-speed', 'konk-speed', 'extra-speed', 'edit-speed'];
-    speedFieldIds.forEach(function(id){
-      var el = document.getElementById(id);
-      el.placeholder = (id === 'in-startspeed') ? speedDefault : slalomSpeedDefault;
-      // a previously picked speed can exceed the newly selected gender's max (e.g. 58 picked as
-      // male, then switching to female where 55 is the ceiling) — clear it so it must be re-picked
-      if(el.value && parseFloat(el.value) > slalomSpeedDefault){
-        el.value = '';
-      }
+  // ===== Editing scores directly from the Team results screen =====
+  function openEditTeamMemberSlalom(catId, personId, label){
+    var m = { category:catId, personId:personId };
+    editTarget = { id:personId, kind:'slalom', teamMember:m };
+    withCategory(catId, function(){
+      var ov = getCategoryOverrideObj(personId);
+      var had = ov && hasValue(ov.slalom);
+      var saved = ov ? ov.slalom : undefined;
+      var override = getTeamTrialOverride(state.teams[currentTeamIndex], m, 'slalom');
+      if(hasValue(override) && ov){ ov.slalom = override; }
+      var p = effectivePeopleForCategory().filter(function(x){ return x.id === personId; })[0];
+      document.getElementById('edit-slalom-title').textContent = label;
+      document.getElementById('edit-slalom-name').value = label;
+      document.getElementById('edit-speed').value = hasValue(p.slalom.speed) ? p.slalom.speed : catConfig().startSpeed;
+      document.getElementById('edit-line').value = hasValue(p.slalom.line) ? p.slalom.line : 18;
+      document.getElementById('edit-boyen').value = hasValue(p.slalom.boyen) ? p.slalom.boyen : 0;
+      if(ov){ ov.slalom = had ? saved : null; }
     });
-    goTo('screen-startspeed');
+    document.getElementById('edit-slalom-form').className = 'form role-competitor';
+    goTo('screen-edit-slalom');
   }
 
-  // ===== Smart advance for Overall mode: skips any step whose data already =====
-  // ===== exists (e.g. from an earlier Slalom/Trick/Jump-only session).       =====
-  var OVERALL_STEPS = ['name','gender','startspeed','ich-slalom','top1-slalom','konk-slalom','trick-ich','trick-top1','trick-konk','jump-ich','jump-top1','jump-konk'];
-
-  var OVERALL_SCREEN_FOR = {
-    'name':'screen-name', 'gender':'screen-gender', 'startspeed':'screen-startspeed',
-    'ich-slalom':'screen-ich', 'top1-slalom':'screen-top1', 'konk-slalom':'screen-konk-slalom',
-    'trick-ich':'screen-trick-ich', 'trick-top1':'screen-trick-top1', 'trick-konk':'screen-trick-konk',
-    'jump-ich':'screen-jump-ich', 'jump-top1':'screen-jump-top1', 'jump-konk':'screen-jump-konk'
-  };
-
-  function overallStepFilled(step){
-    if(step === 'name') return !!state.myName;
-    if(step === 'gender') return !!state.gender;
-    if(step === 'startspeed') return hasValue(state.startSpeed);
-    if(step === 'ich-slalom') return hasValue(state.ich.speed);
-    if(step === 'top1-slalom') return hasValue(state.top1.speed);
-    if(step === 'konk-slalom') return hasValue(state.konkurrent.speed);
-    if(step === 'trick-ich') return hasValue(state.trick.ich);
-    if(step === 'trick-top1') return hasValue(state.trick.top1);
-    if(step === 'trick-konk') return hasValue(state.trick.konkurrent);
-    if(step === 'jump-ich') return hasValue(state.jump.ich);
-    if(step === 'jump-top1') return hasValue(state.jump.top1);
-    if(step === 'jump-konk') return hasValue(state.jump.konkurrent);
-    return false;
+  function openEditTeamMemberScalar(catId, personId, kind, label){
+    var m = { category:catId, personId:personId };
+    editTarget = { id:personId, kind:kind, teamMember:m };
+    var domain = kind === 'trick' ? 'trick' : 'weite';
+    withCategory(catId, function(){
+      var ov = getCategoryOverrideObj(personId);
+      var had = ov && hasValue(ov[domain]);
+      var saved = ov ? ov[domain] : undefined;
+      var override = getTeamTrialOverride(state.teams[currentTeamIndex], m, domain);
+      if(hasValue(override) && ov){ ov[domain] = override; }
+      var p = effectivePeopleForCategory().filter(function(x){ return x.id === personId; })[0];
+      document.getElementById('edit-scalar-title').textContent = label;
+      document.getElementById('edit-scalar-name').value = label;
+      document.getElementById('edit-scalar-label').textContent = kind === 'trick' ? 'Trick points' : 'Distance';
+      var current = kind === 'trick' ? p.trick : p.weite;
+      document.getElementById('edit-scalar-value').value = hasValue(current) ? current : 0;
+      if(ov){ ov[domain] = had ? saved : null; }
+    });
+    document.getElementById('edit-scalar-form').className = 'form role-competitor';
+    goTo('screen-edit-scalar');
   }
 
-  // Jumps to whatever comes after `afterStep` (or the very first step if null)
-  // that isn't already filled in; goes straight to the results if nothing's left.
-  function advanceOverall(afterStep){
-    var idx = afterStep ? OVERALL_STEPS.indexOf(afterStep) : -1;
-    for(var i = idx + 1; i < OVERALL_STEPS.length; i++){
-      if(!overallStepFilled(OVERALL_STEPS[i])){
-        goTo(OVERALL_SCREEN_FOR[OVERALL_STEPS[i]]);
-        return;
+  function commitTeamEdit(isTrial){
+    var m = pendingEdit.teamMember;
+    var team = state.teams[currentTeamIndex];
+    if(!team.trialOverrides) team.trialOverrides = {};
+
+    if(pendingEdit.type === 'slalom'){
+      var domain = 'slalom';
+      if(isTrial){
+        var key = m.category + '|' + m.personId + '|' + domain;
+        team.trialOverrides[key] = { speed: pendingEdit.speed, line: pendingEdit.line, boyen: pendingEdit.boyen };
+      } else {
+        withCategory(m.category, function(){
+          var p = buildPeople().filter(function(x){ return x.id === m.personId; })[0];
+          p.slalom.speed = pendingEdit.speed;
+          p.slalom.line = pendingEdit.line;
+          p.slalom.boyen = pendingEdit.boyen;
+        });
+        clearAllTrialsFor(m.category, m.personId, domain); // an actual change wins everywhere
+      }
+    } else {
+      var domain2 = pendingEdit.kind === 'trick' ? 'trick' : 'weite';
+      if(isTrial){
+        var key2 = m.category + '|' + m.personId + '|' + domain2;
+        team.trialOverrides[key2] = pendingEdit.value;
+      } else {
+        withCategory(m.category, function(){
+          if(pendingEdit.kind === 'trick') setTrickValue(m.personId, pendingEdit.value);
+          else setWeiteValue(m.personId, pendingEdit.value);
+        });
+        clearAllTrialsFor(m.category, m.personId, domain2); // an actual change wins everywhere
       }
     }
-    renderAll();
-    goTo('screen-results');
-  }
 
-  // The direct "Overall" shortcut button — jumps straight to the results using
-  // whatever's already been entered, only asking for what's still missing.
-  function goToOverallDirect(){
-    state.mode = 'overall';
-    renderAll();
-    goTo('screen-results');
-  }
-
-  function saveStartSpeed(){
-    var def = state.gender === 'f' ? 34 : 37;
-    state.startSpeed = document.getElementById('in-startspeed').value || def;
-    if(state.mode === 'overall'){ advanceOverall('startspeed'); }
-    else { goTo('screen-ich'); }
-  }
-
-  function saveIch(){
-    var speedDef = state.gender === 'f' ? 55 : 58;
-    state.ich.speed = document.getElementById('ich-speed').value || speedDef;
-    state.ich.line = document.getElementById('ich-line').value || 18;
-    state.ich.boyen = document.getElementById('ich-boyen').value || 0;
-    if(state.mode === 'overall'){ advanceOverall('ich-slalom'); }
-    else { goTo('screen-top1'); }
-  }
-
-  function ichIstBeste(kind){
-    if(kind === 'slalom'){
-      document.getElementById('top1-speed').value = state.ich.speed || '';
-      document.getElementById('top1-line').value = state.ich.line || '';
-      document.getElementById('top1-boyen').value = state.ich.boyen || '';
-    } else if(kind === 'trick'){
-      document.getElementById('trick-top1-punkte').value = state.trick.ich || '';
-    } else if(kind === 'jump'){
-      document.getElementById('jump-top1-weite').value = state.jump.ich || '';
-    }
-  }
-
-  function konkurrentIstBeste(kind){
-    if(kind === 'slalom'){
-      document.getElementById('konk-speed').value = state.top1.speed || '';
-      document.getElementById('konk-line').value = state.top1.line || '';
-      document.getElementById('konk-boyen').value = state.top1.boyen || '';
-    } else if(kind === 'trick'){
-      document.getElementById('trick-konk-punkte').value = state.trick.top1 || '';
-    } else if(kind === 'jump'){
-      document.getElementById('jump-konk-weite').value = state.jump.top1 || '';
-    }
-  }
-
-  function saveTop1(){
-    var speedDef = state.gender === 'f' ? 55 : 58;
-    state.top1.speed = document.getElementById('top1-speed').value || speedDef;
-    state.top1.line = document.getElementById('top1-line').value || 18;
-    state.top1.boyen = document.getElementById('top1-boyen').value || 0;
-    document.getElementById('konk-name').value = state.konkurrentName || '';
-    if(state.mode === 'overall'){ advanceOverall('top1-slalom'); }
-    else { goTo('screen-konk-slalom'); }
-  }
-
-  function saveKonkurrentSlalom(){
-    var speedDef = state.gender === 'f' ? 55 : 58;
-    var name = document.getElementById('konk-name').value.trim();
-    if(name) state.konkurrentName = name;
-    state.konkurrent.speed = document.getElementById('konk-speed').value || speedDef;
-    state.konkurrent.line = document.getElementById('konk-line').value || 18;
-    state.konkurrent.boyen = document.getElementById('konk-boyen').value || 0;
-    if(state.mode === 'slalom'){ renderAll(); goTo('screen-results'); }
-    else { advanceOverall('konk-slalom'); } // 'overall' continues, skipping anything already filled
-  }
-
-  function saveTrickIch(){
-    state.trick.ich = document.getElementById('trick-ich-punkte').value || 0;
-    if(state.mode === 'overall'){ advanceOverall('trick-ich'); }
-    else { goTo('screen-trick-top1'); }
-  }
-
-  function saveTrickTop1(){
-    state.trick.top1 = document.getElementById('trick-top1-punkte').value || 0;
-    document.getElementById('trick-konk-name').value = state.konkurrentName || '';
-    if(state.mode === 'overall'){ advanceOverall('trick-top1'); }
-    else { goTo('screen-trick-konk'); }
-  }
-
-  function saveTrickKonk(){
-    var name = document.getElementById('trick-konk-name').value.trim();
-    if(name) state.konkurrentName = name;
-    state.trick.konkurrent = document.getElementById('trick-konk-punkte').value || 0;
-    if(state.mode === 'trick'){ renderAll(); goTo('screen-results'); }
-    else { advanceOverall('trick-konk'); } // 'overall' continues, skipping anything already filled
-  }
-
-  function saveJumpIch(){
-    state.jump.ich = document.getElementById('jump-ich-weite').value || 0;
-    if(state.mode === 'overall'){ advanceOverall('jump-ich'); }
-    else { goTo('screen-jump-top1'); }
-  }
-
-  function saveJumpTop1(){
-    state.jump.top1 = document.getElementById('jump-top1-weite').value || 0;
-    document.getElementById('jump-konk-name').value = state.konkurrentName || '';
-    if(state.mode === 'overall'){ advanceOverall('jump-top1'); }
-    else { goTo('screen-jump-konk'); }
-  }
-
-  function saveJumpKonk(){
-    var name = document.getElementById('jump-konk-name').value.trim();
-    if(name) state.konkurrentName = name;
-    state.jump.konkurrent = document.getElementById('jump-konk-weite').value || 0;
-    renderAll();
-    goTo('screen-results');
+    persistState();
+    renderTeamResults();
+    goTo('screen-team-results');
   }
 
   function startAddCompetitor(){
-    document.getElementById('extra-name').placeholder = 'Competitor ' + (state.extra.length + 2);
+    document.getElementById('extra-name').placeholder = 'Competitor ' + (cat().extra.length + 2);
     goTo('screen-extra-name');
   }
+  function extraNameNext(){ goTo('screen-extra-slalom'); }
+  function extraSlalomNext(){ goTo('screen-extra-trick'); }
+  function extraTrickNext(){ goTo('screen-extra-jump'); }
 
-  function extraNameNext(){
-    if(state.mode === 'trick'){ goTo('screen-extra-trick'); }
-    else if(state.mode === 'jump'){ goTo('screen-extra-jump'); }
-    else { goTo('screen-extra-slalom'); } // 'slalom' and 'overall' both continue to slalom
-  }
-
-  function extraSlalomNext(){
-    if(state.mode === 'slalom'){ saveExtra(); }
-    else { goTo('screen-extra-trick'); }
-  }
-
-  function extraTrickNext(){
-    if(state.mode === 'trick'){ saveExtra(); }
-    else { goTo('screen-extra-jump'); }
-  }
-
-  // Finds a mutable reference to an existing competitor's fields by name
-  // (matches the mandatory Konkurrent or any extra competitor — never "Me").
   function findCompetitorRef(name){
+    var c = cat();
     var lname = name.trim().toLowerCase();
     if(!lname) return null;
-
-    if(state.konkurrentName && state.konkurrentName.trim().toLowerCase() === lname){
+    if(c.konkurrentName && c.konkurrentName.trim().toLowerCase() === lname){
       return {
-        setSlalom: function(v){ state.konkurrent.speed = v.speed; state.konkurrent.line = v.line; state.konkurrent.boyen = v.boyen; },
-        setTrick: function(v){ state.trick.konkurrent = v; },
-        setWeite: function(v){ state.jump.konkurrent = v; }
+        setSlalom: function(v){ c.konkurrent.speed=v.speed; c.konkurrent.line=v.line; c.konkurrent.boyen=v.boyen; },
+        setTrick: function(v){ c.trick.konkurrent = v; },
+        setWeite: function(v){ c.jump.konkurrent = v; }
       };
     }
-    for(var i = 0; i < state.extra.length; i++){
-      if(state.extra[i].name && state.extra[i].name.trim().toLowerCase() === lname){
-        var ex = state.extra[i];
+    for(var i=0;i<c.extra.length;i++){
+      if(c.extra[i].name && c.extra[i].name.trim().toLowerCase() === lname){
+        var ex = c.extra[i];
         return {
-          setSlalom: function(v){ ex.speed = v.speed; ex.line = v.line; ex.boyen = v.boyen; },
+          setSlalom: function(v){ ex.speed=v.speed; ex.line=v.line; ex.boyen=v.boyen; },
           setTrick: function(v){ ex.trick = v; },
           setWeite: function(v){ ex.weite = v; }
         };
@@ -1809,7 +1681,7 @@
   }
 
   function saveExtra(){
-    var speedDef = state.gender === 'f' ? 55 : 58;
+    var c = cat(), cfg = catConfig();
     var name = document.getElementById('extra-name').value.trim();
     var rawSpeed = document.getElementById('extra-speed').value;
     var rawLine = document.getElementById('extra-line').value;
@@ -1818,21 +1690,16 @@
     var rawWeite = document.getElementById('extra-weite').value;
 
     var existing = name ? findCompetitorRef(name) : null;
-
     if(existing){
-      // Same name as an existing competitor — merge into them instead of
-      // creating a duplicate. Only overwrite the fields actually filled in
-      // this pass, so e.g. adding just a Jump score later doesn't wipe
-      // their previously entered Slalom.
       if(rawSpeed !== '' || rawLine !== '' || rawBoyen !== ''){
-        existing.setSlalom({ speed: rawSpeed || speedDef, line: rawLine || 18, boyen: rawBoyen || 0 });
+        existing.setSlalom({ speed: rawSpeed || cfg.topSpeed, line: rawLine || 18, boyen: rawBoyen || 0 });
       }
       if(rawTrick !== ''){ existing.setTrick(rawTrick); }
       if(rawWeite !== ''){ existing.setWeite(rawWeite); }
     } else {
-      state.extra.push({
+      c.extra.push({
         name: name || null,
-        speed: rawSpeed || speedDef,
+        speed: rawSpeed || cfg.topSpeed,
         line: rawLine || 18,
         boyen: rawBoyen || 0,
         trick: rawTrick || 0,
@@ -1840,7 +1707,6 @@
       });
     }
 
-    // reset the extra-entry fields for the next competitor
     document.getElementById('extra-name').value = '';
     document.getElementById('extra-speed').value = '';
     document.getElementById('extra-line').value = '';
@@ -1852,7 +1718,551 @@
     goTo('screen-results');
   }
 
-  // Comma → period, live, for every decimal input field (German keyboards default to comma)
+  /* ===== Teams ===== */
+
+  // Every named person across every started category, for the member picker
+  function findTeamForMember(catId, personId){
+    for(var i=0;i<state.teams.length;i++){
+      var team = state.teams[i];
+      if(team.members.some(function(m){ return m.category===catId && m.personId===personId; })) return team.name;
+    }
+    return null;
+  }
+
+  function getAllPeople(){
+    var out = [];
+    CATEGORY_ORDER.forEach(function(catId){
+      var c = state.categories[catId];
+      if(!hasValue(c.myName)) return; // category not started yet — nothing to pull from
+      var catLabel = CATEGORIES[catId].label;
+      out.push({ category:catId, personId:'ich', label:c.myName, categoryLabel:catLabel });
+      out.push({ category:catId, personId:'konkurrent', label:c.konkurrentName || 'Competitor 1', categoryLabel:catLabel });
+      c.extra.forEach(function(ex,i){
+        out.push({ category:catId, personId:'extra'+i, label: ex.name || ('Competitor '+(i+2)), categoryLabel:catLabel });
+      });
+    });
+    return out;
+  }
+
+  // Runs fn with state.currentCategory temporarily switched, then restores it —
+  // lets us reuse all the existing category-scoped calc functions for any member.
+  function withCategory(catId, fn){
+    var saved = state.currentCategory;
+    state.currentCategory = catId;
+    var result = fn();
+    state.currentCategory = saved;
+    return result;
+  }
+
+  // An actual (permanent) change wipes out every "just trying out" value for
+  // that same person+field, everywhere — in the category itself and in
+  // whichever team they belong to — so the new real value shows up cleanly
+  // in both places instead of being masked by a stale trial.
+  function clearAllTrialsFor(catId, personId, domain){
+    withCategory(catId, function(){
+      var ov = getCategoryOverrideObj(personId);
+      if(ov) ov[domain] = null;
+    });
+    state.teams.forEach(function(team){
+      if(!team.trialOverrides) return;
+      delete team.trialOverrides[catId + '|' + personId + '|' + domain];
+    });
+  }
+
+  function getTeamTrialOverride(team, m, domain){
+    if(!team || !team.trialOverrides) return undefined;
+    return team.trialOverrides[m.category + '|' + m.personId + '|' + domain];
+  }
+
+  function memberInfo(m){
+    return withCategory(m.category, function(){
+      var p = buildPeople().filter(function(x){ return x.id === m.personId; })[0];
+      return { name: p ? p.label : '?', categoryLabel: CATEGORIES[m.category].label };
+    });
+  }
+
+  // Runs fn with a team-level trial value (if any, for the current team)
+  // temporarily dropped into the category's own trial slot, so the existing
+  // category calc engine can be reused as-is; restores the slot afterwards.
+  function withTeamTrialBorrowed(m, domain, fn){
+    var team = state.teams[currentTeamIndex];
+    var override = getTeamTrialOverride(team, m, domain);
+    return withCategory(m.category, function(){
+      var ov = getCategoryOverrideObj(m.personId);
+      var had = ov && hasValue(ov[domain]);
+      var saved = ov ? ov[domain] : undefined;
+      if(hasValue(override) && ov){ ov[domain] = override; }
+      var result = fn();
+      if(ov){ ov[domain] = had ? saved : null; }
+      return result;
+    });
+  }
+
+  function memberRaw(m, domain){
+    return withTeamTrialBorrowed(m, domain, function(){
+      var p = effectivePeopleForCategory().filter(function(x){ return x.id === m.personId; })[0];
+      if(!p) return '–';
+      if(domain === 'slalom') return slalomLabel(p.slalom);
+      if(domain === 'trick') return hasValue(p.trick) ? p.trick : 0;
+      return (hasValue(p.weite) ? p.weite : 0) + 'm';
+    });
+  }
+
+  function memberPoints(m, domain){
+    return withTeamTrialBorrowed(m, domain, function(){
+      var pool = disciplinePool(domain, catConfig().startSpeed);
+      var e = pool.filter(function(x){ return x.id === m.personId; })[0];
+      return e ? e.points : 0;
+    });
+  }
+
+  function memberIsTrial(m, domain){
+    var team = state.teams[currentTeamIndex];
+    return hasValue(getTeamTrialOverride(team, m, domain));
+  }
+
+  function renderTeamHome(){
+    var box = document.getElementById('team-list-options');
+    box.innerHTML = '';
+    state.teams.forEach(function(team, i){
+      var scores = computeTeamScores(team);
+      var btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.style.setProperty('--accent', 'var(--green)');
+      btn.onclick = function(){ openTeamResults(i); };
+      btn.innerHTML =
+        '<span style="flex:1;">' +
+          '<span class="label">' + team.name + '</span>' +
+          '<span style="display:block; font-size:11px; color:var(--dim); margin-top:6px;">' +
+            'U14 ' + scores.u14.total + ' &nbsp;·&nbsp; U17 ' + scores.u17.total + ' &nbsp;·&nbsp; Combined ' + scores.combined +
+          '</span>' +
+        '</span>' +
+        '<span class="chev">›</span>';
+      box.appendChild(btn);
+    });
+  }
+
+  function startNewTeam(){
+    document.getElementById('team-name-input').value = '';
+    goTo('screen-team-name');
+  }
+
+  function saveTeamName(){
+    var name = document.getElementById('team-name-input').value.trim();
+    if(!name) return; // team name is required
+    state.teams.push({ name:name, members:[], trialOverrides:{} });
+    currentTeamIndex = state.teams.length - 1;
+    persistState();
+    renderTeamMembers();
+    goTo('screen-team-members');
+  }
+
+  function renderTeamMembers(){
+    var team = state.teams[currentTeamIndex];
+    document.getElementById('team-members-title').textContent = team.name;
+    var box = document.getElementById('team-members-list');
+    box.innerHTML = '';
+    var all = getAllPeople();
+    if(all.length === 0){
+      var msg = document.createElement('p');
+      msg.style.cssText = 'color:var(--dim); font-size:13px; text-align:center;';
+      msg.textContent = 'No competitors yet — add results in a category first, then come back here.';
+      box.appendChild(msg);
+      return;
+    }
+    all.forEach(function(person){
+      var isMember = team.members.some(function(m){ return m.category === person.category && m.personId === person.personId; });
+
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex; gap:8px;';
+
+      var nameBtn = document.createElement('button');
+      nameBtn.className = 'opt';
+      nameBtn.style.cssText = 'flex:1; --accent:' + (isMember ? 'var(--green)' : 'var(--line)') + ';';
+      nameBtn.onclick = function(){ openEditTeamMember(person); };
+      nameBtn.innerHTML = '<span class="label">' + person.label + '</span>' +
+        '<span class="sub" style="font-size:11px; color:var(--dim); text-align:right;">' + person.categoryLabel + '</span>';
+
+      var toggleBtn = document.createElement('button');
+      toggleBtn.className = 'opt';
+      toggleBtn.style.cssText = 'width:52px; flex-shrink:0; justify-content:center; --accent:' + (isMember ? 'var(--green)' : 'var(--line)') + ';';
+      toggleBtn.onclick = function(){ toggleTeamMember(person); };
+      toggleBtn.innerHTML = isMember ? '<span style="color:var(--green);">✓</span>' : '<span style="color:var(--dim);">+</span>';
+
+      row.appendChild(nameBtn);
+      row.appendChild(toggleBtn);
+      box.appendChild(row);
+    });
+  }
+
+  var editingMemberPerson = null;
+
+  function openEditTeamMember(person){
+    editingMemberPerson = person;
+    document.getElementById('edit-team-member-name').value = person.label;
+    document.getElementById('edit-team-member-category').textContent = person.categoryLabel;
+
+    var moveBox = document.getElementById('edit-team-member-moves');
+    moveBox.innerHTML = '';
+    state.teams.forEach(function(team, i){
+      var isCurrent = team.members.some(function(m){ return m.category===person.category && m.personId===person.personId; });
+      var btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.style.setProperty('--accent', isCurrent ? 'var(--green)' : 'var(--line)');
+      btn.onclick = function(){ moveTeamMemberTo(i); };
+      btn.innerHTML = '<span class="label">' + team.name + '</span>' + (isCurrent ? '<span class="chev" style="color:var(--green);">✓</span>' : '<span class="chev">›</span>');
+      moveBox.appendChild(btn);
+    });
+
+    goTo('screen-edit-team-member');
+  }
+
+  function moveTeamMemberTo(teamIndex){
+    removeFromAllTeams(editingMemberPerson);
+    state.teams[teamIndex].members.push({ category: editingMemberPerson.category, personId: editingMemberPerson.personId });
+    persistState();
+    openEditTeamMember(editingMemberPerson); // refresh the checkmarks
+  }
+
+  function saveEditTeamMemberName(){
+    var newName = document.getElementById('edit-team-member-name').value;
+    withCategory(editingMemberPerson.category, function(){
+      applyNameChange(editingMemberPerson.personId, newName);
+    });
+    persistState();
+    goTo('screen-team-members');
+    renderTeamMembers();
+  }
+
+  function removeFromAllTeams(person){
+    state.teams.forEach(function(team){
+      var idx = -1;
+      team.members.forEach(function(m,i){ if(m.category===person.category && m.personId===person.personId){ idx = i; } });
+      if(idx >= 0){ team.members.splice(idx,1); }
+    });
+  }
+
+  function toggleTeamMember(person){
+    var team = state.teams[currentTeamIndex];
+    var idx = -1;
+    team.members.forEach(function(m,i){ if(m.category===person.category && m.personId===person.personId){ idx = i; } });
+    if(idx >= 0){
+      team.members.splice(idx,1);
+    } else {
+      removeFromAllTeams(person); // a person belongs to at most one team at a time
+      team.members.push({ category:person.category, personId:person.personId });
+    }
+    renderTeamMembers();
+    persistState();
+  }
+
+  function finishTeamMembers(){
+    renderTeamResults();
+    goTo('screen-team-results');
+  }
+
+  function openTeamResults(i){
+    currentTeamIndex = i;
+    renderTeamResults();
+    goTo('screen-team-results');
+  }
+
+  // U14/U17 team scoring: for each event, sum the best 3 scores among that
+  // age group's team members; the U14+U17 total is just those two summed.
+  function computeTeamScores(team){
+    var domains = ['slalom','trick','jump'];
+    function ageGroupOf(catId){ return (catId === 'u14g' || catId === 'u14b') ? 'u14' : 'u17'; }
+
+    var byAge = { u14: [], u17: [] };
+    team.members.forEach(function(m){ byAge[ageGroupOf(m.category)].push(m); });
+
+    function bestThreeSum(members, domain){
+      var pts = members.map(function(m){ return memberPoints(m, domain); }).sort(function(a,b){ return b-a; });
+      return pts.slice(0,3).reduce(function(a,b){ return a+b; }, 0);
+    }
+
+    var u14 = {}, u17 = {};
+    domains.forEach(function(d){ u14[d] = Math.round(bestThreeSum(byAge.u14, d)*100)/100; });
+    domains.forEach(function(d){ u17[d] = Math.round(bestThreeSum(byAge.u17, d)*100)/100; });
+    u14.total = Math.round((u14.slalom+u14.trick+u14.jump)*100)/100;
+    u17.total = Math.round((u17.slalom+u17.trick+u17.jump)*100)/100;
+    var combined = Math.round((u14.total+u17.total)*100)/100;
+
+    return { u14:u14, u17:u17, combined:combined };
+  }
+
+  function renderTeamResults(){
+    var team = state.teams[currentTeamIndex];
+    document.getElementById('team-results-title').textContent = team.name;
+
+    var scores = computeTeamScores(team);
+    document.getElementById('team-score-u14').textContent = scores.u14.total;
+    document.getElementById('team-score-u17').textContent = scores.u17.total;
+    document.getElementById('team-score-combined').textContent = scores.combined;
+
+    var perfBody = document.getElementById('team-perf-tbody');
+    var ptsBody = document.getElementById('team-points-tbody');
+    perfBody.innerHTML = '';
+    ptsBody.innerHTML = '';
+
+    team.members.forEach(function(m){
+      var info = memberInfo(m);
+      var nameHtml = info.name + ' <span style="color:var(--dim); font-size:10px;">(' + info.categoryLabel + ')</span>';
+
+      var slalomTrial = memberIsTrial(m,'slalom') ? ' trial' : '';
+      var trickTrial = memberIsTrial(m,'trick') ? ' trial' : '';
+      var jumpTrial = memberIsTrial(m,'weite') ? ' trial' : '';
+
+      var trPerf = document.createElement('tr');
+      trPerf.innerHTML = '<td class="name">' + nameHtml + '</td>' +
+        '<td class="editable' + slalomTrial + '" onclick="openEditTeamMemberSlalom(\'' + m.category + '\',\'' + m.personId + '\',\'' + info.name + '\')">' + memberRaw(m,'slalom') + '</td>' +
+        '<td class="editable' + trickTrial + '" onclick="openEditTeamMemberScalar(\'' + m.category + '\',\'' + m.personId + '\',\'trick\',\'' + info.name + '\')">' + memberRaw(m,'trick') + '</td>' +
+        '<td class="editable' + jumpTrial + '" onclick="openEditTeamMemberScalar(\'' + m.category + '\',\'' + m.personId + '\',\'weite\',\'' + info.name + '\')">' + memberRaw(m,'jump') + '</td>';
+      perfBody.appendChild(trPerf);
+
+      var sp = memberPoints(m,'slalom'), tp = memberPoints(m,'trick'), jp = memberPoints(m,'jump');
+      var sum = Math.round((sp+tp+jp) * 100) / 100;
+      var anyTrial = slalomTrial || trickTrial || jumpTrial;
+
+      var trPts = document.createElement('tr');
+      trPts.innerHTML = '<td class="name">' + nameHtml + '</td>' +
+        '<td' + (slalomTrial?' class="trial"':'') + '>' + sp + '</td>' +
+        '<td' + (trickTrial?' class="trial"':'') + '>' + tp + '</td>' +
+        '<td' + (jumpTrial?' class="trial"':'') + '>' + jp + '</td>' +
+        '<td class="overall' + (anyTrial?' trial':'') + '">' + sum + '</td>';
+      ptsBody.appendChild(trPts);
+    });
+
+    persistState();
+  }
+
+  /* ===== Persistence ===== */
+  var STORAGE_KEY = 'junior-entries';
+  var SAVES_KEY = 'junior-saves'; // separate from STORAGE_KEY — Refresh never touches this
+
+  function persistState(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch(e){ console.error('Save failed', e); }
+  }
+  function clearPersistedState(){
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e){}
+  }
+
+  function getSavedEntries(){
+    try { return JSON.parse(localStorage.getItem(SAVES_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function setSavedEntries(obj){
+    try { localStorage.setItem(SAVES_KEY, JSON.stringify(obj)); }
+    catch(e){ console.error('Save failed', e); }
+  }
+
+  function saveCurrentAs(name){
+    if(!name) return;
+    var saves = getSavedEntries();
+    saves[name] = JSON.parse(JSON.stringify(state)); // deep snapshot
+    setSavedEntries(saves);
+  }
+
+  function loadSavedEntry(name){
+    var saves = getSavedEntries();
+    if(!saves[name]) return;
+    state = Object.assign(freshState(), JSON.parse(JSON.stringify(saves[name])));
+    migrateState();
+    currentTeamIndex = null;
+    persistState();
+    renderCategoryButtons();
+    goTo('screen-home');
+  }
+
+  function deleteSavedEntry(name){
+    var saves = getSavedEntries();
+    delete saves[name];
+    setSavedEntries(saves);
+    renderLoadList();
+  }
+
+  function exportSaveAsText(name){
+    var saves = getSavedEntries();
+    if(!saves[name]) return '';
+    return btoa(unescape(encodeURIComponent(JSON.stringify(saves[name]))));
+  }
+
+  function importSaveFromText(name, text){
+    try {
+      var decoded = JSON.parse(decodeURIComponent(escape(atob(text.trim()))));
+      var saves = getSavedEntries();
+      saves[name] = decoded;
+      setSavedEntries(saves);
+      return true;
+    } catch(e){
+      return false;
+    }
+  }
+
+  // Backfills structures that didn't exist in older saved data (flags,
+  // trialOverrides, team.trialOverrides) so loading an old save never crashes.
+  function migrateState(){
+    CATEGORY_ORDER.forEach(function(catId){
+      var c = state.categories[catId];
+      if(!c) { state.categories[catId] = freshCategoryState(); return; }
+      if(!c.flags){
+        c.flags = { ich:{slalom:false,trick:false,weite:false}, top1:{slalom:false,trick:false,weite:false}, konkurrent:{slalom:false,trick:false,weite:false} };
+      }
+      if(!c.trialOverrides){
+        c.trialOverrides = { ich:{slalom:null,trick:null,weite:null}, top1:{slalom:null,trick:null,weite:null}, konkurrent:{slalom:null,trick:null,weite:null} };
+      }
+      (c.extra || []).forEach(function(ex){
+        if(!ex.flags) ex.flags = { slalom:false, trick:false, weite:false };
+        if(!ex.trialOverrides) ex.trialOverrides = { slalom:null, trick:null, weite:null };
+      });
+    });
+    (state.teams || []).forEach(function(team){
+      if(!team.trialOverrides) team.trialOverrides = {};
+    });
+  }
+
+  function confirmSaveEntry(){
+    var name = document.getElementById('save-name-input').value.trim();
+    if(!name) return;
+    saveCurrentAs(name);
+    document.getElementById('save-name-input').value = '';
+    goTo('screen-home');
+  }
+
+  function renderLoadList(){
+    var box = document.getElementById('load-list-options');
+    box.innerHTML = '';
+    var saves = getSavedEntries();
+    var names = Object.keys(saves);
+    if(names.length === 0){
+      var msg = document.createElement('p');
+      msg.style.cssText = 'color:var(--dim); font-size:13px; text-align:center;';
+      msg.textContent = 'No saved entries yet.';
+      box.appendChild(msg);
+      return;
+    }
+    names.forEach(function(name){
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex; gap:8px;';
+
+      var loadBtn = document.createElement('button');
+      loadBtn.className = 'opt';
+      loadBtn.style.cssText = 'flex:1; --accent:var(--gold);';
+      loadBtn.onclick = function(){ loadSavedEntry(name); };
+      loadBtn.innerHTML = '<span class="label">' + name + '</span>';
+
+      var shareBtn = document.createElement('button');
+      shareBtn.className = 'opt';
+      shareBtn.style.cssText = 'width:52px; flex-shrink:0; justify-content:center; --accent:var(--line);';
+      shareBtn.onclick = function(){ openShare(name); };
+      shareBtn.innerHTML = '<span style="color:var(--dim);">↗</span>';
+
+      var delBtn = document.createElement('button');
+      delBtn.className = 'opt';
+      delBtn.style.cssText = 'width:52px; flex-shrink:0; justify-content:center; --accent:var(--red);';
+      delBtn.onclick = function(){ deleteSavedEntry(name); };
+      delBtn.innerHTML = '<span style="color:var(--red);">×</span>';
+
+      row.appendChild(loadBtn);
+      row.appendChild(shareBtn);
+      row.appendChild(delBtn);
+      box.appendChild(row);
+    });
+  }
+
+  function openShare(name){
+    var code = exportSaveAsText(name);
+    document.getElementById('share-code').value = code;
+    goTo('screen-share');
+  }
+
+  function doShare(){
+    var code = document.getElementById('share-code').value;
+    if(navigator.share){
+      navigator.share({ title:'Junior entry', text:code }).catch(function(){});
+    } else {
+      copyShareCode();
+    }
+  }
+
+  function copyShareCode(){
+    var code = document.getElementById('share-code').value;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(code).then(function(){
+        alert('Code copied — paste it on the other phone under "Import from another phone".');
+      }).catch(function(){
+        promptCopyFallback(code);
+      });
+    } else {
+      promptCopyFallback(code);
+    }
+  }
+
+  function promptCopyFallback(code){
+    var input = document.getElementById('share-code');
+    input.removeAttribute('readonly');
+    input.focus();
+    input.select();
+  }
+
+  function doImport(){
+    var name = document.getElementById('import-name').value.trim();
+    var code = document.getElementById('import-code').value.trim();
+    var status = document.getElementById('import-status');
+    if(!name || !code){
+      status.textContent = 'Enter a name and paste the code first.';
+      return;
+    }
+    var ok = importSaveFromText(name, code);
+    if(ok){
+      status.textContent = 'Imported! Find it under "Load a saved entry".';
+      document.getElementById('import-name').value = '';
+      document.getElementById('import-code').value = '';
+    } else {
+      status.textContent = "That code doesn't look right — check it was copied fully.";
+    }
+  }
+
+  function loadPersistedState(){
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){ state = Object.assign(freshState(), JSON.parse(raw)); }
+    } catch(e){}
+    migrateState();
+    renderCategoryButtons();
+    openModal('modal-testing');
+  }
+
+  var resetArmed = false;
+  var resetArmTimeout = null;
+  function confirmReset(){
+    var btn = document.getElementById('refresh-btn');
+    if(!resetArmed){
+      resetArmed = true;
+      btn.textContent = '✓';
+      btn.title = 'Tap again to confirm';
+      clearTimeout(resetArmTimeout);
+      resetArmTimeout = setTimeout(function(){
+        resetArmed = false; btn.textContent = '↻'; btn.title = 'Start over';
+      }, 3000);
+    } else {
+      clearTimeout(resetArmTimeout);
+      resetArmed = false; btn.textContent = '↻'; btn.title = 'Start over';
+      resetApp();
+    }
+  }
+  function resetApp(){
+    state = freshState();
+    currentTeamIndex = null;
+    document.querySelectorAll('input').forEach(function(inp){ inp.value = ''; });
+    clearPersistedState();
+    renderCategoryButtons();
+    goTo('screen-home');
+    openModal('modal-testing');
+  }
+
+  // Comma → period, live, for every decimal input field
   document.querySelectorAll('input[inputmode="decimal"]').forEach(function(inp){
     inp.addEventListener('input', function(){
       if(this.value.indexOf(',') !== -1){
@@ -1865,6 +2275,5 @@
 
   loadPersistedState();
 </script>
-
 </body>
 </html>
