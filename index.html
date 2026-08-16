@@ -514,7 +514,63 @@
       </table>
 
       <button class="primary" onclick="renderTeamMembers(); goTo('screen-team-members')" style="margin-top:14px;">+ Add competitor</button>
+      <button class="primary" onclick="renderTeamBestCategoryList(); goTo('screen-teambest-category')">Set Team Best</button>
       <button class="primary" onclick="startNewTeam()">+ New team</button>
+    </div>
+  </div>
+
+  <!-- TEAM BEST: CATEGORY PICKER -->
+  <div class="screen" id="screen-teambest-category">
+    <button class="back" onclick="goBack()">‹ Team</button>
+    <h1>Team Best for...</h1>
+    <p class="hint" style="max-width:380px; margin-bottom:14px;">The result of whoever the IWWF has awarded 1000 TEAM points — a different benchmark from the individual Overall best.</p>
+    <div class="options" id="teambest-category-options" style="max-width:380px;"></div>
+  </div>
+
+  <!-- TEAM BEST: SLALOM -->
+  <div class="screen" id="screen-teambest-slalom">
+    <button class="back" onclick="exitTeamBestEntry()">‹ Back</button>
+    <h1 id="teambest-slalom-title">Team Best — Slalom</h1>
+    <div class="form role-best">
+      <div class="field">
+        <label for="teambest-speed">Speed</label>
+        <input id="teambest-speed" type="text" readonly onclick="openPicker('speed','teambest-speed','screen-teambest-slalom')" />
+      </div>
+      <div class="field">
+        <label for="teambest-line">Rope length</label>
+        <input id="teambest-line" type="text" readonly onclick="openPicker('line','teambest-line','screen-teambest-slalom')" placeholder="18" />
+      </div>
+      <div class="field">
+        <label for="teambest-boyen">Number of buoys</label>
+        <input id="teambest-boyen" type="text" readonly onclick="openPicker('buoy','teambest-boyen','screen-teambest-slalom')" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveTeamBestSlalom()">Next</button>
+    </div>
+  </div>
+
+  <!-- TEAM BEST: TRICK -->
+  <div class="screen" id="screen-teambest-trick">
+    <button class="back" onclick="goBack()">‹ Back</button>
+    <h1 id="teambest-trick-title">Team Best — Trick</h1>
+    <div class="form role-best">
+      <div class="field">
+        <label for="teambest-trick-value">Trick points</label>
+        <input id="teambest-trick-value" type="text" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveTeamBestTrick()">Next</button>
+    </div>
+  </div>
+
+  <!-- TEAM BEST: JUMP -->
+  <div class="screen" id="screen-teambest-jump">
+    <button class="back" onclick="goBack()">‹ Back</button>
+    <h1 id="teambest-jump-title">Team Best — Jump</h1>
+    <div class="form role-best">
+      <div class="field">
+        <label for="teambest-jump-value">Distance</label>
+        <input id="teambest-jump-value" type="text" inputmode="decimal" placeholder="0" />
+      </div>
+      <button class="primary" onclick="saveTeamBestJump()">Save</button>
     </div>
   </div>
 
@@ -548,6 +604,7 @@
         <label for="ich-boyen">Number of buoys</label>
         <input id="ich-boyen" type="text" readonly onclick="openPicker('buoy','ich-boyen','screen-ich')" placeholder="0" />
       </div>
+      <button class="opt" id="disable-ich-slalom-btn" style="--accent:var(--line); margin-bottom:4px;" onclick="toggleEntryDisabledUI('ich','slalom','disable-ich-slalom')"><span class="label" id="disable-ich-slalom-label">Didn't compete in this event</span></button>
       <button class="primary" onclick="saveIch()">Next</button>
     </div>
   </div>
@@ -572,6 +629,7 @@
       <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('slalom')">
         <span class="label">I am the best</span>
       </button>
+      <button class="opt" id="disable-top1-slalom-btn" style="--accent:var(--line); margin-bottom:4px;" onclick="toggleEntryDisabledUI('top1','slalom','disable-top1-slalom')"><span class="label" id="disable-top1-slalom-label">Didn't compete in this event</span></button>
       <button class="primary" onclick="saveTop1()">Next</button>
     </div>
   </div>
@@ -600,6 +658,7 @@
       <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('slalom')">
         <span class="label">My competitor is the best</span>
       </button>
+      <button class="opt" id="disable-konkurrent-slalom-btn" style="--accent:var(--line); margin-bottom:4px;" onclick="toggleEntryDisabledUI('konkurrent','slalom','disable-konkurrent-slalom')"><span class="label" id="disable-konkurrent-slalom-label">Didn't compete in this event</span></button>
       <button class="primary" onclick="saveKonkurrentSlalom()">Next</button>
     </div>
   </div>
@@ -613,6 +672,7 @@
         <label for="trick-ich-punkte">Trick points</label>
         <input id="trick-ich-punkte" type="text" inputmode="decimal" placeholder="0" />
       </div>
+      <button class="opt" id="disable-ich-trick-btn" style="--accent:var(--line); margin-bottom:4px;" onclick="toggleEntryDisabledUI('ich','trick','disable-ich-trick')"><span class="label" id="disable-ich-trick-label">Didn't compete in this event</span></button>
       <button class="primary" onclick="saveTrickIch()">Next</button>
     </div>
   </div>
@@ -629,6 +689,7 @@
       <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('trick')">
         <span class="label">I am the best</span>
       </button>
+      <button class="opt" id="disable-top1-trick-btn" style="--accent:var(--line); margin-bottom:4px;" onclick="toggleEntryDisabledUI('top1','trick','disable-top1-trick')"><span class="label" id="disable-top1-trick-label">Didn't compete in this event</span></button>
       <button class="primary" onclick="saveTrickTop1()">Next</button>
     </div>
   </div>
@@ -649,6 +710,7 @@
       <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('trick')">
         <span class="label">My competitor is the best</span>
       </button>
+      <button class="opt" id="disable-konkurrent-trick-btn" style="--accent:var(--line); margin-bottom:4px;" onclick="toggleEntryDisabledUI('konkurrent','trick','disable-konkurrent-trick')"><span class="label" id="disable-konkurrent-trick-label">Didn't compete in this event</span></button>
       <button class="primary" onclick="saveTrickKonk()">Next</button>
     </div>
   </div>
@@ -662,6 +724,7 @@
         <label for="jump-ich-weite">Distance</label>
         <input id="jump-ich-weite" type="text" inputmode="decimal" placeholder="0" />
       </div>
+      <button class="opt" id="disable-ich-weite-btn" style="--accent:var(--line); margin-bottom:4px;" onclick="toggleEntryDisabledUI('ich','weite','disable-ich-weite')"><span class="label" id="disable-ich-weite-label">Didn't compete in this event</span></button>
       <button class="primary" onclick="saveJumpIch()">Next</button>
     </div>
   </div>
@@ -678,6 +741,7 @@
       <button class="opt" style="--accent:var(--gold); margin-bottom:4px;" onclick="ichIstBeste('jump')">
         <span class="label">I am the best</span>
       </button>
+      <button class="opt" id="disable-top1-weite-btn" style="--accent:var(--line); margin-bottom:4px;" onclick="toggleEntryDisabledUI('top1','weite','disable-top1-weite')"><span class="label" id="disable-top1-weite-label">Didn't compete in this event</span></button>
       <button class="primary" onclick="saveJumpTop1()">Next</button>
     </div>
   </div>
@@ -698,6 +762,7 @@
       <button class="opt" style="--accent:var(--red); margin-bottom:4px;" onclick="konkurrentIstBeste('jump')">
         <span class="label">My competitor is the best</span>
       </button>
+      <button class="opt" id="disable-konkurrent-weite-btn" style="--accent:var(--line); margin-bottom:4px;" onclick="toggleEntryDisabledUI('konkurrent','weite','disable-konkurrent-weite')"><span class="label" id="disable-konkurrent-weite-label">Didn't compete in this event</span></button>
       <button class="primary" onclick="saveJumpKonk()">Save</button>
     </div>
   </div>
@@ -878,6 +943,20 @@
         ich: { slalom:null, trick:null, weite:null },
         top1: { slalom:null, trick:null, weite:null },
         konkurrent: { slalom:null, trick:null, weite:null }
+      },
+      // Explicitly "did not compete in this event" — forces a raw score of 0,
+      // distinct from simply not having entered anything yet.
+      disabled: {
+        ich: { slalom:false, trick:false, weite:false },
+        top1: { slalom:false, trick:false, weite:false },
+        konkurrent: { slalom:false, trick:false, weite:false }
+      },
+      // The IWWF "1000 TEAM points" reference — a separate benchmark from the
+      // "1000 overall points" one (top1 above), used only for team scoring.
+      teamBest: {
+        slalom: { speed:null, line:null, boyen:null },
+        trick: null,
+        jump: null
       }
     };
   }
@@ -903,6 +982,8 @@
     document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
     currentScreen = id;
+    var t = DISABLE_TOGGLE_FOR_SCREEN[id];
+    if(t) syncDisableToggleVisual(t[0], t[1], t[2]);
   }
 
   function goBack(){
@@ -911,6 +992,8 @@
     document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
     document.getElementById(prev).classList.add('active');
     currentScreen = prev;
+    var t2 = DISABLE_TOGGLE_FOR_SCREEN[prev];
+    if(t2) syncDisableToggleVisual(t2[0], t2[1], t2[2]);
   }
 
   function hasValue(v){ return v !== null && v !== undefined && v !== ''; }
@@ -935,8 +1018,30 @@
     box.appendChild(teamBtn);
   }
 
+  var ENTRY_FIELD_IDS = [
+    'ich-speed','ich-line','ich-boyen',
+    'top1-speed','top1-line','top1-boyen',
+    'konk-speed','konk-line','konk-boyen','konk-name',
+    'trick-ich-punkte','trick-top1-punkte','trick-konk-punkte','trick-konk-name',
+    'jump-ich-weite','jump-top1-weite','jump-konk-weite','jump-konk-name'
+  ];
+
   function selectCategory(c){
     state.currentCategory = c;
+    var cfg = CATEGORIES[c];
+
+    // Never let a value typed for a previous (different) category leak in as
+    // a stale default when switching categories.
+    ENTRY_FIELD_IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.value = '';
+    });
+    // The default speed shown is this category's own maximum speed.
+    ['ich-speed','top1-speed','konk-speed'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.placeholder = cfg.topSpeed;
+    });
+
     if(!hasValue(cat().myName)){
       goTo('screen-name');
     } else {
@@ -954,8 +1059,10 @@
     var out = [];
     for(var b = 1; b <= 6; b++){
       out.push({ label:String(b), value:b });
-      out.push({ label:b + '.25', value:b + 0.25 });
-      out.push({ label:b + '.5', value:b + 0.5 });
+      if(b < 6){
+        out.push({ label:b + '.25', value:b + 0.25 });
+        out.push({ label:b + '.5', value:b + 0.5 });
+      }
     }
     return out;
   })();
@@ -1218,19 +1325,83 @@
     });
   }
 
+  function getDisabledObj(id){
+    var c = cat();
+    if(id === 'ich') return c.disabled.ich;
+    if(id === 'top1') return c.disabled.top1;
+    if(id === 'konkurrent') return c.disabled.konkurrent;
+    if(id.indexOf('extra') === 0){
+      var ex = c.extra[parseInt(id.slice(5))];
+      if(!ex.disabled) ex.disabled = { slalom:false, trick:false, weite:false };
+      return ex.disabled;
+    }
+    return null;
+  }
+  function isDisabled(id, domain){
+    var d = getDisabledObj(id);
+    return !!(d && d[domain]);
+  }
+  function toggleDisabled(id, domain){
+    var d = getDisabledObj(id);
+    if(d) d[domain] = !d[domain];
+  }
+  // Only someone who competed in ALL THREE events is eligible to BE the
+  // "1000 overall points" reference for any of them (team scoring has no
+  // such restriction — it uses its own separate Team Best benchmark).
+  function isFullyActive(id){
+    return !isDisabled(id,'slalom') && !isDisabled(id,'trick') && !isDisabled(id,'weite');
+  }
+
+  function toggleEntryDisabledUI(id, domain, btnId){
+    toggleDisabled(id, domain);
+    syncDisableToggleVisual(id, domain, btnId);
+  }
+
+  function syncDisableToggleVisual(id, domain, btnId){
+    var active = isDisabled(id, domain);
+    var btn = document.getElementById(btnId + '-btn');
+    var label = document.getElementById(btnId + '-label');
+    if(btn) btn.style.setProperty('--accent', active ? 'var(--red)' : 'var(--line)');
+    if(label) label.textContent = active ? "Didn't compete in this event ✓" : "Didn't compete in this event";
+  }
+
+  // Maps each entry screen to its disable-toggle so the button's visual state
+  // stays correct even when navigating back to an already-visited screen.
+  var DISABLE_TOGGLE_FOR_SCREEN = {
+    'screen-ich': ['ich','slalom','disable-ich-slalom'],
+    'screen-top1': ['top1','slalom','disable-top1-slalom'],
+    'screen-konk-slalom': ['konkurrent','slalom','disable-konkurrent-slalom'],
+    'screen-trick-ich': ['ich','trick','disable-ich-trick'],
+    'screen-trick-top1': ['top1','trick','disable-top1-trick'],
+    'screen-trick-konk': ['konkurrent','trick','disable-konkurrent-trick'],
+    'screen-jump-ich': ['ich','weite','disable-ich-weite'],
+    'screen-jump-top1': ['top1','weite','disable-top1-weite'],
+    'screen-jump-konk': ['konkurrent','weite','disable-konkurrent-weite']
+  };
+
   // Points for a discipline: Slalom/Trick use plain proportion (max=1000);
   // Jump uses this category's FIXED offset (not the 40%-of-best rule).
+  // A disabled event always scores raw 0; only fully-active people (did all
+  // 3 events) are eligible to set the 1000-point reference.
   function disciplinePool(kind, startSpeed){
     var people = effectivePeopleForCategory();
+    var flagKey = kind === 'jump' ? 'weite' : kind;
     var entries = people.map(function(p){
       var raw;
-      if(kind === 'slalom') raw = slalomRaw(p.slalom, startSpeed);
-      else if(kind === 'trick') raw = hasValue(p.trick) ? parseFloat(p.trick) : 0;
-      else raw = hasValue(p.weite) ? parseFloat(p.weite) : 0;
+      if(isDisabled(p.id, flagKey)){
+        raw = 0;
+      } else if(kind === 'slalom'){
+        raw = slalomRaw(p.slalom, startSpeed);
+      } else if(kind === 'trick'){
+        raw = hasValue(p.trick) ? parseFloat(p.trick) : 0;
+      } else {
+        raw = hasValue(p.weite) ? parseFloat(p.weite) : 0;
+      }
       return { id:p.id, person:p, raw:raw };
     });
 
-    var maxRaw = Math.max.apply(null, entries.map(function(e){ return e.raw; }));
+    var eligibleRaws = entries.filter(function(e){ return isFullyActive(e.id); }).map(function(e){ return e.raw; });
+    var maxRaw = eligibleRaws.length ? Math.max.apply(null, eligibleRaws) : Math.max.apply(null, entries.map(function(e){ return e.raw; }));
 
     if(kind === 'jump'){
       var offset = catConfig().jumpOffset;
@@ -1239,6 +1410,8 @@
     } else {
       entries.forEach(function(e){ e.points = maxRaw !== 0 ? Math.round((1000*e.raw/maxRaw)*100)/100 : 0; });
     }
+    entries.forEach(function(e){ e.points = Math.max(0, e.points); }); // never show negative points
+    entries.forEach(function(e){ if(isDisabled(e.id, flagKey)) e.points = 0; }); // clean 0, not a negative artifact
     entries.sort(function(a,b){ return b.raw - a.raw; });
     return entries;
   }
@@ -1799,6 +1972,7 @@
   }
 
   function memberRaw(m, domain){
+    if(domain === 'jump') domain = 'weite'; // normalize — trial storage always uses 'weite'
     return withTeamTrialBorrowed(m, domain, function(){
       var p = effectivePeopleForCategory().filter(function(x){ return x.id === m.personId; })[0];
       if(!p) return '–';
@@ -1808,17 +1982,112 @@
     });
   }
 
+  // Team points use the category's separate "Team Best" benchmark (whoever
+  // the IWWF has awarded 1000 TEAM points) — NOT the individual "Overall"
+  // 1000-point benchmark used everywhere else. A disabled event still scores
+  // 0 here too, but the "must do all 3 events" eligibility rule does NOT
+  // apply to team scoring.
   function memberPoints(m, domain){
+    if(domain === 'jump') domain = 'weite'; // normalize — trial storage always uses 'weite'
     return withTeamTrialBorrowed(m, domain, function(){
-      var pool = disciplinePool(domain, catConfig().startSpeed);
-      var e = pool.filter(function(x){ return x.id === m.personId; })[0];
-      return e ? e.points : 0;
+      var c = cat();
+      var cfg = catConfig();
+      var p = effectivePeopleForCategory().filter(function(x){ return x.id === m.personId; })[0];
+      if(!p) return 0;
+
+      var raw;
+      if(isDisabled(m.personId, domain)) raw = 0;
+      else if(domain === 'slalom') raw = slalomRaw(p.slalom, cfg.startSpeed);
+      else if(domain === 'trick') raw = hasValue(p.trick) ? parseFloat(p.trick) : 0;
+      else raw = hasValue(p.weite) ? parseFloat(p.weite) : 0;
+
+      var benchRaw;
+      if(domain === 'slalom') benchRaw = slalomRaw(c.teamBest.slalom, cfg.startSpeed);
+      else if(domain === 'trick') benchRaw = hasValue(c.teamBest.trick) ? parseFloat(c.teamBest.trick) : 0;
+      else benchRaw = hasValue(c.teamBest.jump) ? parseFloat(c.teamBest.jump) : 0;
+
+      var points;
+      if(domain === 'weite'){
+        var offset = cfg.jumpOffset;
+        var span = benchRaw - offset;
+        points = span !== 0 ? Math.round((1000*(raw-offset)/span)*100)/100 : 0;
+      } else {
+        points = benchRaw !== 0 ? Math.round((1000*raw/benchRaw)*100)/100 : 0;
+      }
+      return Math.max(0, points); // never show negative points
     });
   }
 
   function memberIsTrial(m, domain){
+    if(domain === 'jump') domain = 'weite'; // normalize — trial storage always uses 'weite'
     var team = state.teams[currentTeamIndex];
     return hasValue(getTeamTrialOverride(team, m, domain));
+  }
+
+  var teamBestCategory = null;
+
+  function renderTeamBestCategoryList(){
+    var box = document.getElementById('teambest-category-options');
+    box.innerHTML = '';
+    CATEGORY_ORDER.forEach(function(catId){
+      var cfg = CATEGORIES[catId];
+      var set = withCategory(catId, function(){ return hasValue(cat().teamBest.slalom.speed) || hasValue(cat().teamBest.trick) || hasValue(cat().teamBest.jump); });
+      var btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.style.setProperty('--accent', set ? 'var(--gold)' : 'var(--line)');
+      btn.onclick = function(){ startTeamBestEntry(catId); };
+      btn.innerHTML = '<span class="label">' + cfg.label + '</span>' + (set ? '<span class="chev" style="color:var(--gold);">✓</span>' : '<span class="chev">›</span>');
+      box.appendChild(btn);
+    });
+  }
+
+  var teamBestReturnCategory = null;
+
+  function startTeamBestEntry(catId){
+    teamBestReturnCategory = state.currentCategory;
+    teamBestCategory = catId;
+    state.currentCategory = catId; // persist for the whole flow so pickers use this category's own range
+    var label = CATEGORIES[catId].label;
+    var tb = cat().teamBest;
+    document.getElementById('teambest-slalom-title').textContent = 'Team Best — Slalom (' + label + ')';
+    document.getElementById('teambest-speed').value = tb.slalom.speed || '';
+    document.getElementById('teambest-line').value = tb.slalom.line || '';
+    document.getElementById('teambest-boyen').value = tb.slalom.boyen || '';
+    goTo('screen-teambest-slalom');
+  }
+
+  function exitTeamBestEntry(){
+    if(teamBestReturnCategory !== null){ state.currentCategory = teamBestReturnCategory; }
+    goBack();
+  }
+
+  function saveTeamBestSlalom(){
+    var cfg = catConfig();
+    cat().teamBest.slalom = {
+      speed: document.getElementById('teambest-speed').value || cfg.topSpeed,
+      line: document.getElementById('teambest-line').value || 18,
+      boyen: document.getElementById('teambest-boyen').value || 0
+    };
+    var label = CATEGORIES[teamBestCategory].label;
+    document.getElementById('teambest-trick-title').textContent = 'Team Best — Trick (' + label + ')';
+    document.getElementById('teambest-trick-value').value = cat().teamBest.trick || '';
+    goTo('screen-teambest-trick');
+  }
+
+  function saveTeamBestTrick(){
+    cat().teamBest.trick = document.getElementById('teambest-trick-value').value || 0;
+    var label = CATEGORIES[teamBestCategory].label;
+    document.getElementById('teambest-jump-title').textContent = 'Team Best — Jump (' + label + ')';
+    document.getElementById('teambest-jump-value').value = cat().teamBest.jump || '';
+    goTo('screen-teambest-jump');
+  }
+
+  function saveTeamBestJump(){
+    cat().teamBest.jump = document.getElementById('teambest-jump-value').value || 0;
+    if(teamBestReturnCategory !== null){ state.currentCategory = teamBestReturnCategory; teamBestReturnCategory = null; }
+    persistState();
+    renderTeamResults();
+    goTo('screen-team-results');
   }
 
   function renderTeamHome(){
@@ -2112,9 +2381,16 @@
       if(!c.trialOverrides){
         c.trialOverrides = { ich:{slalom:null,trick:null,weite:null}, top1:{slalom:null,trick:null,weite:null}, konkurrent:{slalom:null,trick:null,weite:null} };
       }
+      if(!c.disabled){
+        c.disabled = { ich:{slalom:false,trick:false,weite:false}, top1:{slalom:false,trick:false,weite:false}, konkurrent:{slalom:false,trick:false,weite:false} };
+      }
+      if(!c.teamBest){
+        c.teamBest = { slalom:{speed:null,line:null,boyen:null}, trick:null, jump:null };
+      }
       (c.extra || []).forEach(function(ex){
         if(!ex.flags) ex.flags = { slalom:false, trick:false, weite:false };
         if(!ex.trialOverrides) ex.trialOverrides = { slalom:null, trick:null, weite:null };
+        if(!ex.disabled) ex.disabled = { slalom:false, trick:false, weite:false };
       });
     });
     (state.teams || []).forEach(function(team){
